@@ -7,420 +7,94 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        :root { --taupe: #1e1e1e; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Outfit', -apple-system, sans-serif;
-            background: #050505;
-            color: #e8e8e8;
-            overflow-x: hidden;
-        }
-        
-        :root {
-            --onyx: #050505;
-            --moss: #bcfe2f;
-            --taupe: #2a2a2a;
-            --peach: #f5a623;
-        }
-        
-        .bg-curve {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 60%;
-            height: 80vh;
-            background: radial-gradient(ellipse at 70% 30%, rgba(188, 254, 47, 0.08), transparent 60%);
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 48px;
-            position: relative;
-            z-index: 2;
-        }
-        
+        body { font-family: 'Outfit', -apple-system, sans-serif; background: #050505; color: #e8e8e8; overflow-x: hidden; }
+        .bg-curve { position: fixed; top: 0; right: 0; width: 60%; height: 80vh; background: radial-gradient(ellipse at 70% 30%, rgba(188, 254, 47, 0.08), transparent 60%); z-index: 0; pointer-events: none; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 48px; position: relative; z-index: 2; }
         @media (max-width: 768px) { .container { padding: 24px 20px; } }
-        
-        /* Hero Section */
-        .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            margin-bottom: 60px;
-            align-items: center;
+        .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; align-items: center; }
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; gap: 32px; text-align: center; margin-bottom: 40px; }
+            .hero-right { order: -1; } /* leaf above text on mobile */
         }
-        
-        @media (max-width: 768px) { .hero { grid-template-columns: 1fr; gap: 40px; text-align: center; } }
-        
-        .hero-left h1 {
-            font-size: 5rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            background: linear-gradient(135deg, #ffffff 0%, #bcfe2f 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 20px;
-        }
-        
-        .hero-left .tagline {
-            font-size: 1rem;
-            color: #8a8a8a;
-            margin-bottom: 32px;
-            line-height: 1.5;
-        }
-        
-        .badge-row {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
-        }
-        
-        .badge {
-            background: rgba(188, 254, 47, 0.08);
-            border: 1px solid rgba(188, 254, 47, 0.2);
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #bcfe2f;
-        }
-        
-        .cta-btn {
-            background: linear-gradient(135deg, #f5a623, #e8951a);
-            color: #050505;
-            border: none;
-            padding: 16px 40px;
-            font-size: 1rem;
-            font-weight: 700;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(245, 166, 35, 0.3);
-            animation: pulse-glow 2s infinite;
-        }
-        
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(245, 166, 35, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(245, 166, 35, 0.6); }
-        }
-        
+        .hero-left h1 { font-size: 5rem; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(135deg, #ffffff 0%, #bcfe2f 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 20px; }
+        @media (max-width: 768px) { .hero-left h1 { font-size: 3.2rem; } }
+        .hero-left .tagline { font-size: 1rem; color: #8a8a8a; margin-bottom: 32px; line-height: 1.5; }
+        @media (max-width: 768px) { .hero-left .tagline { font-size: 0.9rem; margin-bottom: 24px; } }
+        .badge-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+        @media (max-width: 768px) { .badge-row { justify-content: center; margin-bottom: 28px; } }
+        .badge { background: rgba(188, 254, 47, 0.08); border: 1px solid rgba(188, 254, 47, 0.2); padding: 6px 16px; border-radius: 40px; font-size: 0.7rem; font-weight: 500; color: #bcfe2f; }
+        .cta-btn { background: linear-gradient(135deg, #f5a623, #e8951a); color: #050505; border: none; padding: 16px 40px; font-size: 1rem; font-weight: 700; border-radius: 60px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 20px rgba(245, 166, 35, 0.3); animation: pulse-glow 2s infinite; }
+        @media (max-width: 768px) { .cta-btn { width: 100%; padding: 16px 24px; } }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(245, 166, 35, 0.3); } 50% { box-shadow: 0 0 40px rgba(245, 166, 35, 0.6); } }
         .cta-btn:hover { transform: translateY(-2px); }
-        
-        .data-leaf {
-            position: relative;
-            width: 280px;
-            height: 280px;
-            background: linear-gradient(135deg, rgba(188, 254, 47, 0.1), rgba(188, 254, 47, 0.02));
-            border-radius: 60% 40% 50% 50% / 40% 50% 50% 60%;
-            animation: float-leaf 6s ease-in-out infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes float-leaf {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(2deg); }
-        }
-        
-        .data-leaf::before {
-            content: '💬';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 4rem;
-            opacity: 0.8;
-        }
-        
-        /* Global Date Filter */
-        .global-filter {
-            background: rgba(42, 42, 42, 0.6);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(188, 254, 47, 0.15);
-            border-radius: 60px;
-            padding: 12px 24px;
-            margin-bottom: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-        
-        .filter-label {
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #bcfe2f;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .slider-wrapper {
-            flex: 1;
-            min-width: 300px;
-            position: relative;
-            padding: 0 10px;
-        }
-        
-        .double-slider {
-            position: relative;
-            height: 4px;
-            background: #2a2a2a;
-            border-radius: 2px;
-            margin: 20px 0;
-        }
-        
-        .slider-track-fill {
-            position: absolute;
-            height: 4px;
-            background: #bcfe2f;
-            border-radius: 2px;
-            pointer-events: none;
-        }
-        
-        input[type="range"] {
-            position: absolute;
-            width: 100%;
-            height: 4px;
-            -webkit-appearance: none;
-            background: transparent;
-            pointer-events: none;
-        }
-        
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            background: #bcfe2f;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid #050505;
-            pointer-events: auto;
-        }
-        
-        .date-controls {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(0,0,0,0.3);
-            padding: 6px 16px;
-            border-radius: 40px;
-        }
-        
-        .date-picker-btn {
-            background: transparent;
-            border: 1px solid rgba(188, 254, 47, 0.3);
-            color: #bcfe2f;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            cursor: pointer;
-        }
-        
+        .data-leaf { position: relative; width: 280px; height: 280px; background: linear-gradient(135deg, rgba(188, 254, 47, 0.1), rgba(188, 254, 47, 0.02)); border-radius: 60% 40% 50% 50% / 40% 50% 50% 60%; animation: float-leaf 6s ease-in-out infinite; margin: 0 auto; }
+        @media (max-width: 768px) { .data-leaf { width: 160px; height: 160px; } .data-leaf::before { font-size: 2.5rem; } }
+        @keyframes float-leaf { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(2deg); } }
+        .data-leaf::before { content: '💬'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; opacity: 0.8; }
+        .global-filter { background: rgba(42, 42, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(188, 254, 47, 0.15); border-radius: 60px; padding: 12px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+        .filter-label { font-size: 0.75rem; font-weight: 500; color: #bcfe2f; display: flex; align-items: center; gap: 8px; }
+        .slider-wrapper { flex: 1; min-width: 300px; position: relative; padding: 0 10px; }
+        .double-slider { position: relative; height: 4px; background: #2a2a2a; border-radius: 2px; margin: 20px 0; }
+        .slider-track-fill { position: absolute; height: 4px; background: #bcfe2f; border-radius: 2px; pointer-events: none; }
+        input[type="range"] { position: absolute; width: 100%; height: 4px; -webkit-appearance: none; background: transparent; pointer-events: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: #bcfe2f; border-radius: 50%; cursor: pointer; border: 2px solid #050505; pointer-events: auto; }
+        .date-controls { display: flex; align-items: center; gap: 12px; background: rgba(0,0,0,0.3); padding: 6px 16px; border-radius: 40px; }
+        .date-picker-btn { background: transparent; border: 1px solid rgba(188, 254, 47, 0.3); color: #bcfe2f; padding: 6px 14px; border-radius: 30px; font-size: 0.7rem; cursor: pointer; }
         .date-picker-btn:hover { background: rgba(188, 254, 47, 0.1); }
         .date-range-display { font-size: 0.7rem; color: #bcfe2f; font-family: monospace; cursor: pointer; }
-        
-        /* Calendar Modal */
-        .calendar-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
+        .calendar-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
         .calendar-modal.show { display: flex; }
-        
-        .calendar-card {
-            background: #1a1a1a;
-            border: 1px solid #bcfe2f;
-            border-radius: 24px;
-            padding: 28px;
-            width: 360px;
-        }
-        
+        .calendar-card { background: #1a1a1a; border: 1px solid #bcfe2f; border-radius: 24px; padding: 28px; width: 360px; }
         .calendar-title { font-size: 1rem; color: #bcfe2f; margin-bottom: 20px; text-align: center; }
         .calendar-input-group { margin-bottom: 20px; }
         .calendar-input-group label { font-size: 0.7rem; color: #8a8a8a; display: block; margin-bottom: 6px; }
-        .calendar-input-group input {
-            width: 100%;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 12px;
-            padding: 12px;
-            color: #e8e8e8;
-        }
+        .calendar-input-group input { width: 100%; background: #2a2a2a; border: 1px solid #3a3a3a; border-radius: 12px; padding: 12px; color: #e8e8e8; }
         .calendar-error { color: #f5a623; font-size: 0.7rem; margin-top: 8px; display: none; }
         .calendar-buttons { display: flex; gap: 12px; margin-top: 20px; }
-        .calendar-btn {
-            flex: 1;
-            background: #2a2a2a;
-            border: none;
-            padding: 10px;
-            border-radius: 40px;
-            color: #e8e8e8;
-            cursor: pointer;
-        }
+        .calendar-btn { flex: 1; background: #2a2a2a; border: none; padding: 10px; border-radius: 40px; color: #e8e8e8; cursor: pointer; }
         .calendar-btn.primary { background: #bcfe2f; color: #050505; font-weight: 600; }
-        
-        /* Pillars */
-        .pillars-container {
-            background: rgba(42, 42, 42, 0.4);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(188, 254, 47, 0.15);
-            border-radius: 28px;
-            padding: 32px 40px;
-            margin-bottom: 48px;
-        }
-        
-        .pillars-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 32px;
-        }
-        
-        @media (max-width: 768px) { .pillars-grid { grid-template-columns: repeat(2, 1fr); } }
-        
-        .pillar-card {
-            text-align: center;
-            transition: transform 0.3s ease;
-            animation: fade-up 0.5s ease forwards;
-            opacity: 0;
-            position: relative;
-        }
-        
+        .pillars-container { background: rgba(42, 42, 42, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(188, 254, 47, 0.15); border-radius: 28px; padding: 32px 40px; margin-bottom: 24px; }
+        @media (max-width: 768px) { .pillars-container { padding: 20px; } }
+        .pillars-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+        @media (max-width: 768px) { .pillars-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+        .pillar-card { text-align: center; transition: transform 0.3s ease; animation: fade-up 0.5s ease forwards; opacity: 0; position: relative; }
         .pillar-card:nth-child(1) { animation-delay: 0.1s; }
         .pillar-card:nth-child(2) { animation-delay: 0.2s; }
         .pillar-card:nth-child(3) { animation-delay: 0.3s; }
         .pillar-card:nth-child(4) { animation-delay: 0.4s; }
-        
-        @keyframes fade-up {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
+        @keyframes fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .pillar-card:hover { transform: translateY(-5px); }
-        
-        .pillar-icon {
-            font-size: 2.5rem;
-            margin-bottom: 12px;
-            filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.3));
-        }
-        
-        .pillar-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #bcfe2f;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-        
-        .pillar-value {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 4px;
-        }
-        
+        .pillar-icon { font-size: 2.5rem; margin-bottom: 12px; filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.3)); }
+        .pillar-title { font-size: 0.85rem; font-weight: 600; color: #bcfe2f; letter-spacing: 1px; margin-bottom: 8px; }
+        .pillar-value { font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-bottom: 4px; }
         .pillar-sub { font-size: 0.7rem; color: #8a8a8a; }
-        
-        /* Bento Grid */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 48px;
-        }
-        
-        @media (max-width: 768px) { .bento-grid { grid-template-columns: 1fr; } }
-        
-        .bento-card {
-            background: var(--taupe);
-            border-radius: 24px;
-            padding: 24px;
-            transition: all 0.3s ease;
-            animation: fade-up 0.6s ease forwards;
-            opacity: 0;
-            position: relative;
-            overflow: visible;
-        }
-        
+        .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+        @media (max-width: 768px) { .bento-grid { grid-template-columns: 1fr; gap: 12px; } }
+        .bento-card { background: var(--taupe); border-radius: 20px; padding: 24px; transition: all 0.3s ease; animation: fade-up 0.6s ease forwards; opacity: 0; position: relative; overflow: visible; border: 1px solid #3a3a3a; }
         .bento-card:nth-child(1) { animation-delay: 0.2s; }
         .bento-card:nth-child(2) { animation-delay: 0.3s; }
         .bento-card:nth-child(3) { animation-delay: 0.4s; }
         .bento-card:nth-child(4) { animation-delay: 0.5s; }
         .bento-card:nth-child(5) { animation-delay: 0.6s; }
         .bento-card:nth-child(6) { animation-delay: 0.7s; }
-        
-        .bento-card:hover { transform: translateY(-4px); }
-        
+        .bento-card:hover { transform: translateY(-4px); border-color: #bcfe2f; }
         .bento-card.glow-bg { background: linear-gradient(135deg, #2a2a2a, #1a1a1a); position: relative; }
-        .bento-card.glow-bg::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(188, 254, 47, 0.08), transparent);
-            animation: rotate-glow 12s linear infinite;
-            pointer-events: none;
-        }
-        
-        @keyframes rotate-glow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
+        .bento-card.glow-bg::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(188, 254, 47, 0.08), transparent); animation: rotate-glow 12s linear infinite; pointer-events: none; }
+        @keyframes rotate-glow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .bento-card.moss { background: #1a2e0a; border: 1px solid rgba(188, 254, 47, 0.3); }
         .bento-card.cocoa { background: #2a1f1a; border: 1px solid rgba(245, 166, 35, 0.2); }
         .bento-card.tan { background: #2a241a; border: 1px solid rgba(188, 254, 47, 0.15); }
-        
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .card-icon {
-            font-size: 1.8rem;
-            filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.3));
-        }
-        
-        .card-title {
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #bcfe2f;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .card-value {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-        
+        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .card-icon { font-size: 1.8rem; filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.3)); }
+        .card-title { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #bcfe2f; display: flex; align-items: center; gap: 6px; }
+        .card-value { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
         .card-sub { font-size: 0.75rem; color: #8a8a8a; line-height: 1.4; }
         .verdict-text { font-size: 0.9rem; line-height: 1.5; color: #e8e8e8; margin-top: 12px; font-weight: 400; }
-        
         canvas { max-height: 160px; width: 100% !important; }
         
-        /* ALL CAPS Wrapped Tooltip */
+        /* Single tooltip system */
         .info-icon {
             display: inline-flex;
             align-items: center;
@@ -432,169 +106,80 @@
             border-radius: 50%;
             font-size: 9px;
             font-weight: 700;
-            cursor: help;
+            cursor: pointer;
             margin-left: 6px;
             position: relative;
         }
         
-        .info-icon:hover { background: #bcfe2f; color: #050505; }
+        .info-icon:hover {
+            background: #bcfe2f;
+            color: #050505;
+        }
         
-        .info-tooltip {
-            visibility: hidden;
-            opacity: 0;
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
+        /* Simple tooltip - no double */
+        .info-icon[data-tooltip]:before {
+            content: attr(data-tooltip);
+            position: fixed;
             background: #1a1a1a;
             color: #bcfe2f;
             font-size: 0.65rem;
-            font-weight: 500;
             padding: 8px 12px;
             border-radius: 10px;
-            width: 220px;
-            text-align: center;
+            font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
             border: 1px solid #bcfe2f;
-            z-index: 1000;
-            margin-bottom: 10px;
-            transition: all 0.2s ease;
-            font-family: 'Outfit', monospace;
+            white-space: normal;
+            max-width: 250px;
+            text-align: center;
             line-height: 1.3;
             pointer-events: none;
-            white-space: normal;
-            word-wrap: break-word;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s;
         }
         
-        .info-icon:hover .info-tooltip {
-            visibility: visible;
+        .info-icon:hover:before {
             opacity: 1;
+            visibility: visible;
         }
         
-        /* Progress Bar */
         .progress-bar { width: 100%; height: 4px; background: #2a2a2a; border-radius: 2px; margin-top: 8px; overflow: hidden; }
         .progress-fill { height: 100%; background: #bcfe2f; border-radius: 2px; transition: width 0.5s ease; }
-        
-        .participant-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #2a2a2a;
-        }
-        
+        .participant-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #2a2a2a; }
         .participant-name { font-size: 0.8rem; font-weight: 500; }
         .participant-value { font-size: 0.7rem; color: #bcfe2f; font-family: monospace; }
-        
         .keyword-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-        .keyword {
-            background: #1a1a1a;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: #e8e8e8;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid #2a2a2a;
-        }
+        .keyword { background: #1a1a1a; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; color: #e8e8e8; cursor: pointer; transition: all 0.2s; border: 1px solid #2a2a2a; }
         .keyword:hover { background: #bcfe2f; color: #050505; }
-        
-        .insight-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            padding: 10px 0;
-            border-bottom: 1px solid #2a2a2a;
-        }
-        
-        .status {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-        
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #2a2a2a;
-            border-top-color: #bcfe2f;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            display: inline-block;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-        
+        .insight-row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid #2a2a2a; }
+        .status { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 16px; margin-bottom: 24px; text-align: center; }
+        .spinner { width: 20px; height: 20px; border: 2px solid #2a2a2a; border-top-color: #bcfe2f; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; margin-right: 10px; vertical-align: middle; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        
         .landing { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #050505; }
         .landing.hide { display: none; }
         .dashboard { display: none; }
         .dashboard.show { display: block; }
-        
-        .footer {
-            text-align: center;
-            padding: 40px 0 20px;
-            font-size: 0.65rem;
-            color: #4a4a4a;
-            border-top: 1px solid #1a1a1a;
-            margin-top: 40px;
-        }
-        
-        /* Emoji Grid */
-        .emoji-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 16px;
-            margin: 20px 0;
-        }
-        
-        .emoji-item {
-            text-align: center;
-            padding: 12px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 16px;
-            transition: all 0.2s;
-        }
-        
+        .footer { text-align: center; padding: 40px 0 20px; font-size: 0.65rem; color: #4a4a4a; border-top: 1px solid #1a1a1a; margin-top: 40px; }
+        .emoji-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 16px; margin: 20px 0; }
+        .emoji-item { text-align: center; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 16px; transition: all 0.2s; }
         .emoji-item:hover { background: rgba(188, 254, 47, 0.1); transform: scale(1.02); }
-        
         .emoji-char { font-size: 2rem; }
         .emoji-name { font-size: 0.7rem; color: #bcfe2f; margin-top: 6px; }
         .emoji-count { font-size: 0.6rem; color: #8a8a8a; margin-top: 4px; }
-        
-        .stats-footer {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(188, 254, 47, 0.1);
-            text-align: center;
-        }
-        
+        .stats-footer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(188, 254, 47, 0.1); text-align: center; }
         .stat-footer-item { text-align: center; }
         .stat-footer-label { font-size: 0.65rem; color: #bcfe2f; letter-spacing: 0.5px; text-transform: uppercase; }
         .stat-footer-value { font-size: 1.3rem; font-weight: 700; margin-top: 6px; }
-        
-        /* Emotion Badges */
-        .emotion-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            margin: 4px;
-        }
-        .emotion-joy { background: rgba(188, 254, 47, 0.2); color: #bcfe2f; }
-        .emotion-sadness { background: rgba(100, 116, 139, 0.2); color: #94a3b8; }
-        .emotion-excitement { background: rgba(245, 166, 35, 0.2); color: #f5a623; }
-        .emotion-anger { background: rgba(239, 68, 68, 0.2); color: #f87171; }
-        .emotion-anxiety { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
-        .emotion-surprise { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .player-card-dark { background: #111318; border-radius: 24px; padding: 24px 28px; border: 1px solid #2a2d36; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        @media (max-width: 768px) { .player-card-dark { padding: 20px; } }
+        .player-name-dark { font-size: 1.4rem; font-weight: 700; color: #bcfe2f; margin-bottom: 16px; letter-spacing: -0.02em; border-left: 4px solid #bcfe2f; padding-left: 16px; }
+        .player-stats-grid-dark { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .player-stat-dark { text-align: left; }
+        .player-stat-label-dark { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #8b949e; margin-bottom: 6px; }
+        .player-stat-value-dark { font-size: 1.3rem; font-weight: 700; color: #f0f6fc; }
+        @media (max-width: 600px) { .players-row { grid-template-columns: 1fr !important; } }
     </style>
 </head>
 <body>
@@ -609,7 +194,7 @@
                 <div class="badge-row">
                     <span class="badge">VIBE</span>
                     <span class="badge">FLOW</span>
-                    <span class="badge">TIME</span>
+                    <span class="badge">HYPE</span>
                     <span class="badge">SLANG</span>
                 </div>
                 <button class="cta-btn" id="startBtn">⟳ DROP THE LORE</button>
@@ -630,7 +215,6 @@
     </div>
 </div>
 
-<!-- Calendar Modal -->
 <div class="calendar-modal" id="calendarModal">
     <div class="calendar-card">
         <div class="calendar-title">SELECT DATE RANGE</div>
@@ -651,364 +235,327 @@
 </div>
 
 <script>
-    // ========== ENHANCED SENTIMENT & EMOTION ANALYSIS ==========
+    // ========== UTILITY FUNCTIONS ==========
     function cleanText(t) { return t.replace(/[\u200e\u200f\u202a\u202b\u202c\u202d\u202e]/g, '').trim(); }
+    function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
     
-    // Emotion detection function - returns object with emotion scores
-    function detectEmotions(text) {
-        const emotions = {
-            joy: 0,
-            sadness: 0,
-            excitement: 0,
-            anger: 0,
-            anxiety: 0,
-            surprise: 0
-        };
-        
+    function formatMonthLabel(monthStr) {
+        const [year, month] = monthStr.split('-');
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return `${monthNames[parseInt(month)-1]}'${year.slice(-2)}`;
+    }
+    
+    // ========== SENTIMENT ANALYSIS ==========
+    function analyzeSentimentFast(text) {
+        let score = 58; // raised base from 50 → 58 (neutral leans positive)
         const lower = text.toLowerCase();
-        
-        // JOY - happiness, satisfaction, contentment
-        const joyWords = ['happy', 'glad', 'joy', 'delighted', 'pleased', 'wonderful', 'lovely', 'sweet', 'nice', 'good', 'great', 'awesome', 'fantastic'];
-        joyWords.forEach(w => { if(lower.includes(w)) emotions.joy += 0.15; });
-        if(text.includes('😊') || text.includes('😃') || text.includes('😄')) emotions.joy += 0.2;
-        if(text.includes('❤️') || text.includes('💕')) emotions.joy += 0.15;
-        
-        // SADNESS - disappointment, loss, melancholy
-        const sadnessWords = ['sad', 'sorry', 'miss', 'unfortunately', 'disappointed', 'heartbroken', 'lonely', 'tired', 'exhausted'];
-        sadnessWords.forEach(w => { if(lower.includes(w)) emotions.sadness += 0.15; });
-        if(text.includes('😢') || text.includes('😭') || text.includes('💔')) emotions.sadness += 0.2;
-        
-        // EXCITEMENT - anticipation, eagerness, high energy
-        const excitementWords = ['excited', 'can\'t wait', 'hyped', 'ready', 'let\'s go', 'omg', 'wow', 'amazing', 'incredible', 'awesome'];
-        excitementWords.forEach(w => { if(lower.includes(w)) emotions.excitement += 0.15; });
-        const exclaimCount = (text.match(/!/g) || []).length;
-        emotions.excitement += Math.min(exclaimCount * 0.08, 0.2);
-        if(text.includes('🔥') || text.includes('🎉') || text.includes('🥳')) emotions.excitement += 0.15;
-        if(text === text.toUpperCase() && text.length > 4) emotions.excitement += 0.15;
-        
-        // ANGER - frustration, irritation, hostility
-        const angerWords = ['angry', 'annoying', 'frustrated', 'hate', 'stupid', 'idiot', 'shut up', 'what the', 'seriously?', 'unbelievable'];
-        angerWords.forEach(w => { if(lower.includes(w)) emotions.anger += 0.2; });
-        if(text.includes('😠') || text.includes('😡') || text.includes('🤬')) emotions.anger += 0.25;
-        
-        // ANXIETY - worry, nervousness, uncertainty
-        const anxietyWords = ['worried', 'nervous', 'anxious', 'stressed', 'overwhelmed', 'what if', 'maybe', 'perhaps', 'uncertain', 'scared'];
-        anxietyWords.forEach(w => { if(lower.includes(w)) emotions.anxiety += 0.15; });
-        const questionCount = (text.match(/\?/g) || []).length;
-        emotions.anxiety += Math.min(questionCount * 0.05, 0.15);
-        
-        // SURPRISE - unexpected, shocking, sudden realization
-        const surpriseWords = ['what', 'wait', 'really?', 'seriously?', 'no way', 'unexpected', 'shocked', 'surprised'];
-        surpriseWords.forEach(w => { if(lower.includes(w)) emotions.surprise += 0.15; });
-        if(text.includes('😲') || text.includes('😱')) emotions.surprise += 0.2;
-        
-        // Normalize each emotion to 0-1 range
-        for(let e in emotions) {
-            emotions[e] = Math.min(1, emotions[e]);
-        }
-        
-        return emotions;
+        if (/(good|great|awesome|amazing|fantastic|wonderful|brilliant|excellent|perfect|beautiful|lovely|sweet|nice|happy|glad|joy|love|thanks|thank|proud|congrats|fun|cool|yes|yeah|yay|vibes|epic|legendary|success)/i.test(lower)) score += 20;
+        if (/(bad|terrible|horrible|awful|hate|angry|mad|annoying|frustrated|sad|unhappy|miserable|disappointed|sorry|stressed|cringe|lame|trash|ugh|meh)/i.test(lower)) score -= 8; // unchanged
+        if (lower.includes('love you') || lower.includes('i love')) score += 18;
+        else if (lower.includes('thank you')) score += 12;
+        const exclaim = (text.match(/!/g) || []).length;
+        score += Math.min(exclaim * 3, 10);
+        if (/[😊😃😄🥰😍🤩❤️🔥👍👏🥳🏆]/i.test(text)) score += 12;
+        if (/[😠😡💀😤😞😢😭💔]/i.test(text)) score -= 5;
+        if (/lol|lmao|haha/i.test(lower)) score += 10;
+        return Math.max(20, Math.min(98, score));
     }
     
-    function analyzeSentiment(text) {
-        const intensePositive = ['amazing', 'incredible', 'perfect', 'love', 'beautiful', 'fantastic', 'wonderful', 'brilliant', 'obsessed', 'stunning'];
-        const moderatePositive = ['good', 'great', 'nice', 'happy', 'thanks', 'awesome', 'cool', 'glad', 'enjoy', 'wow', 'yay', 'lovely', 'sweet', 'cute', 'fun'];
-        const intenseNegative = ['hate', 'terrible', 'horrible', 'awful', 'disaster', 'angry', 'furious', 'worst', 'pathetic'];
-        const moderateNegative = ['bad', 'sorry', 'wrong', 'issue', 'problem', 'annoying', 'frustrated', 'sad', 'upset', 'disappointed', 'tired'];
-        
-        let score = 0;
+    function calcEnergyFast(text) {
+        let energy = 50;
+        if (text === text.toUpperCase() && text.length > 4) energy += 18;
+        energy += Math.min((text.match(/!/g) || []).length * 6, 20);
+        if (/lol|lmao|haha/i.test(text)) energy += 12;
+        if (/(OMG|WOW|YES|LET'S GO)/i.test(text)) energy += 12;
+        return Math.min(98, Math.max(32, energy));
+    }
+    
+    function detectTopicsFast(text) {
         const lower = text.toLowerCase();
-        
-        intensePositive.forEach(w => { if(lower.includes(w)) score += 0.3; });
-        moderatePositive.forEach(w => { if(lower.includes(w)) score += 0.12; });
-        intenseNegative.forEach(w => { if(lower.includes(w)) score -= 0.3; });
-        moderateNegative.forEach(w => { if(lower.includes(w)) score -= 0.12; });
-        
-        const exclaimCount = (text.match(/!/g) || []).length;
-        score += Math.min(exclaimCount * 0.06, 0.15);
-        
-        const positiveEmojis = ['😊', '😃', '😄', '🎉', '❤️', '🔥', '🥳', '😍', '👍', '✨', '💕', '😘', '🥰', '🤗'];
-        const negativeEmojis = ['😠', '😡', '💔', '😢', '😭', '💀', '👎', '😤', '😞', '🙄', '😩'];
-        
-        positiveEmojis.forEach(e => { if(text.includes(e)) score += 0.08; });
-        negativeEmojis.forEach(e => { if(text.includes(e)) score -= 0.1; });
-        
-        const words = text.split(/\s+/);
-        const capsCount = words.filter(w => w === w.toUpperCase() && w.length > 2).length;
-        score += Math.min(capsCount * 0.04, 0.12);
-        
-        let normalized = Math.max(-0.8, Math.min(0.8, score));
-        let percentage = ((normalized + 0.8) / 1.6) * 100;
-        return Math.max(0, Math.min(100, percentage));
+        if (/\b(work|office|meeting|deadline|project|job|career)\b/i.test(lower)) return 'work';
+        if (/\b(family|friend|home|weekend|vacation|travel|movie|show|book|music)\b/i.test(lower)) return 'personal';
+        if (/\b(lol|haha|lmao|hilarious|funny|joke|meme|fun)\b/i.test(lower)) return 'humor';
+        if (/\b(ugh|annoying|frustrated|stressed|tired|hate)\b/i.test(lower)) return 'venting';
+        if (/\b(meet|call|schedule|plan|tomorrow|later|today)\b/i.test(lower)) return 'planning';
+        if (/\b(thanks|appreciate|help|support|proud|congrats|hope)\b/i.test(lower)) return 'support';
+        return null;
     }
     
-    function calcEnergy(text) {
-        let energy = 0;
-        if(text === text.toUpperCase() && text.length > 4) energy += 0.4;
-        energy += Math.min((text.match(/!/g) || []).length * 0.1, 0.3);
-        if(/lol|lmao|rofl|haha|hehe|lmfao/i.test(text)) energy += 0.25;
-        if(/(?:^|\s)OMG|WOW|YES|YAS|LET'S GO/i.test(text)) energy += 0.2;
-        return Math.min(energy, 1);
-    }
-    
-    // Topic detection based on keywords
-    function detectTopics(text) {
-        const topics = {
-            work: ['work', 'office', 'meeting', 'deadline', 'project', 'boss', 'colleague', 'job', 'career', 'task'],
-            personal: ['family', 'friend', 'home', 'weekend', 'vacation', 'travel', 'movie', 'show', 'book', 'music'],
-            humor: ['lol', 'haha', 'lmao', 'hilarious', 'funny', 'joke', 'meme', 'fun', 'laughing', 'rofl'],
-            venting: ['ugh', 'annoying', 'frustrated', 'stressed', 'overwhelmed', 'tired', 'exhausted', 'hate', 'terrible'],
-            planning: ['meet', 'call', 'schedule', 'plan', 'tomorrow', 'later', 'today', 'coming', 'going', 'drive'],
-            support: ['thanks', 'appreciate', 'help', 'support', 'proud', 'happy for', 'congrats', 'good luck', 'hope']
-        };
-        
-        const detected = [];
-        const lower = text.toLowerCase();
-        
-        for(let [topic, keywords] of Object.entries(topics)) {
-            for(let kw of keywords) {
-                if(lower.includes(kw)) {
-                    detected.push(topic);
-                    break;
-                }
-            }
-        }
-        
-        return detected;
-    }
-    
-    function parseWhatsApp(text) {
+    function parseWhatsAppFast(text) {
         const lines = text.split(/\r?\n/);
         const messages = [];
+        // Pattern 1: [dd/mm/yy, hh:mm:ss AM/PM] Sender: message  (bracket format)
         const pattern = /\[(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2}:\d{2})\s?([AP]M)?\]\s([^:]+):\s(.*)/i;
+        // Pattern 2: dd/mm/yy, hh:mm - Sender: message  (dash format, no brackets)
+        const pattern2 = /^(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2})(?::\d{2})?\s?([AP]M)?\s[-–]\s([^:]+):\s(.*)/i;
         let current = null;
-        for(let line of lines) {
-            if(!line.trim()) continue;
-            if(/end-to-end encrypted|security code|deleted/i.test(line)) continue;
-            const match = line.match(pattern);
-            if(match) {
-                if(current) messages.push(current);
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            if (!line.trim()) continue;
+            if (/end-to-end encrypted|security code|deleted/i.test(line)) continue;
+            const match = line.match(pattern) || line.match(pattern2);
+            if (match) {
+                if (current) messages.push(current);
                 let [, dateStr, timeStr, ampm, sender, message] = match;
                 sender = cleanText(sender);
                 message = cleanText(message);
                 let timestamp = new Date();
                 try {
-                    let [d,m,y] = dateStr.split('/');
-                    let [h,min,sec] = timeStr.split(':');
+                    let [d, m, y] = dateStr.split('/');
+                    let [h, min, sec] = timeStr.split(':');
                     let hour = parseInt(h);
-                    if(ampm && ampm.toUpperCase() === 'PM' && hour < 12) hour += 12;
-                    if(ampm && ampm.toUpperCase() === 'AM' && hour === 12) hour = 0;
-                    timestamp = new Date(2000 + parseInt(y), parseInt(m)-1, parseInt(d), hour, parseInt(min), parseInt(sec));
+                    if (ampm && ampm.toUpperCase() === 'PM' && hour < 12) hour += 12;
+                    if (ampm && ampm.toUpperCase() === 'AM' && hour === 12) hour = 0;
+                    timestamp = new Date(2000 + parseInt(y), parseInt(m) - 1, parseInt(d), hour, parseInt(min), parseInt(sec));
                 } catch(e) {}
-                current = { sender, message, length: message.length, timestamp, hour: timestamp.getHours(), date: timestamp.toISOString().split('T')[0], timestampObj: timestamp, sentiment: 0, emotions: null, topics: [] };
-            } else if(current) {
+                current = { 
+                    sender: sender, 
+                    message: message, 
+                    length: message.length, 
+                    timestamp: timestamp, 
+                    hour: timestamp.getHours(), 
+                    date: timestamp.toISOString().split('T')[0],
+                    timestampObj: timestamp 
+                };
+            } else if (current) {
                 current.message += ' ' + cleanText(line);
                 current.length = current.message.length;
             }
         }
-        if(current) messages.push(current);
+        if (current) messages.push(current);
         return messages;
     }
     
     let fullMessages = null;
     let allDates = [];
     let currentDateFilter = { startIdx: 0, endIdx: null };
+    let charts = {};
     
-    function computeStats(messages) {
+    const stopwordsSet = new Set([
+        'the','and','for','that','this','with','from','have','are','was','were','but','not','you','they','she','he','it','we',
+        'like','just','what','when','where','how','get','got','all','can','will','image','video','photo','gif','sticker',
+        'media','omitted','edited','then','them','out','about','into','through','during','before','after','above','below'
+    ]);
+    
+    function computeStatsFast(messages) {
         const total = messages.length;
-        if(total === 0) return null;
+        if (total === 0) return null;
         
-        const senders = [...new Set(messages.map(m => m.sender))];
+        const senders = [];
+        const senderMap = new Map();
         
-        for(let m of messages) {
-            m.sentiment = analyzeSentiment(m.message);
-            m.energy = calcEnergy(m.message);
-            m.emotions = detectEmotions(m.message);
-            m.topics = detectTopics(m.message);
+        let totalSentiment = 0;
+        let totalEnergy = 0;
+        const topicCounts = new Map();
+        const hourCounts = new Array(24).fill(0);
+        const nightMsgsBySender = new Map();
+        const totalBySender = new Map();
+        const keywords = new Map();
+        const vocabMap = new Map();
+        
+        for (let i = 0; i < messages.length; i++) {
+            const m = messages[i];
+            const sentiment = analyzeSentimentFast(m.message);
+            const energy = calcEnergyFast(m.message);
+            const topic = detectTopicsFast(m.message);
+            
+            m.sentiment = sentiment; // FIX: store on message so timeline chart can read it
+            totalSentiment += sentiment;
+            totalEnergy += energy;
+            
+            if (!senderMap.has(m.sender)) {
+                senderMap.set(m.sender, { count: 0, sentiment: 0, energy: 0 });
+                vocabMap.set(m.sender, new Set());
+                senders.push(m.sender);
+            }
+            const senderData = senderMap.get(m.sender);
+            senderData.count++;
+            senderData.sentiment += sentiment;
+            senderData.energy += energy;
+            
+            const words = m.message.toLowerCase().match(/\b[a-z]{4,}\b/g);
+            if (words) {
+                const vocabSet = vocabMap.get(m.sender);
+                for (let w of words) {
+                    if (!stopwordsSet.has(w) && w.length > 3) {
+                        vocabSet.add(w);
+                    }
+                }
+            }
+            
+            if (topic) topicCounts.set(topic, (topicCounts.get(topic) || 0) + 1);
+            
+            hourCounts[m.hour]++;
+            
+            if (m.hour >= 0 && m.hour < 5) {
+                nightMsgsBySender.set(m.sender, (nightMsgsBySender.get(m.sender) || 0) + 1);
+            }
+            totalBySender.set(m.sender, (totalBySender.get(m.sender) || 0) + 1);
+            
+            const slangWords = m.message.toLowerCase().match(/\b[a-z]{3,}\b/g);
+            if (slangWords) {
+                for (let w of slangWords) {
+                    if (!stopwordsSet.has(w) && w.length > 2 && !/\d/.test(w)) {
+                        keywords.set(w, (keywords.get(w) || 0) + 1);
+                    }
+                }
+            }
         }
         
-        const avgSentiment = messages.reduce((a,b) => a + b.sentiment, 0) / total;
-        const avgEnergy = messages.reduce((a,b) => a + b.energy, 0) / total;
-        const hypeScore = (avgEnergy * 100).toFixed(1);
+        const avgSentiment = totalSentiment / total;
+        const avgEnergy = totalEnergy / total;
+        const hypeScore = avgEnergy.toFixed(1);
         
         let energyLevel = "mid-energy";
-        if(avgEnergy > 0.45) energyLevel = "high-energy 🔥";
-        else if(avgEnergy > 0.25) energyLevel = "steady pulse";
+        if (avgEnergy > 55) energyLevel = "high-energy 🔥";
+        else if (avgEnergy > 35) energyLevel = "steady pulse";
         else energyLevel = "low-key";
         
         let vibeText = "neutral vibe";
-        if(avgSentiment > 70) vibeText = "radiant ✨";
-        else if(avgSentiment > 55) vibeText = "positive 🌞";
-        else if(avgSentiment > 45) vibeText = "mildly positive";
-        else if(avgSentiment < 30) vibeText = "heavy 🌧️";
-        else if(avgSentiment < 40) vibeText = "tense";
+        if (avgSentiment > 72) vibeText = "radiant ✨";
+        else if (avgSentiment > 62) vibeText = "positive 🌞";
+        else if (avgSentiment > 54) vibeText = "mildly positive";
+        else if (avgSentiment < 40) vibeText = "heavy 🌧️";
         
-        // Topic detection - most common topics overall
-        const topicCounts = {};
-        for(let m of messages) {
-            for(let topic of m.topics) {
-                topicCounts[topic] = (topicCounts[topic] || 0) + 1;
-            }
-        }
-        const topTopics = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).slice(0,3);
+        const topTopics = Array.from(topicCounts.entries()).sort((a,b) => b[1] - a[1]).slice(0, 3);
         
-        // Emotion tracking - aggregate emotions
-        const emotionTotals = { joy: 0, sadness: 0, excitement: 0, anger: 0, anxiety: 0, surprise: 0 };
-        for(let m of messages) {
-            for(let e in emotionTotals) {
-                emotionTotals[e] += m.emotions[e] || 0;
-            }
-        }
-        const dominantEmotion = Object.entries(emotionTotals).sort((a,b)=>b[1]-a[1])[0];
-        
-        // Conversation Balance Score (how balanced the conversation is)
-        const airTimeRaw = {};
-        for(let m of messages) airTimeRaw[m.sender] = (airTimeRaw[m.sender] || 0) + 1;
-        const totalMsgs = messages.length;
-        // Round air time percentages to whole numbers
         const airTimePct = {};
-        for(let s in airTimeRaw) {
-            airTimePct[s] = Math.round((airTimeRaw[s] / totalMsgs) * 100);
+        for (let [s, data] of senderMap) {
+            airTimePct[s] = Math.round((data.count / total) * 100);
         }
         
         const pctValues = Object.values(airTimePct);
         const idealBalance = 100 / pctValues.length;
         let balanceScore = 100;
-        for(let pct of pctValues) {
+        for (let pct of pctValues) {
             balanceScore -= Math.abs(pct - idealBalance) * 0.8;
         }
         balanceScore = Math.max(0, Math.min(100, Math.round(balanceScore)));
         let balanceLabel = "balanced";
-        if(balanceScore < 40) balanceLabel = "one-sided";
-        else if(balanceScore < 70) balanceLabel = "moderately balanced";
+        if (balanceScore < 40) balanceLabel = "one-sided";
+        else if (balanceScore < 70) balanceLabel = "moderately balanced";
         else balanceLabel = "well balanced";
         
-        // First Response Time (TTFR) - how quickly people respond to conversation starters
-        const sorted = [...messages].sort((a,b)=>a.timestamp - b.timestamp);
-        const firstResponses = {};
-        for(let i=1;i<sorted.length;i++) {
-            if(sorted[i].sender !== sorted[i-1].sender) {
-                const delta = (sorted[i].timestamp - sorted[i-1].timestamp)/60000;
-                if(delta > 0 && delta < 60) {
-                    if(!firstResponses[sorted[i].sender]) firstResponses[sorted[i].sender] = [];
-                    firstResponses[sorted[i].sender].push(delta);
+        const sorted = [...messages].sort((a,b) => a.timestamp - b.timestamp);
+        
+        let responseSum = 0, responseCount = 0;
+        let firstResponseSum = 0, firstResponseCount = 0;
+        let fastestTime = Infinity, fastestResponder = "N/A";
+        let firstFastestTime = Infinity, fastestFirstResponder = null;
+        
+        for (let i = 1; i < sorted.length; i++) {
+            if (sorted[i].sender !== sorted[i-1].sender) {
+                const delta = (sorted[i].timestamp - sorted[i-1].timestamp) / 60000;
+                if (delta > 0 && delta < 720) {
+                    responseSum += delta;
+                    responseCount++;
+                    if (delta < 60) {
+                        firstResponseSum += delta;
+                        firstResponseCount++;
+                        if (delta < firstFastestTime) {
+                            firstFastestTime = delta;
+                            fastestFirstResponder = sorted[i].sender;
+                        }
+                    }
+                    if (delta < fastestTime && delta < 60) {
+                        fastestTime = delta;
+                        fastestResponder = sorted[i].sender;
+                    }
                 }
             }
         }
-        const avgFirstResponse = {};
-        for(let s in firstResponses) {
-            avgFirstResponse[s] = Math.round(firstResponses[s].reduce((a,b)=>a+b,0)/firstResponses[s].length);
-        }
-        const fastestFirstResponder = Object.entries(avgFirstResponse).sort((a,b)=>a[1]-b[1])[0];
+        const avgResponseTime = responseCount > 0 ? Math.round(responseSum / responseCount) : 0;
+        const avgFirstResponse = firstResponseCount > 0 ? Math.round(firstResponseSum / firstResponseCount) : 0;
         
-        // Response times (existing)
-        const responseTimes = [];
-        for(let i=1;i<sorted.length;i++) {
-            if(sorted[i].sender !== sorted[i-1].sender) {
-                const delta = (sorted[i].timestamp - sorted[i-1].timestamp)/60000;
-                if(delta > 0 && delta < 720) responseTimes.push(delta);
-            }
-        }
-        const avgResponseTime = responseTimes.length > 0 ? Math.round(responseTimes.reduce((a,b)=>a+b,0)/responseTimes.length) : 0;
-        
-        let fastestResponder = "N/A";
-        let fastestTime = Infinity;
-        for(let i=1;i<sorted.length;i++) {
-            if(sorted[i].sender !== sorted[i-1].sender) {
-                const delta = (sorted[i].timestamp - sorted[i-1].timestamp)/60000;
-                if(delta > 0 && delta < 60 && delta < fastestTime) {
-                    fastestTime = delta;
-                    fastestResponder = sorted[i].sender;
-                }
-            }
-        }
-        
-        // Initiator
-        const initiations = {};
+        const initiations = new Map();
         let lastTime = null;
-        for(let m of sorted) {
-            if(lastTime && (m.timestamp - lastTime) > 21600000) {
-                initiations[m.sender] = (initiations[m.sender] || 0) + 1;
+        for (let m of sorted) {
+            if (lastTime && (m.timestamp - lastTime) > 21600000) {
+                initiations.set(m.sender, (initiations.get(m.sender) || 0) + 1);
             }
             lastTime = m.timestamp;
         }
         let initiator = "mixed";
         let initiatorCount = 0;
-        if(Object.keys(initiations).length > 0) {
-            const top = Object.entries(initiations).sort((a,b)=>b[1]-a[1])[0];
-            initiator = top[0];
-            initiatorCount = top[1];
+        if (initiations.size > 0) {
+            const topInitiator = Array.from(initiations.entries()).sort((a,b) => b[1] - a[1])[0];
+            initiator = topInitiator[0];
+            initiatorCount = topInitiator[1];
         }
         
-        // Night Owl
         const nightOwls = {};
-        for(let s of senders) {
-            const nightMsgs = messages.filter(m => m.sender === s && (m.hour >= 0 && m.hour < 5)).length;
-            const totalS = messages.filter(m => m.sender === s).length;
-            nightOwls[s] = totalS > 0 ? ((nightMsgs/totalS)*100).toFixed(1) : 0;
+        for (let [s, count] of nightMsgsBySender) {
+            const totalS = totalBySender.get(s) || 1;
+            nightOwls[s] = ((count / totalS) * 100).toFixed(1);
         }
-        const topNightOwl = Object.entries(nightOwls).sort((a,b)=>parseFloat(b[1])-parseFloat(a[1]))[0];
+        const topNightOwl = Object.entries(nightOwls).sort((a,b) => parseFloat(b[1]) - parseFloat(a[1]))[0];
         
-        // Double text ratio
-        const doubleText = {};
-        for(let i=1;i<sorted.length;i++) {
-            if(sorted[i].sender === sorted[i-1].sender) {
-                doubleText[sorted[i].sender] = (doubleText[sorted[i].sender] || 0) + 1;
+        const doubleText = new Map();
+        for (let i = 1; i < sorted.length; i++) {
+            if (sorted[i].sender === sorted[i-1].sender) {
+                doubleText.set(sorted[i].sender, (doubleText.get(sorted[i].sender) || 0) + 1);
             }
         }
         const doubleTextRatio = {};
-        for(let s in doubleText) {
-            const totalS = messages.filter(m => m.sender === s).length;
-            doubleTextRatio[s] = totalS > 0 ? ((doubleText[s]/totalS)*100).toFixed(1) : 0;
+        for (let [s, count] of doubleText) {
+            const totalS = totalBySender.get(s) || 1;
+            doubleTextRatio[s] = ((count / totalS) * 100).toFixed(1);
         }
         
-        // Closer award
-        const days = {};
-        for(let m of sorted) {
-            if(!days[m.date] || m.timestamp > days[m.date].timestamp) days[m.date] = m;
-        }
-        const closers = {};
-        for(let m of Object.values(days)) closers[m.sender] = (closers[m.sender] || 0) + 1;
-        
-        // Top keywords (slang) - get more for display
-        const stopwords = new Set(['the','and','for','that','this','with','from','have','are','was','were','but','not','you','they','she','he','it','we','like','just','what','when','where','how','get','got','all','can','will']);
-        const keywords = {};
-        for(let m of messages) {
-            const words = m.message.toLowerCase().match(/\b[a-z]{3,}\b/g) || [];
-            for(let w of words) {
-                if(!stopwords.has(w) && w.length > 2) keywords[w] = (keywords[w] || 0) + 1;
+        const days = new Map();
+        for (let m of sorted) {
+            if (!days.has(m.date) || m.timestamp > days.get(m.date).timestamp) {
+                days.set(m.date, m);
             }
         }
-        const topKeywords = Object.entries(keywords).sort((a,b)=>b[1]-a[1]).slice(0,15);
-        
-        // Timeline
-        const monthlySentiment = {};
-        for(let m of messages) {
-            if(!m.timestampObj) continue;
-            const key = `${m.timestampObj.getFullYear()}-${String(m.timestampObj.getMonth()+1).padStart(2,'0')}`;
-            monthlySentiment[key] = monthlySentiment[key] || [];
-            monthlySentiment[key].push(m.sentiment);
+        const closers = new Map();
+        for (let m of days.values()) {
+            closers.set(m.sender, (closers.get(m.sender) || 0) + 1);
         }
-        const timelineData = Object.entries(monthlySentiment).sort().map(([k,v]) => ({ month: k, avg: v.reduce((a,b)=>a+b,0)/v.length, count: v.length }));
         
-        // Trend
-        const firstHalfAvg = timelineData.slice(0, Math.floor(timelineData.length/2)).reduce((a,b)=>a + b.avg, 0) / (Math.floor(timelineData.length/2) || 1);
-        const secondHalfAvg = timelineData.slice(Math.floor(timelineData.length/2)).reduce((a,b)=>a + b.avg, 0) / (timelineData.length - Math.floor(timelineData.length/2) || 1);
+        const topKeywords = Array.from(keywords.entries()).sort((a,b) => b[1] - a[1]).slice(0, 15);
+        
+        // BUILD TIMELINE DATA FOR CHART - THIS IS CRITICAL
+        const monthlySentiment = new Map();
+        for (let m of messages) {
+            if (!m.timestampObj) continue;
+            const key = `${m.timestampObj.getFullYear()}-${String(m.timestampObj.getMonth() + 1).padStart(2, '0')}`;
+            if (!monthlySentiment.has(key)) monthlySentiment.set(key, []);
+            monthlySentiment.get(key).push(m.sentiment);
+        }
+        const timelineData = Array.from(monthlySentiment.entries()).sort().map(([k, v]) => ({ 
+            month: k, 
+            avg: v.reduce((a,b) => a+b,0) / v.length
+        }));
+        
+        const half = Math.floor(timelineData.length / 2);
+        const firstHalfAvg = timelineData.slice(0, half).reduce((a,b) => a + b.avg, 0) / (half || 1);
+        const secondHalfAvg = timelineData.slice(half).reduce((a,b) => a + b.avg, 0) / (timelineData.length - half || 1);
         const trend = secondHalfAvg - firstHalfAvg;
         let trendDesc = "stable";
-        if(trend > 8) trendDesc = "improving 📈";
-        else if(trend < -8) trendDesc = "declining 📉";
+        if (trend > 6) trendDesc = "improving 📈";
+        else if (trend < -6) trendDesc = "declining 📉";
         
-        // Signature emojis with per-person counts
+        let mostActiveHour = 0;
+        for (let h = 0; h < 24; h++) if (hourCounts[h] > hourCounts[mostActiveHour]) mostActiveHour = h;
+        
         const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}]/gu;
         const signatureEmojis = {};
         const perPersonEmojiCounts = {};
-        for(let s of senders) {
-            const emojis = messages.filter(m=>m.sender===s).flatMap(m=>m.message.match(emojiRegex)||[]);
-            if(emojis.length) {
-                const freq = new Map();
-                emojis.forEach(e=>freq.set(e,(freq.get(e)||0)+1));
-                const top = [...freq.entries()].sort((a,b)=>b[1]-a[1])[0];
+        for (let s of senders) {
+            const emojiFreq = new Map();
+            for (let m of messages) {
+                if (m.sender === s) {
+                    const matches = m.message.match(emojiRegex);
+                    if (matches) {
+                        for (let e of matches) {
+                            emojiFreq.set(e, (emojiFreq.get(e) || 0) + 1);
+                        }
+                    }
+                }
+            }
+            if (emojiFreq.size > 0) {
+                const top = Array.from(emojiFreq.entries()).sort((a,b) => b[1] - a[1])[0];
                 signatureEmojis[s] = top[0];
                 perPersonEmojiCounts[s] = top[1];
             } else {
@@ -1017,32 +564,36 @@
             }
         }
         
-        // Most active hour
-        const hourCounts = new Array(24).fill(0);
-        for(let m of messages) hourCounts[m.hour]++;
-        let mostActiveHour = 0;
-        for(let h=0;h<24;h++) if(hourCounts[h] > hourCounts[mostActiveHour]) mostActiveHour = h;
+        const senderStats = {};
+        for (let [s, data] of senderMap) {
+            senderStats[s] = {
+                count: data.count,
+                pct: Math.round((data.count / total) * 100),
+                sentiment: Math.round(data.sentiment / data.count),
+                vocab: vocabMap.get(s)?.size || 0,
+                energy: Math.round(data.energy / data.count)
+            };
+        }
         
-        // Verdict
         let verdict = "";
-        if(avgSentiment > 75) verdict = "This conversation radiates warmth and joy — a safe, uplifting space where people feel truly heard and valued.";
-        else if(avgSentiment > 60) verdict = "Generally positive with genuine moments of connection. A healthy balance of support, laughter, and real talk.";
-        else if(avgSentiment > 45) verdict = "Balanced and grounded. A mix of good days and tough conversations — feels authentically human.";
-        else if(avgSentiment > 30) verdict = "There's some weight here. The conversation has its share of difficult moments, but that's part of being real with each other.";
-        else verdict = "The data suggests some emotional heaviness. It might be worth checking in — sometimes the hardest conversations are the most important ones.";
+        if (avgSentiment > 78) verdict = "This conversation radiates extraordinary warmth and joy — a truly special, uplifting space where people feel deeply heard and valued. Keep nurturing this — it's rare and precious.";
+        else if (avgSentiment > 65) verdict = "Generally positive with genuine moments of connection. A healthy balance of support, laughter, and real talk. There's a solid emotional foundation here.";
+        else if (avgSentiment > 52) verdict = "Balanced and grounded. A mix of good days and tough conversations — feels authentically human. Real relationships have texture.";
+        else if (avgSentiment > 42) verdict = "There's some weight here, but also moments of warmth. The conversation has its share of difficult moments, but that's part of being real with each other.";
+        else verdict = "The data suggests some emotional heaviness, but there are also signals of care beneath the surface. Small gestures of warmth can shift the weather.";
         
         return {
-            total, senders, avgSentiment: Math.round(avgSentiment), hypeScore, energyLevel, vibeText, trendDesc,
+            total, avgSentiment: Math.round(avgSentiment), hypeScore, energyLevel, vibeText, trendDesc,
             avgResponseTime, fastestResponder, initiator, initiatorCount, nightOwls, topNightOwl,
-            doubleTextRatio, airTimePct, closers, topKeywords, timelineData, signatureEmojis, perPersonEmojiCounts,
-            mostActiveHour, verdict,
-            // NEW FEATURES
-            topTopics, emotionTotals, dominantEmotion, balanceScore, balanceLabel, avgFirstResponse, fastestFirstResponder
+            doubleTextRatio, airTimePct, closers: Object.fromEntries(closers), topKeywords, 
+            timelineData: timelineData,  // MAKE SURE THIS IS INCLUDED
+            signatureEmojis, perPersonEmojiCounts, mostActiveHour, verdict, topTopics,
+            balanceScore, balanceLabel, fastestFirstResponder: fastestFirstResponder ? [fastestFirstResponder, avgFirstResponse] : null,
+            senderStats
         };
     }
     
     let currentReport = null;
-    let charts = {};
     
     const landingPage = document.getElementById('landingPage');
     const dashboardPage = document.getElementById('dashboardPage');
@@ -1060,23 +611,21 @@
         input.accept = '.txt';
         input.onchange = async (e) => {
             const file = e.target.files[0];
-            if(file && file.name.endsWith('.txt')) {
+            if (file && file.name.endsWith('.txt')) {
                 landingPage.classList.add('hide');
                 dashboardPage.classList.add('show');
                 showStatus('📖 excavating artifacts...', 'loading');
                 const text = await file.text();
                 showStatus('📊 decoding conversation strata...', 'loading');
                 setTimeout(() => {
-                    fullMessages = parseWhatsApp(text);
-                    if(fullMessages.length === 0) { showStatus('❌ could not parse messages. check file format.', 'error'); return; }
-                    
+                    fullMessages = parseWhatsAppFast(text);
+                    if (fullMessages.length === 0) { showStatus('❌ could not parse messages. check file format.', 'error'); return; }
                     allDates = [...new Set(fullMessages.map(m => m.date))].sort();
                     currentDateFilter = { startIdx: 0, endIdx: allDates.length - 1 };
-                    
                     updateFilteredReport();
                     showStatus('✅ excavation complete — lore unearthed', 'success');
                     setTimeout(() => { document.getElementById('statusContainer').innerHTML = ''; }, 2000);
-                }, 50);
+                }, 10);
             } else alert('please select a WhatsApp .txt export');
         };
         input.click();
@@ -1086,14 +635,14 @@
         const startDate = allDates[currentDateFilter.startIdx];
         const endDate = allDates[currentDateFilter.endIdx];
         const filteredMessages = fullMessages.filter(m => m.date >= startDate && m.date <= endDate);
-        currentReport = computeStats(filteredMessages);
+        currentReport = computeStatsFast(filteredMessages);
         renderDashboard(currentReport);
         renderGlobalFilter();
     }
     
     function renderGlobalFilter() {
         const container = document.getElementById('globalFilterContainer');
-        if(!allDates.length) return;
+        if (!allDates.length) return;
         
         function formatDateShort(dateStr) {
             const [y,m,d] = dateStr.split('-');
@@ -1108,7 +657,7 @@
         container.innerHTML = `
             <div class="global-filter">
                 <div class="filter-label">
-                    <span class="info-icon">i<span class="info-tooltip">filter all insights by date range — controls the excavation depth</span></span>
+                    <span class="info-icon" data-tooltip="FILTER ALL INSIGHTS BY DATE RANGE — CONTROLS THE EXCAVATION DEPTH">i</span>
                     Excavation Depth
                 </div>
                 <div class="slider-wrapper">
@@ -1132,8 +681,8 @@
             const leftPercent = (start / total) * 100;
             const rightPercent = ((total - end) / total) * 100;
             const fill = document.getElementById('sliderFill');
-            if(fill) fill.style.left = `${leftPercent}%`;
-            if(fill) fill.style.right = `${rightPercent}%`;
+            if (fill) fill.style.left = `${leftPercent}%`;
+            if (fill) fill.style.right = `${rightPercent}%`;
         }
         
         const startSlider = document.getElementById('startSlider');
@@ -1143,8 +692,8 @@
         function updateFromSliders() {
             let start = parseInt(startSlider.value);
             let end = parseInt(endSlider.value);
-            if(start > end) { start = end; startSlider.value = start; }
-            if(end < start) { end = start; endSlider.value = end; }
+            if (start > end) { start = end; startSlider.value = start; }
+            if (end < start) { end = start; endSlider.value = end; }
             currentDateFilter.startIdx = start;
             currentDateFilter.endIdx = end;
             const sDate = allDates[start];
@@ -1163,45 +712,19 @@
         const endDateObj = new Date(endDate);
         calendarStart.value = startDateObj.toISOString().split('T')[0];
         calendarEnd.value = endDateObj.toISOString().split('T')[0];
-        
         calendarBtn.onclick = () => { calendarModal.classList.add('show'); };
     }
     
-    calendarCancel.onclick = () => {
-        calendarModal.classList.remove('show');
-        calendarError.style.display = 'none';
-    };
-    
+    calendarCancel.onclick = () => { calendarModal.classList.remove('show'); calendarError.style.display = 'none'; };
     calendarApply.onclick = () => {
         const startDateStr = calendarStart.value;
         const endDateStr = calendarEnd.value;
-        
-        if(!startDateStr || !endDateStr) {
-            calendarError.style.display = 'block';
-            calendarError.innerText = 'PLEASE SELECT BOTH DATES';
-            return;
-        }
-        
-        if(startDateStr > endDateStr) {
-            calendarError.style.display = 'block';
-            calendarError.innerText = 'END DATE MUST BE AFTER START DATE';
-            return;
-        }
-        
+        if (!startDateStr || !endDateStr) { calendarError.style.display = 'block'; calendarError.innerText = 'PLEASE SELECT BOTH DATES'; return; }
+        if (startDateStr > endDateStr) { calendarError.style.display = 'block'; calendarError.innerText = 'END DATE MUST BE AFTER START DATE'; return; }
         let startIdx = 0, endIdx = allDates.length - 1;
-        for(let i = 0; i < allDates.length; i++) {
-            if(allDates[i] >= startDateStr) { startIdx = i; break; }
-        }
-        for(let i = allDates.length - 1; i >= 0; i--) {
-            if(allDates[i] <= endDateStr) { endIdx = i; break; }
-        }
-        
-        if(startIdx > endIdx) {
-            calendarError.style.display = 'block';
-            calendarError.innerText = 'NO MESSAGES IN SELECTED DATE RANGE';
-            return;
-        }
-        
+        for (let i = 0; i < allDates.length; i++) { if (allDates[i] >= startDateStr) { startIdx = i; break; } }
+        for (let i = allDates.length - 1; i >= 0; i--) { if (allDates[i] <= endDateStr) { endIdx = i; break; } }
+        if (startIdx > endIdx) { calendarError.style.display = 'block'; calendarError.innerText = 'NO MESSAGES IN SELECTED DATE RANGE'; return; }
         currentDateFilter.startIdx = startIdx;
         currentDateFilter.endIdx = endIdx;
         calendarModal.classList.remove('show');
@@ -1209,17 +732,11 @@
         updateFilteredReport();
     };
     
-    function formatMonthLabel(monthStr) {
-        const [year, month] = monthStr.split('-');
-        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        return `${monthNames[parseInt(month)-1]}'${year.slice(-2)}`;
-    }
-    
     function showStatus(msg, type) {
         const c = document.getElementById('statusContainer');
-        if(type === 'loading') {
+        if (type === 'loading') {
             c.innerHTML = `<div class="status"><span class="spinner"></span> ${msg}</div>`;
-        } else if(type === 'success') {
+        } else if (type === 'success') {
             c.innerHTML = `<div class="status" style="border-color:#bcfe2f; color:#bcfe2f;">✅ ${msg}</div>`;
         } else {
             c.innerHTML = `<div class="status" style="border-color:#f5a623; color:#f5a623;">❌ ${msg}</div>`;
@@ -1227,220 +744,158 @@
     }
     
     function renderDashboard(r) {
-        if(!r) return;
+        if (!r) return;
         
-        const container = document.getElementById('dashboardContent');
+        const senders = Object.keys(r.senderStats);
+        const p1 = senders[0] || "Person 1";
+        const p2 = senders[1] || "Person 2";
+        const p1Stats = r.senderStats[p1] || { count: 0, pct: 0, sentiment: 0, vocab: 0, energy: 0 };
+        const p2Stats = r.senderStats[p2] || { count: 0, pct: 0, sentiment: 0, vocab: 0, energy: 0 };
         
-        // Get dominant emotion label and color
-        let dominantEmotionLabel = "neutral";
-        let dominantEmotionEmoji = "😐";
-        if(r.dominantEmotion) {
-            const mapping = { joy: ["joy 😊", "😊"], sadness: ["sadness 😔", "😔"], excitement: ["excitement 🤩", "🤩"], anger: ["anger 😤", "😤"], anxiety: ["anxiety 😰", "😰"], surprise: ["surprise 😲", "😲"] };
-            if(mapping[r.dominantEmotion[0]]) {
-                dominantEmotionLabel = mapping[r.dominantEmotion[0]][0];
-                dominantEmotionEmoji = mapping[r.dominantEmotion[0]][1];
-            }
+        const nightOwlEntries = Object.entries(r.nightOwls).sort((a, b) => parseFloat(b[1]) - parseFloat(a[1]));
+        const airTimeEntries = Object.entries(r.airTimePct).sort((a, b) => b[1] - a[1]);
+        const closerEntries = Object.entries(r.closers).sort((a, b) => b[1] - a[1]);
+        
+        let firstResponseText = "N/A";
+        let firstResponseValue = "";
+        if (r.fastestFirstResponder && r.fastestFirstResponder[0] && r.fastestFirstResponder[1] > 0) {
+            firstResponseText = r.fastestFirstResponder[0];
+            firstResponseValue = `${r.fastestFirstResponder[1]} min avg`;
+        } else if (r.fastestResponder && r.fastestResponder !== "N/A") {
+            firstResponseText = r.fastestResponder;
+            firstResponseValue = "fastest overall";
         }
         
+        let dominantEmotionLabel = "neutral";
+        let dominantEmotionEmoji = "😐";
+        if (r.avgSentiment < 35) {
+            dominantEmotionLabel = "sadness 😔";
+            dominantEmotionEmoji = "😔";
+        } else if (r.avgSentiment < 42) {
+            dominantEmotionLabel = "anxiety 😰";
+            dominantEmotionEmoji = "😰";
+        } else if (r.avgSentiment > 70) {
+            dominantEmotionLabel = "joy 😊";
+            dominantEmotionEmoji = "😊";
+        } else if (r.avgSentiment > 55) {
+            dominantEmotionLabel = "excitement 🤩";
+            dominantEmotionEmoji = "🤩";
+        } else if (r.avgSentiment > 45) {
+            dominantEmotionLabel = "content 😐";
+            dominantEmotionEmoji = "😐";
+        }
+        
+        const container = document.getElementById('dashboardContent');
         container.innerHTML = `
-            <!-- PILLARS -->
             <div class="pillars-container">
                 <div class="pillars-grid">
-                    <div class="pillar-card">
-                        <div class="pillar-icon">📈</div>
-                        <div class="pillar-title">vibe <span class="info-icon">i<span class="info-tooltip">overall conversation sentiment - 0% = very heavy, 100% = radiant</span></span></div>
-                        <div class="pillar-value">${r.vibeText}</div>
-                        <div class="pillar-sub">${r.avgSentiment}% sentiment score</div>
-                    </div>
-                    <div class="pillar-card">
-                        <div class="pillar-icon">⚡</div>
-                        <div class="pillar-title">flow <span class="info-icon">i<span class="info-tooltip">average time between messages when sender alternates - lower = faster, more engaged</span></span></div>
-                        <div class="pillar-value">${r.avgResponseTime} min</div>
-                        <div class="pillar-sub">avg response time</div>
-                    </div>
-                    <div class="pillar-card">
-                        <div class="pillar-icon">⏰</div>
-                        <div class="pillar-title">time <span class="info-icon">i<span class="info-tooltip">energy level - all caps, exclamation marks, laughter (lol/haha), and hype words</span></span></div>
-                        <div class="pillar-value">${r.hypeScore}%</div>
-                        <div class="pillar-sub">${r.energyLevel}</div>
-                    </div>
-                    <div class="pillar-card">
-                        <div class="pillar-icon">💬</div>
-                        <div class="pillar-title">slang <span class="info-icon">i<span class="info-tooltip">unique recurring non-dictionary words — inside jokes, catchphrases, unique expressions</span></span></div>
-                        <div class="pillar-value">${r.topKeywords.length}</div>
-                        <div class="pillar-sub">unique catchphrases</div>
-                    </div>
+                    <div class="pillar-card"><div class="pillar-icon">📈</div><div class="pillar-title">vibe <span class="info-icon" data-tooltip="OVERALL CONVERSATION SENTIMENT">i</span></div><div class="pillar-value">${r.vibeText}</div><div class="pillar-sub">${r.avgSentiment}%</div></div>
+                    <div class="pillar-card"><div class="pillar-icon">⚡</div><div class="pillar-title">flow <span class="info-icon" data-tooltip="AVERAGE TIME BETWEEN MESSAGES">i</span></div><div class="pillar-value">${r.avgResponseTime} min</div><div class="pillar-sub">avg response</div></div>
+                    <div class="pillar-card"><div class="pillar-icon">🔥</div><div class="pillar-title">hype <span class="info-icon" data-tooltip="ENERGY LEVEL - ALL CAPS, EXCLAMATIONS, LAUGHTER">i</span></div><div class="pillar-value">${r.hypeScore}%</div><div class="pillar-sub">${r.energyLevel}</div></div>
+                    <div class="pillar-card"><div class="pillar-icon">💬</div><div class="pillar-title">slang <span class="info-icon" data-tooltip="UNIQUE NON-DICTIONARY WORDS">i</span></div><div class="pillar-value">${r.topKeywords.length}</div><div class="pillar-sub">unique terms</div></div>
                 </div>
             </div>
             
-            <!-- BENTO GRID (expanded to include new features) -->
+            <div class="players-row" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px;">
+                <div class="player-card-dark" style="min-width:0"><div class="player-name-dark">${escapeHtml(p1)}</div><div class="player-stats-grid-dark">
+                    <div class="player-stat-dark"><div class="player-stat-label-dark">MESSAGES</div><div class="player-stat-value-dark">${p1Stats.count.toLocaleString()} (${p1Stats.pct}%)</div></div>
+                    <div class="player-stat-dark"><div class="player-stat-label-dark">VOCABULARY</div><div class="player-stat-value-dark">${p1Stats.vocab} words</div></div>
+                    <div class="player-stat-dark"><div class="player-stat-label-dark">SENTIMENT</div><div class="player-stat-value-dark">${p1Stats.sentiment}%</div></div>
+                    <div class="player-stat-dark"><div class="player-stat-label-dark">ENERGY</div><div class="player-stat-value-dark">${p1Stats.energy}%</div></div>
+                </div></div>
+                <div class="player-card-dark" style="min-width:0"><div class="player-name-dark">${escapeHtml(p2)}</div><div class="player-stats-grid-dark">
+                    <div class="player-stat-dark"><div class="player-stat-label-dark">MESSAGES</div><div class="player-stat-value-dark">${p2Stats.count.toLocaleString()} (${p2Stats.pct}%)</div></div>
+                    <div class="player-stat-dark"><div class="player-stat-label-dark">VOCABULARY</div><div class="player-stat-value-dark">${p2Stats.vocab} words</div></div>
+                    <div class="player-stat-dark"><div class="player-stat-label-dark">SENTIMENT</div><div class="player-stat-value-dark">${p2Stats.sentiment}%</div></div>
+                    <div class="player-stat-dark"><div class="player-stat-label-dark">ENERGY</div><div class="player-stat-value-dark">${p2Stats.energy}%</div></div>
+                </div></div>
+            </div>
+            
             <div class="bento-grid">
-                <div class="bento-card glow-bg">
-                    <div class="card-header">
-                        <div class="card-icon">🌡️</div>
-                        <div class="card-title">mood weather <span class="info-icon">i<span class="info-tooltip">sentiment trajectory over time - shows emotional peaks and valleys</span></span></div>
-                    </div>
-                    <div class="card-value">${r.vibeText}</div>
-                    <canvas id="timelineChart" style="height:140px"></canvas>
-                    <div class="card-sub">trend: ${r.trendDesc} · ${r.timelineData.length} months of data</div>
-                </div>
+                <div class="bento-card glow-bg"><div class="card-header"><div class="card-icon">🌡️</div><div class="card-title">mood weather <span class="info-icon" data-tooltip="SENTIMENT OVER TIME">i</span></div></div><div class="card-value">${r.vibeText}</div><canvas id="timelineChart" style="height:160px; width:100%"></canvas><div class="card-sub">trend: ${r.trendDesc} · ${r.timelineData.length} months</div></div>
                 
-                <div class="bento-card moss">
-                    <div class="card-header">
-                        <div class="card-icon">⭐</div>
-                        <div class="card-title">the initiator <span class="info-icon">i<span class="info-tooltip">person who most often breaks silence after 6+ hours - the conversation engine</span></span></div>
-                    </div>
-                    <div class="card-value">${r.initiator}</div>
-                    <div class="card-sub">${r.initiatorCount} resurrections after silence</div>
-                    <div class="insight-row" style="margin-top: 12px;">
-                        <span class="participant-name">⚡ fastest responder</span>
-                        <span class="participant-value">${r.fastestResponder}</span>
-                    </div>
-                    <div class="progress-bar" style="margin-top: 8px;"><div class="progress-fill" style="width: ${Object.values(r.doubleTextRatio)[0] || 0}%;"></div></div>
-                    <div class="participant-item"><span class="participant-name">double-text ratio</span><span class="participant-value">${Object.values(r.doubleTextRatio)[0] || 0}%</span></div>
-                </div>
+                <div class="bento-card moss"><div class="card-header"><div class="card-icon">⭐</div><div class="card-title">the initiator <span class="info-icon" data-tooltip="BREAKS SILENCE AFTER 6+ HOURS">i</span></div></div><div class="card-value">${r.initiator}</div><div class="card-sub">${r.initiatorCount} resurrections</div><div class="insight-row"><span class="participant-name">⚡ fastest responder</span><span class="participant-value">${r.fastestResponder}</span></div><div class="progress-bar"><div class="progress-fill" style="width: ${Object.values(r.doubleTextRatio)[0] || 0}%;"></div></div><div class="participant-item"><span class="participant-name">double-text</span><span class="participant-value">${Object.values(r.doubleTextRatio)[0] || 0}%</span></div></div>
                 
-                <div class="bento-card cocoa">
-                    <div class="card-header">
-                        <div class="card-icon">🌙</div>
-                        <div class="card-title">night owl index <span class="info-icon">i<span class="info-tooltip">percentage of messages sent between midnight and 5 am - higher = more likely awake late</span></span></div>
-                    </div>
-                    <div class="card-value">${r.topNightOwl ? r.topNightOwl[0] : 'nobody'}</div>
-                    <div class="card-sub">${r.topNightOwl ? r.topNightOwl[1] : 0}% of messages after midnight</div>
-                    ${Object.entries(r.nightOwls).slice(0,2).map(([n,v]) => `
-                        <div class="progress-bar" style="margin-top: 12px;"><div class="progress-fill" style="width: ${v}%;"></div></div>
-                        <div class="participant-item"><span class="participant-name">${n}</span><span class="participant-value">${v}% night msgs</span></div>
-                    `).join('')}
-                </div>
+                <div class="bento-card cocoa"><div class="card-header"><div class="card-icon">🌙</div><div class="card-title">night owl <span class="info-icon" data-tooltip="MESSAGES AFTER MIDNIGHT - HIGHEST FIRST">i</span></div></div><div class="card-value">${nightOwlEntries[0] ? nightOwlEntries[0][0] : 'nobody'}</div><div class="card-sub">${nightOwlEntries[0] ? nightOwlEntries[0][1] : 0}% after midnight</div>${nightOwlEntries.slice(0, 3).map(([n, v]) => `<div class="progress-bar"><div class="progress-fill" style="width: ${v}%;"></div></div><div class="participant-item"><span>${n}</span><span>${v}%</span></div>`).join('')}</div>
                 
-                <div class="bento-card">
-                    <div class="card-header">
-                        <div class="card-icon">🎙️</div>
-                        <div class="card-title">air time <span class="info-icon">i<span class="info-tooltip">percentage of total conversation volume per person - who dominates the chat</span></span></div>
-                    </div>
-                    ${Object.entries(r.airTimePct).map(([n,v]) => `
-                        <div class="participant-item"><span class="participant-name">${n}</span><span class="participant-value">${v}%</span></div>
-                        <div class="progress-bar"><div class="progress-fill" style="width: ${v}%;"></div></div>
-                    `).join('')}
-                </div>
+                <div class="bento-card"><div class="card-header"><div class="card-icon">🎙️</div><div class="card-title">air time <span class="info-icon" data-tooltip="CONVERSATION VOLUME - HIGHEST FIRST">i</span></div></div>${airTimeEntries.map(([n, v]) => `<div class="participant-item"><span>${n}</span><span>${v}%</span></div><div class="progress-bar"><div class="progress-fill" style="width: ${v}%;"></div></div>`).join('')}</div>
                 
-                <div class="bento-card">
-                    <div class="card-header">
-                        <div class="card-icon">🏆</div>
-                        <div class="card-title">closer award <span class="info-icon">i<span class="info-tooltip">who sends the last message of each day — the one who has the final word</span></span></div>
-                    </div>
-                    ${Object.entries(r.closers).slice(0,3).map(([n,c]) => `
-                        <div class="participant-item"><span class="participant-name">${n}</span><span class="participant-value">${c} days</span></div>
-                    `).join('')}
-                    <div class="insight-row" style="margin-top: 8px;">
-                        <span class="participant-name">⏰ most active hour</span>
-                        <span class="participant-value">${r.mostActiveHour}:00</span>
-                    </div>
-                </div>
+                <div class="bento-card"><div class="card-header"><div class="card-icon">🏆</div><div class="card-title">closer award <span class="info-icon" data-tooltip="LAST MESSAGE OF EACH DAY - HIGHEST FIRST">i</span></div></div>${closerEntries.slice(0, 3).map(([n, c]) => `<div class="participant-item"><span>${n}</span><span>${c} days</span></div>`).join('')}<div class="insight-row"><span>⏰ most active hour</span><span>${r.mostActiveHour}:00</span></div></div>
                 
-                <div class="bento-card tan">
-                    <div class="card-header">
-                        <div class="card-icon">📜</div>
-                        <div class="card-title">the verdict <span class="info-icon">i<span class="info-tooltip">ai-generated summary of your conversation's emotional landscape</span></span></div>
-                    </div>
-                    <div class="verdict-text">${r.verdict}</div>
-                    <div class="keyword-cloud" style="margin-top: 16px;">
-                        ${r.topKeywords.slice(0,10).map(([w,c]) => `<span class="keyword">${w} (${c})</span>`).join('')}
-                    </div>
-                </div>
+                <div class="bento-card tan"><div class="card-header"><div class="card-icon">📜</div><div class="card-title">the verdict <span class="info-icon" data-tooltip="EMOTIONAL SUMMARY">i</span></div></div><div class="verdict-text">${r.verdict}</div><div class="keyword-cloud">${r.topKeywords.slice(0, 8).map(([w, c]) => `<span class="keyword">${w} (${c})</span>`).join('')}</div></div>
             </div>
             
-            <!-- NEW FEATURES ROW -->
-            <div class="pillars-container" style="margin-top: -10px;">
-                <div class="pillars-grid">
-                    <div class="pillar-card">
-                        <div class="pillar-icon">💡</div>
-                        <div class="pillar-title">top topics <span class="info-icon">i<span class="info-tooltip">most common conversation themes detected across your chat</span></span></div>
-                        <div class="pillar-value">${r.topTopics.map(t => t[0].charAt(0).toUpperCase() + t[0].slice(1)).join(', ') || 'various'}</div>
-                        <div class="pillar-sub">main themes</div>
-                    </div>
-                    <div class="pillar-card">
-                        <div class="pillar-icon">⚡</div>
-                        <div class="pillar-title">first response <span class="info-icon">i<span class="info-tooltip">average time to reply to a new conversation starter (TTFR)</span></span></div>
-                        <div class="pillar-value">${r.fastestFirstResponder ? r.fastestFirstResponder[0] : 'N/A'}</div>
-                        <div class="pillar-sub">${r.fastestFirstResponder ? r.fastestFirstResponder[1] : 0} min avg</div>
-                    </div>
-                    <div class="pillar-card">
-                        <div class="pillar-icon">⚖️</div>
-                        <div class="pillar-title">balance score <span class="info-icon">i<span class="info-tooltip">how equally conversation participation is distributed - higher = more balanced</span></span></div>
-                        <div class="pillar-value">${r.balanceScore}%</div>
-                        <div class="pillar-sub">${r.balanceLabel}</div>
-                    </div>
-                    <div class="pillar-card">
-                        <div class="pillar-icon">🎭</div>
-                        <div class="pillar-title">dominant emotion <span class="info-icon">i<span class="info-tooltip">most frequently detected emotion across all messages</span></span></div>
-                        <div class="pillar-value">${dominantEmotionLabel}</div>
-                        <div class="pillar-sub">${dominantEmotionEmoji} overall mood</div>
-                    </div>
-                </div>
-            </div>
+            <div class="pillars-container"><div class="pillars-grid" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="pillar-card"><div class="pillar-icon">💡</div><div class="pillar-title">top topics</div><div class="pillar-value" style="font-size: 1rem;">${r.topTopics.map(t => t[0].charAt(0).toUpperCase() + t[0].slice(1)).join(', ') || 'various'}</div><div class="pillar-sub">main themes</div></div>
+                <div class="pillar-card"><div class="pillar-icon">⚡</div><div class="pillar-title">first response</div><div class="pillar-value" style="font-size: 1.2rem;">${firstResponseText}</div><div class="pillar-sub">${firstResponseValue}</div></div>
+                <div class="pillar-card"><div class="pillar-icon">⚖️</div><div class="pillar-title">balance score</div><div class="pillar-value">${r.balanceScore}%</div><div class="pillar-sub">${r.balanceLabel}</div></div>
+                <div class="pillar-card"><div class="pillar-icon">🎭</div><div class="pillar-title">dominant emotion</div><div class="pillar-value" style="font-size: 1rem;">${dominantEmotionLabel}</div><div class="pillar-sub">${dominantEmotionEmoji} overall</div></div>
+            </div></div>
             
-            <!-- SIGNATURE EMOJIS + STATS -->
-            <div class="pillars-container" style="margin-top: -10px;">
-                <div class="emoji-grid">
-                    ${Object.entries(r.signatureEmojis).map(([name, emoji]) => `
-                        <div class="emoji-item">
-                            <div class="emoji-char">${emoji}</div>
-                            <div class="emoji-name">${name}</div>
-                            <div class="emoji-count">${r.perPersonEmojiCounts[name] || 0} uses</div>
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="stats-footer">
-                    <div class="stat-footer-item">
-                        <div class="stat-footer-label">📬 total messages</div>
-                        <div class="stat-footer-value">${r.total.toLocaleString()}</div>
-                    </div>
-                    <div class="stat-footer-item">
-                        <div class="stat-footer-label">👥 participants</div>
-                        <div class="stat-footer-value">${r.senders.length}</div>
-                    </div>
-                    <div class="stat-footer-item">
-                        <div class="stat-footer-label">🏷️ top slang</div>
-                        <div class="stat-footer-value">"${r.topKeywords[0]?.[0] || '—'}"</div>
-                    </div>
-                </div>
-            </div>
+            <div class="pillars-container"><div class="emoji-grid">${Object.entries(r.signatureEmojis).map(([name, emoji]) => `<div class="emoji-item"><div class="emoji-char">${emoji}</div><div class="emoji-name">${name}</div><div class="emoji-count">${r.perPersonEmojiCounts[name] || 0}</div></div>`).join('')}</div><div class="stats-footer"><div class="stat-footer-item"><div class="stat-footer-label">📬 total</div><div class="stat-footer-value">${r.total.toLocaleString()}</div></div><div class="stat-footer-item"><div class="stat-footer-label">👥 people</div><div class="stat-footer-value">${Object.keys(r.senderStats).length}</div></div><div class="stat-footer-item"><div class="stat-footer-label">🏷️ top</div><div class="stat-footer-value">"${r.topKeywords[0]?.[0] || '—'}"</div></div></div></div>
         `;
         
-        // Timeline Chart
-        if(charts.timeline) charts.timeline.destroy();
-        const ctx = document.getElementById('timelineChart').getContext('2d');
-        charts.timeline = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: r.timelineData.map(d => formatMonthLabel(d.month)),
-                datasets: [{
-                    label: 'sentiment %',
-                    data: r.timelineData.map(d => d.avg),
-                    borderColor: '#bcfe2f',
-                    backgroundColor: 'rgba(188, 254, 47, 0.05)',
-                    fill: true,
-                    tension: 0.3,
-                    pointRadius: 4,
-                    pointBackgroundColor: '#bcfe2f',
-                    pointBorderColor: '#050505',
-                    pointBorderWidth: 1.5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { callbacks: { label: (ctx) => `sentiment: ${Math.round(ctx.raw)}%` } }
-                },
-                scales: {
-                    y: { min: 0, max: 100, grid: { color: '#2a2a2a' }, ticks: { color: '#8a8a8a', callback: (val) => `${val}%` } },
-                    x: { ticks: { color: '#8a8a8a', font: { size: 9, weight: '500' } } }
-                }
+        // CREATE CHART AFTER DOM IS READY
+        setTimeout(() => {
+            const canvas = document.getElementById('timelineChart');
+            
+            if (canvas && r.timelineData && r.timelineData.length > 0) {
+                // Destroy any existing chart on this canvas to avoid "Canvas already in use" errors
+                const existingChart = Chart.getChart(canvas);
+                if (existingChart) existingChart.destroy();
+                
+                const ctx = canvas.getContext('2d');
+                const labels = r.timelineData.map(d => formatMonthLabel(d.month));
+                const data = r.timelineData.map(d => d.avg);
+                
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'sentiment',
+                            data: data,
+                            borderColor: '#bcfe2f',
+                            backgroundColor: 'rgba(188,254,47,0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#bcfe2f',
+                            pointBorderColor: '#1a1a1a',
+                            pointBorderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `Sentiment: ${Math.round(context.raw)}%`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                min: 0,
+                                max: 100,
+                                grid: { color: '#2a2a2a' },
+                                ticks: { color: '#8a8a8a', callback: function(val) { return val + '%'; } }
+                            },
+                            x: {
+                                ticks: { color: '#8a8a8a', font: { size: 9 } }
+                            }
+                        }
+                    }
+                });
+            } else {
+                // No timeline data available — chart section stays empty
             }
-        });
+        }, 200);
     }
 </script>
 </body>
