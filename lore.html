@@ -14,25 +14,20 @@
         .container { max-width: 1400px; margin: 0 auto; padding: 40px 48px; position: relative; z-index: 2; }
         @media (max-width: 768px) { .container { padding: 24px 20px; } }
         .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; align-items: center; }
-        @media (max-width: 768px) {
-            .hero { grid-template-columns: 1fr; gap: 32px; text-align: center; margin-bottom: 40px; }
-            .hero-right { order: -1; } /* leaf above text on mobile */
-        }
+        @media (max-width: 768px) { .hero { grid-template-columns: 1fr; gap: 32px; text-align: center; margin-bottom: 40px; } .hero-right { order: -1; } }
         .hero-left h1 { font-size: 5rem; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(135deg, #ffffff 0%, #bcfe2f 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 20px; }
         @media (max-width: 768px) { .hero-left h1 { font-size: 3.2rem; } }
         .hero-left .tagline { font-size: 1rem; color: #8a8a8a; margin-bottom: 32px; line-height: 1.5; }
-        @media (max-width: 768px) { .hero-left .tagline { font-size: 0.9rem; margin-bottom: 24px; } }
         .badge-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
-        @media (max-width: 768px) { .badge-row { justify-content: center; margin-bottom: 28px; } }
+        @media (max-width: 768px) { .badge-row { justify-content: center; } }
         .badge { background: rgba(188, 254, 47, 0.08); border: 1px solid rgba(188, 254, 47, 0.2); padding: 6px 16px; border-radius: 40px; font-size: 0.7rem; font-weight: 500; color: #bcfe2f; }
         .cta-btn { background: linear-gradient(135deg, #f5a623, #e8951a); color: #050505; border: none; padding: 16px 40px; font-size: 1rem; font-weight: 700; border-radius: 60px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 20px rgba(245, 166, 35, 0.3); animation: pulse-glow 2s infinite; }
-        @media (max-width: 768px) { .cta-btn { width: 100%; padding: 16px 24px; } }
         @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(245, 166, 35, 0.3); } 50% { box-shadow: 0 0 40px rgba(245, 166, 35, 0.6); } }
         .cta-btn:hover { transform: translateY(-2px); }
         .data-leaf { position: relative; width: 280px; height: 280px; background: linear-gradient(135deg, rgba(188, 254, 47, 0.1), rgba(188, 254, 47, 0.02)); border-radius: 60% 40% 50% 50% / 40% 50% 50% 60%; animation: float-leaf 6s ease-in-out infinite; margin: 0 auto; }
         @media (max-width: 768px) { .data-leaf { width: 160px; height: 160px; } .data-leaf::before { font-size: 2.5rem; } }
         @keyframes float-leaf { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(2deg); } }
-        .data-leaf::before { content: '💬'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; opacity: 0.8; }
+        .data-leaf::before { content: '📜'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; opacity: 0.8; }
         .global-filter { background: rgba(42, 42, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(188, 254, 47, 0.15); border-radius: 60px; padding: 12px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
         .filter-label { font-size: 0.75rem; font-weight: 500; color: #bcfe2f; display: flex; align-items: center; gap: 8px; }
         .slider-wrapper { flex: 1; min-width: 300px; position: relative; padding: 0 10px; }
@@ -42,72 +37,46 @@
         input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: #bcfe2f; border-radius: 50%; cursor: pointer; border: 2px solid #050505; pointer-events: auto; }
         .date-controls { display: flex; align-items: center; gap: 12px; background: rgba(0,0,0,0.3); padding: 6px 16px; border-radius: 40px; }
         .date-picker-btn { background: transparent; border: 1px solid rgba(188, 254, 47, 0.3); color: #bcfe2f; padding: 6px 14px; border-radius: 30px; font-size: 0.7rem; cursor: pointer; }
-        .date-picker-btn:hover { background: rgba(188, 254, 47, 0.1); }
-        .date-range-display { font-size: 0.7rem; color: #bcfe2f; font-family: monospace; cursor: pointer; }
         .calendar-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
         .calendar-modal.show { display: flex; }
         .calendar-card { background: #1a1a1a; border: 1px solid #bcfe2f; border-radius: 24px; padding: 28px; width: 360px; }
-        .calendar-title { font-size: 1rem; color: #bcfe2f; margin-bottom: 20px; text-align: center; }
-        .calendar-input-group { margin-bottom: 20px; }
-        .calendar-input-group label { font-size: 0.7rem; color: #8a8a8a; display: block; margin-bottom: 6px; }
-        .calendar-input-group input { width: 100%; background: #2a2a2a; border: 1px solid #3a3a3a; border-radius: 12px; padding: 12px; color: #e8e8e8; }
-        .calendar-error { color: #f5a623; font-size: 0.7rem; margin-top: 8px; display: none; }
-        .calendar-buttons { display: flex; gap: 12px; margin-top: 20px; }
-        .calendar-btn { flex: 1; background: #2a2a2a; border: none; padding: 10px; border-radius: 40px; color: #e8e8e8; cursor: pointer; }
-        .calendar-btn.primary { background: #bcfe2f; color: #050505; font-weight: 600; }
         .pillars-container { background: rgba(42, 42, 42, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(188, 254, 47, 0.15); border-radius: 28px; padding: 32px 40px; margin-bottom: 24px; }
-        @media (max-width: 768px) { .pillars-container { padding: 20px; } }
         .pillars-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
         @media (max-width: 768px) { .pillars-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
         .pillar-card { text-align: center; transition: transform 0.3s ease; animation: fade-up 0.5s ease forwards; opacity: 0; position: relative; }
-        .pillar-card:nth-child(1) { animation-delay: 0.1s; }
-        .pillar-card:nth-child(2) { animation-delay: 0.2s; }
-        .pillar-card:nth-child(3) { animation-delay: 0.3s; }
-        .pillar-card:nth-child(4) { animation-delay: 0.4s; }
         @keyframes fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .pillar-card:hover { transform: translateY(-5px); }
         .pillar-icon { font-size: 2.5rem; margin-bottom: 12px; filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.3)); }
-        .pillar-title { font-size: 0.85rem; font-weight: 600; color: #bcfe2f; letter-spacing: 1px; margin-bottom: 8px; }
+        .pillar-title { font-size: 0.85rem; font-weight: 600; color: #bcfe2f; letter-spacing: 1px; margin-bottom: 8px; display: inline-flex; align-items: center; gap: 6px; }
         .pillar-value { font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-bottom: 4px; }
         .pillar-sub { font-size: 0.7rem; color: #8a8a8a; }
         .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
-        @media (max-width: 768px) { .bento-grid { grid-template-columns: 1fr; gap: 12px; } }
-        .bento-card { background: var(--taupe); border-radius: 20px; padding: 24px; transition: all 0.3s ease; animation: fade-up 0.6s ease forwards; opacity: 0; position: relative; overflow: visible; border: 1px solid #3a3a3a; }
-        .bento-card:nth-child(1) { animation-delay: 0.2s; }
-        .bento-card:nth-child(2) { animation-delay: 0.3s; }
-        .bento-card:nth-child(3) { animation-delay: 0.4s; }
-        .bento-card:nth-child(4) { animation-delay: 0.5s; }
-        .bento-card:nth-child(5) { animation-delay: 0.6s; }
-        .bento-card:nth-child(6) { animation-delay: 0.7s; }
+        @media (max-width: 768px) { .bento-grid { grid-template-columns: 1fr; } }
+        .bento-card { background: var(--taupe); border-radius: 20px; padding: 24px; transition: all 0.3s ease; border: 1px solid #3a3a3a; animation: fade-up 0.6s ease forwards; opacity: 0; position: relative; overflow: visible; }
         .bento-card:hover { transform: translateY(-4px); border-color: #bcfe2f; }
-        .bento-card.glow-bg { background: linear-gradient(135deg, #2a2a2a, #1a1a1a); position: relative; }
-        .bento-card.glow-bg::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(188, 254, 47, 0.08), transparent); animation: rotate-glow 12s linear infinite; pointer-events: none; }
-        @keyframes rotate-glow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .bento-card.moss { background: #1a2e0a; border: 1px solid rgba(188, 254, 47, 0.3); }
-        .bento-card.cocoa { background: #2a1f1a; border: 1px solid rgba(245, 166, 35, 0.2); }
-        .bento-card.tan { background: #2a241a; border: 1px solid rgba(188, 254, 47, 0.15); }
+        .bento-card.glow-bg { background: linear-gradient(135deg, #2a2a2a, #1a1a1a); }
+        .bento-card.moss { background: #1a2e0a; border-color: rgba(188, 254, 47, 0.3); }
+        .bento-card.cocoa { background: #2a1f1a; border-color: rgba(245, 166, 35, 0.2); }
         .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-        .card-icon { font-size: 1.8rem; filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.3)); }
-        .card-title { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #bcfe2f; display: flex; align-items: center; gap: 6px; }
-        .card-value { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
-        .card-sub { font-size: 0.75rem; color: #8a8a8a; line-height: 1.4; }
-        .verdict-text { font-size: 0.9rem; line-height: 1.5; color: #e8e8e8; margin-top: 12px; font-weight: 400; }
+        .card-icon { font-size: 1.8rem; }
+        .card-title { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #bcfe2f; display: inline-flex; align-items: center; gap: 6px; }
+        .verdict-text { font-size: 0.9rem; line-height: 1.5; color: #e8e8e8; margin-top: 12px; }
         canvas { max-height: 160px; width: 100% !important; }
         
-        /* Single tooltip system */
+        /* Fixed tooltip system - positioned relative to cursor */
         .info-icon {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             background: #2a2a2a;
             color: #bcfe2f;
             border-radius: 50%;
-            font-size: 9px;
+            font-size: 10px;
             font-weight: 700;
             cursor: pointer;
-            margin-left: 6px;
+            margin-left: 5px;
+            flex-shrink: 0;
             position: relative;
         }
         
@@ -116,44 +85,38 @@
             color: #050505;
         }
         
-        /* Simple tooltip - no double */
-        .info-icon[data-tooltip]:before {
-            content: attr(data-tooltip);
+        /* Tooltip that follows mouse position */
+        .info-tooltip {
             position: fixed;
             background: #1a1a1a;
             color: #bcfe2f;
-            font-size: 0.65rem;
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-family: monospace;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+            font-size: 0.7rem;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-family: 'Outfit', monospace;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0.2px;
             border: 1px solid #bcfe2f;
             white-space: normal;
-            max-width: 250px;
-            text-align: center;
-            line-height: 1.3;
+            word-wrap: break-word;
+            max-width: 280px;
+            min-width: 160px;
+            text-align: left;
+            line-height: 1.4;
             pointer-events: none;
             z-index: 10000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.2s;
-        }
-        
-        .info-icon:hover:before {
-            opacity: 1;
-            visibility: visible;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            transition: opacity 0.15s ease;
         }
         
         .progress-bar { width: 100%; height: 4px; background: #2a2a2a; border-radius: 2px; margin-top: 8px; overflow: hidden; }
-        .progress-fill { height: 100%; background: #bcfe2f; border-radius: 2px; transition: width 0.5s ease; }
-        .participant-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #2a2a2a; }
-        .participant-name { font-size: 0.8rem; font-weight: 500; }
-        .participant-value { font-size: 0.7rem; color: #bcfe2f; font-family: monospace; }
+        .progress-fill { height: 100%; background: #bcfe2f; border-radius: 2px; }
+        .participant-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 0.8rem; }
         .keyword-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-        .keyword { background: #1a1a1a; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; color: #e8e8e8; cursor: pointer; transition: all 0.2s; border: 1px solid #2a2a2a; }
+        .keyword { background: #1a1a1a; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; border: 1px solid #2a2a2a; transition: all 0.2s; }
         .keyword:hover { background: #bcfe2f; color: #050505; }
-        .insight-row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid #2a2a2a; }
         .status { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 16px; margin-bottom: 24px; text-align: center; }
         .spinner { width: 20px; height: 20px; border: 2px solid #2a2a2a; border-top-color: #bcfe2f; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; margin-right: 10px; vertical-align: middle; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -162,35 +125,28 @@
         .dashboard { display: none; }
         .dashboard.show { display: block; }
         .footer { text-align: center; padding: 40px 0 20px; font-size: 0.65rem; color: #4a4a4a; border-top: 1px solid #1a1a1a; margin-top: 40px; }
-        .emoji-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 16px; margin: 20px 0; }
-        .emoji-item { text-align: center; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 16px; transition: all 0.2s; }
-        .emoji-item:hover { background: rgba(188, 254, 47, 0.1); transform: scale(1.02); }
-        .emoji-char { font-size: 2rem; }
-        .emoji-name { font-size: 0.7rem; color: #bcfe2f; margin-top: 6px; }
-        .emoji-count { font-size: 0.6rem; color: #8a8a8a; margin-top: 4px; }
+        .players-scroll { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; max-height: 420px; overflow-y: auto; padding: 4px; justify-content: flex-start; }
+        .player-card-small { background: #111318; border-radius: 20px; padding: 16px; flex: 1 1 220px; border: 1px solid #2a2d36; min-width: 200px; }
+        .player-name-dark { font-size: 1rem; font-weight: 700; color: #bcfe2f; margin-bottom: 12px; border-left: 3px solid #bcfe2f; padding-left: 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .player-stats-grid-dark { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.7rem; }
+        .player-stats-grid-dark div { display: flex; align-items: center; gap: 4px; }
         .stats-footer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(188, 254, 47, 0.1); text-align: center; }
-        .stat-footer-item { text-align: center; }
-        .stat-footer-label { font-size: 0.65rem; color: #bcfe2f; letter-spacing: 0.5px; text-transform: uppercase; }
-        .stat-footer-value { font-size: 1.3rem; font-weight: 700; margin-top: 6px; }
-        .player-card-dark { background: #111318; border-radius: 24px; padding: 24px 28px; border: 1px solid #2a2d36; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
-        @media (max-width: 768px) { .player-card-dark { padding: 20px; } }
-        .player-name-dark { font-size: 1.4rem; font-weight: 700; color: #bcfe2f; margin-bottom: 16px; letter-spacing: -0.02em; border-left: 4px solid #bcfe2f; padding-left: 16px; }
-        .player-stats-grid-dark { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-        .player-stat-dark { text-align: left; }
-        .player-stat-label-dark { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #8b949e; margin-bottom: 6px; }
-        .player-stat-value-dark { font-size: 1.3rem; font-weight: 700; color: #f0f6fc; }
-        @media (max-width: 600px) { .players-row { grid-template-columns: 1fr !important; } }
+        .insight-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #2a2a2a; font-size: 0.75rem; }
+        .extra-metrics { background: rgba(42,42,42,0.3); border-radius: 16px; padding: 12px 16px; margin-top: 16px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+        .extra-metric { text-align: center; flex: 1; min-width: 100px; }
+        .extra-metric-label { font-size: 0.6rem; color: #8a8a8a; text-transform: uppercase; letter-spacing: 0.5px; }
+        .extra-metric-value { font-size: 1rem; font-weight: 700; color: #bcfe2f; margin-top: 4px; }
+        .fav-emoji-badge { background: rgba(188,254,47,0.15); border-radius: 20px; padding: 4px 10px; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; }
     </style>
 </head>
 <body>
 <div class="bg-curve"></div>
-
 <div class="landing" id="landingPage">
-    <div class="container" style="width: 100%;">
+    <div class="container">
         <div class="hero">
             <div class="hero-left">
                 <h1>LORE</h1>
-                <p class="tagline">Digital Archaeology — excavate the hidden story buried in your conversations.</p>
+                <p class="tagline">Digital Archaeology — excavate the hidden story buried in your conversations. Works with any WhatsApp chat export.</p>
                 <div class="badge-row">
                     <span class="badge">VIBE</span>
                     <span class="badge">FLOW</span>
@@ -205,7 +161,6 @@
         </div>
     </div>
 </div>
-
 <div class="dashboard" id="dashboardPage">
     <div class="container">
         <div id="statusContainer"></div>
@@ -214,86 +169,98 @@
         <div class="footer">🔒 all insights generated locally — your data never leaves your device</div>
     </div>
 </div>
-
 <div class="calendar-modal" id="calendarModal">
     <div class="calendar-card">
         <div class="calendar-title">SELECT DATE RANGE</div>
-        <div class="calendar-input-group">
-            <label>START DATE</label>
-            <input type="date" id="calendarStart">
-        </div>
-        <div class="calendar-input-group">
-            <label>END DATE</label>
-            <input type="date" id="calendarEnd">
-        </div>
-        <div class="calendar-error" id="calendarError">END DATE MUST BE AFTER START DATE</div>
-        <div class="calendar-buttons">
-            <button class="calendar-btn" id="calendarCancel">CANCEL</button>
-            <button class="calendar-btn primary" id="calendarApply">APPLY</button>
-        </div>
+        <div class="calendar-input-group"><label>START DATE</label><input type="date" id="calendarStart"></div>
+        <div class="calendar-input-group"><label>END DATE</label><input type="date" id="calendarEnd"></div>
+        <div class="calendar-error" id="calendarError" style="color:#f5a623; font-size:0.7rem; display:none;"></div>
+        <div class="calendar-buttons"><button class="calendar-btn" id="calendarCancel">CANCEL</button><button class="calendar-btn primary" id="calendarApply">APPLY</button></div>
     </div>
 </div>
 
 <script>
-    // ========== UTILITY FUNCTIONS ==========
-    function cleanText(t) { return t.replace(/[\u200e\u200f\u202a\u202b\u202c\u202d\u202e]/g, '').trim(); }
-    function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+    // ========== GLOBAL TOOLTIP HANDLER ==========
+    let activeTooltip = null;
     
-    function formatMonthLabel(monthStr) {
-        const [year, month] = monthStr.split('-');
-        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        return `${monthNames[parseInt(month)-1]}'${year.slice(-2)}`;
+    function showTooltip(element, text, event) {
+        if (activeTooltip) activeTooltip.remove();
+        const tooltip = document.createElement('div');
+        tooltip.className = 'info-tooltip';
+        tooltip.textContent = text;
+        document.body.appendChild(tooltip);
+        
+        let x = event.clientX + 15;
+        let y = event.clientY + 15;
+        
+        const rect = tooltip.getBoundingClientRect();
+        if (x + rect.width > window.innerWidth - 10) {
+            x = event.clientX - rect.width - 10;
+        }
+        if (y + rect.height > window.innerHeight - 10) {
+            y = event.clientY - rect.height - 10;
+        }
+        if (x < 10) x = 10;
+        if (y < 10) y = 10;
+        
+        tooltip.style.left = x + 'px';
+        tooltip.style.top = y + 'px';
+        activeTooltip = tooltip;
     }
     
-    // ========== SENTIMENT ANALYSIS ==========
-    function analyzeSentimentFast(text) {
-        let score = 58; // raised base from 50 → 58 (neutral leans positive)
-        const lower = text.toLowerCase();
-        if (/(good|great|awesome|amazing|fantastic|wonderful|brilliant|excellent|perfect|beautiful|lovely|sweet|nice|happy|glad|joy|love|thanks|thank|proud|congrats|fun|cool|yes|yeah|yay|vibes|epic|legendary|success)/i.test(lower)) score += 20;
-        if (/(bad|terrible|horrible|awful|hate|angry|mad|annoying|frustrated|sad|unhappy|miserable|disappointed|sorry|stressed|cringe|lame|trash|ugh|meh)/i.test(lower)) score -= 8; // unchanged
-        if (lower.includes('love you') || lower.includes('i love')) score += 18;
-        else if (lower.includes('thank you')) score += 12;
-        const exclaim = (text.match(/!/g) || []).length;
-        score += Math.min(exclaim * 3, 10);
-        if (/[😊😃😄🥰😍🤩❤️🔥👍👏🥳🏆]/i.test(text)) score += 12;
-        if (/[😠😡💀😤😞😢😭💔]/i.test(text)) score -= 5;
-        if (/lol|lmao|haha/i.test(lower)) score += 10;
-        return Math.max(20, Math.min(98, score));
+    function hideTooltip() {
+        if (activeTooltip) {
+            activeTooltip.remove();
+            activeTooltip = null;
+        }
     }
     
-    function calcEnergyFast(text) {
-        let energy = 50;
-        if (text === text.toUpperCase() && text.length > 4) energy += 18;
-        energy += Math.min((text.match(/!/g) || []).length * 6, 20);
-        if (/lol|lmao|haha/i.test(text)) energy += 12;
-        if (/(OMG|WOW|YES|LET'S GO)/i.test(text)) energy += 12;
-        return Math.min(98, Math.max(32, energy));
-    }
+    document.addEventListener('mouseover', function(e) {
+        const icon = e.target.closest('.info-icon');
+        if (icon && icon.dataset.tooltip) {
+            showTooltip(icon, icon.dataset.tooltip, e);
+        }
+    });
+    document.addEventListener('mouseout', function(e) {
+        const icon = e.target.closest('.info-icon');
+        if (icon) {
+            hideTooltip();
+        }
+    });
+    document.addEventListener('mousemove', function(e) {
+        if (activeTooltip && e.target.closest('.info-icon')) {
+            let x = e.clientX + 15;
+            let y = e.clientY + 15;
+            const rect = activeTooltip.getBoundingClientRect();
+            if (x + rect.width > window.innerWidth - 10) {
+                x = e.clientX - rect.width - 10;
+            }
+            if (y + rect.height > window.innerHeight - 10) {
+                y = e.clientY - rect.height - 10;
+            }
+            if (x < 10) x = 10;
+            if (y < 10) y = 10;
+            activeTooltip.style.left = x + 'px';
+            activeTooltip.style.top = y + 'px';
+        }
+    });
     
-    function detectTopicsFast(text) {
-        const lower = text.toLowerCase();
-        if (/\b(work|office|meeting|deadline|project|job|career)\b/i.test(lower)) return 'work';
-        if (/\b(family|friend|home|weekend|vacation|travel|movie|show|book|music)\b/i.test(lower)) return 'personal';
-        if (/\b(lol|haha|lmao|hilarious|funny|joke|meme|fun)\b/i.test(lower)) return 'humor';
-        if (/\b(ugh|annoying|frustrated|stressed|tired|hate)\b/i.test(lower)) return 'venting';
-        if (/\b(meet|call|schedule|plan|tomorrow|later|today)\b/i.test(lower)) return 'planning';
-        if (/\b(thanks|appreciate|help|support|proud|congrats|hope)\b/i.test(lower)) return 'support';
-        return null;
-    }
+    // ========== ULTRA-FAST PARSER ==========
+    function cleanText(t) { return t.replace(/[\u200e\u200f\u202a-\u202e]/g, '').trim(); }
     
-    function parseWhatsAppFast(text) {
+    function parseWhatsAppSuperFast(text) {
         const lines = text.split(/\r?\n/);
         const messages = [];
-        // Pattern 1: [dd/mm/yy, hh:mm:ss AM/PM] Sender: message  (bracket format)
-        const pattern = /\[(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2}:\d{2})\s?([AP]M)?\]\s([^:]+):\s(.*)/i;
-        // Pattern 2: dd/mm/yy, hh:mm - Sender: message  (dash format, no brackets)
-        const pattern2 = /^(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2})(?::\d{2})?\s?([AP]M)?\s[-–]\s([^:]+):\s(.*)/i;
+        const bracketPattern = /\[(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2}:\d{2})\s?([AP]M)?\]\s([^:]+):\s(.*)/i;
+        const dashPattern = /^(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2})(?::\d{2})?\s?([AP]M)?\s[-–]\s([^:]+):\s(.*)/i;
         let current = null;
+        
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
             if (!line.trim()) continue;
-            if (/end-to-end encrypted|security code|deleted/i.test(line)) continue;
-            const match = line.match(pattern) || line.match(pattern2);
+            if (line.includes("end-to-end encrypted") || line.includes("Messages and calls") || line.includes("deleted this message")) continue;
+            
+            let match = bracketPattern.exec(line) || dashPattern.exec(line);
             if (match) {
                 if (current) messages.push(current);
                 let [, dateStr, timeStr, ampm, sender, message] = match;
@@ -303,600 +270,369 @@
                 try {
                     let [d, m, y] = dateStr.split('/');
                     let [h, min, sec] = timeStr.split(':');
-                    let hour = parseInt(h);
+                    let hour = parseInt(h, 10);
                     if (ampm && ampm.toUpperCase() === 'PM' && hour < 12) hour += 12;
                     if (ampm && ampm.toUpperCase() === 'AM' && hour === 12) hour = 0;
-                    timestamp = new Date(2000 + parseInt(y), parseInt(m) - 1, parseInt(d), hour, parseInt(min), parseInt(sec));
-                } catch(e) {}
+                    timestamp = new Date(Date.UTC(2000 + parseInt(y,10), parseInt(m,10)-1, parseInt(d,10), hour, parseInt(min,10), sec ? parseInt(sec,10) : 0));
+                } catch(e) { }
                 current = { 
-                    sender: sender, 
-                    message: message, 
-                    length: message.length, 
-                    timestamp: timestamp, 
-                    hour: timestamp.getHours(), 
+                    sender, 
+                    message: message.substring(0, 500),
+                    timestamp, 
                     date: timestamp.toISOString().split('T')[0],
-                    timestampObj: timestamp 
+                    hour: timestamp.getUTCHours()
                 };
             } else if (current) {
-                current.message += ' ' + cleanText(line);
-                current.length = current.message.length;
+                if (current.message.length < 800) current.message += ' ' + cleanText(line);
             }
         }
         if (current) messages.push(current);
         return messages;
     }
     
-    let fullMessages = null;
-    let allDates = [];
-    let currentDateFilter = { startIdx: 0, endIdx: null };
-    let charts = {};
+    // ========== UTILITY: FILTER URLS AND PROTOCOLS FROM WORDS ==========
+    function isValidWord(word) {
+        if (!word || word.length < 3) return false;
+        // Exclude URLs, protocols, domains
+        if (word.startsWith('http') || word.startsWith('www') || word.includes('.com') || word.includes('.org') || word.includes('.net')) return false;
+        if (word.includes('://') || word.includes('https') || word.includes('http')) return false;
+        // Exclude common media references
+        if (word === 'image' || word === 'video' || word === 'gif' || word === 'sticker' || word === 'media' || word === 'omitted') return false;
+        // Exclude if it looks like a file path or has too many slashes
+        if (word.includes('/') && word.length > 20) return false;
+        return true;
+    }
     
-    const stopwordsSet = new Set([
-        'the','and','for','that','this','with','from','have','are','was','were','but','not','you','they','she','he','it','we',
-        'like','just','what','when','where','how','get','got','all','can','will','image','video','photo','gif','sticker',
-        'media','omitted','edited','then','them','out','about','into','through','during','before','after','above','below'
-    ]);
+    // ========== OPTIMIZED ANALYZER ==========
+    const posWords = /(good|great|awesome|amazing|fantastic|wonderful|perfect|beautiful|love|thanks|happy|glad|joy|proud|congrats|fun|cool|yes|vibes|epic|legendary)/i;
+    const negWords = /(bad|terrible|horrible|awful|hate|angry|annoying|frustrated|sad|disappointed|stressed|cringe|trash|ugh)/i;
+    const energyWords = /(lol|lmao|haha|omg|wow|lets go)/i;
     
-    function computeStatsFast(messages) {
+    function fastSentiment(text) {
+        let score = 58;
+        const lower = text.toLowerCase();
+        if (posWords.test(lower)) score += 20;
+        if (negWords.test(lower)) score -= 8;
+        if (lower.includes('love you')) score += 18;
+        const exc = (text.match(/!/g) || []).length;
+        score += Math.min(exc * 3, 10);
+        if (/[😊😍🔥👍🥳❤️✨]/.test(text)) score += 12;
+        return Math.min(98, Math.max(20, score));
+    }
+    
+    function fastEnergy(text) {
+        let e = 50;
+        if (text === text.toUpperCase() && text.length > 4) e += 18;
+        e += Math.min((text.match(/!/g) || []).length * 6, 20);
+        if (energyWords.test(text.toLowerCase())) e += 12;
+        return Math.min(98, Math.max(32, e));
+    }
+    
+    function computeGroupStatsOptimized(messages) {
+        if (!messages.length) return null;
         const total = messages.length;
-        if (total === 0) return null;
-        
-        const senders = [];
         const senderMap = new Map();
-        
-        let totalSentiment = 0;
-        let totalEnergy = 0;
-        const topicCounts = new Map();
         const hourCounts = new Array(24).fill(0);
-        const nightMsgsBySender = new Map();
-        const totalBySender = new Map();
         const keywords = new Map();
-        const vocabMap = new Map();
+        const timelineMap = new Map();
+        const dailyCloser = new Map();
+        const topicCounts = new Map();
+        const stopSet = new Set(['the','and','for','that','this','with','from','have','are','was','were','but','not','you','like','just','what','when','where','get','can','will']);
+        
+        let prevSender = null;
+        let totalSentiment = 0, totalEnergy = 0;
         
         for (let i = 0; i < messages.length; i++) {
             const m = messages[i];
-            const sentiment = analyzeSentimentFast(m.message);
-            const energy = calcEnergyFast(m.message);
-            const topic = detectTopicsFast(m.message);
-            
-            m.sentiment = sentiment; // FIX: store on message so timeline chart can read it
+            const sentiment = fastSentiment(m.message);
+            const energy = fastEnergy(m.message);
             totalSentiment += sentiment;
             totalEnergy += energy;
-            
-            if (!senderMap.has(m.sender)) {
-                senderMap.set(m.sender, { count: 0, sentiment: 0, energy: 0 });
-                vocabMap.set(m.sender, new Set());
-                senders.push(m.sender);
-            }
-            const senderData = senderMap.get(m.sender);
-            senderData.count++;
-            senderData.sentiment += sentiment;
-            senderData.energy += energy;
-            
-            const words = m.message.toLowerCase().match(/\b[a-z]{4,}\b/g);
-            if (words) {
-                const vocabSet = vocabMap.get(m.sender);
-                for (let w of words) {
-                    if (!stopwordsSet.has(w) && w.length > 3) {
-                        vocabSet.add(w);
-                    }
-                }
-            }
-            
-            if (topic) topicCounts.set(topic, (topicCounts.get(topic) || 0) + 1);
+            m.sentiment = sentiment;
             
             hourCounts[m.hour]++;
             
-            if (m.hour >= 0 && m.hour < 5) {
-                nightMsgsBySender.set(m.sender, (nightMsgsBySender.get(m.sender) || 0) + 1);
-            }
-            totalBySender.set(m.sender, (totalBySender.get(m.sender) || 0) + 1);
+            const monthKey = `${m.timestamp.getUTCFullYear()}-${String(m.timestamp.getUTCMonth()+1).padStart(2,'0')}`;
+            let tl = timelineMap.get(monthKey);
+            if (!tl) timelineMap.set(monthKey, { sum: 0, count: 0 });
+            tl = timelineMap.get(monthKey);
+            tl.sum += sentiment;
+            tl.count++;
             
-            const slangWords = m.message.toLowerCase().match(/\b[a-z]{3,}\b/g);
-            if (slangWords) {
-                for (let w of slangWords) {
-                    if (!stopwordsSet.has(w) && w.length > 2 && !/\d/.test(w)) {
+            const lowerMsg = m.message.toLowerCase();
+            if (/(work|office|meeting|deadline|project|job)/i.test(lowerMsg)) topicCounts.set('work', (topicCounts.get('work')||0)+1);
+            else if (/(family|friend|home|weekend|vacation|travel|movie|music)/i.test(lowerMsg)) topicCounts.set('personal', (topicCounts.get('personal')||0)+1);
+            else if (/(lol|haha|lmao|funny|meme|hilarious)/i.test(lowerMsg)) topicCounts.set('humor', (topicCounts.get('humor')||0)+1);
+            else if (/(ugh|annoying|stressed|tired|hate|frustrated)/i.test(lowerMsg)) topicCounts.set('venting', (topicCounts.get('venting')||0)+1);
+            else if (/(meet|schedule|plan|tomorrow|later|today)/i.test(lowerMsg)) topicCounts.set('planning', (topicCounts.get('planning')||0)+1);
+            
+            // Extract words - filter out URLs and invalid words
+            const words = m.message.toLowerCase().match(/\b[a-z]{3,}\b/g);
+            if (words) {
+                for (let w of words) {
+                    if (!stopSet.has(w) && w.length > 3 && isValidWord(w)) {
                         keywords.set(w, (keywords.get(w) || 0) + 1);
                     }
                 }
             }
+            
+            let sd = senderMap.get(m.sender);
+            if (!sd) {
+                sd = { count: 0, sentimentSum: 0, energySum: 0, nightMsgs: 0, doubleTexts: 0, vocab: new Set(), emojiFreq: new Map() };
+                senderMap.set(m.sender, sd);
+            }
+            sd.count++;
+            sd.sentimentSum += sentiment;
+            sd.energySum += energy;
+            if (m.hour >= 0 && m.hour < 5) sd.nightMsgs++;
+            if (prevSender === m.sender) sd.doubleTexts++;
+            if (words) {
+                for (let w of words) {
+                    if (!stopSet.has(w) && w.length > 3 && isValidWord(w)) sd.vocab.add(w);
+                }
+            }
+            
+            const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}]/gu;
+            const emojis = m.message.match(emojiRegex);
+            if (emojis) {
+                for (let em of emojis) {
+                    sd.emojiFreq.set(em, (sd.emojiFreq.get(em) || 0) + 1);
+                }
+            }
+            
+            const existing = dailyCloser.get(m.date);
+            if (!existing || m.timestamp > existing.timestamp) {
+                dailyCloser.set(m.date, { sender: m.sender, timestamp: m.timestamp });
+            }
+            
+            prevSender = m.sender;
         }
-        
-        const avgSentiment = totalSentiment / total;
-        const avgEnergy = totalEnergy / total;
-        const hypeScore = avgEnergy.toFixed(1);
-        
-        let energyLevel = "mid-energy";
-        if (avgEnergy > 55) energyLevel = "high-energy 🔥";
-        else if (avgEnergy > 35) energyLevel = "steady pulse";
-        else energyLevel = "low-key";
-        
-        let vibeText = "neutral vibe";
-        if (avgSentiment > 72) vibeText = "radiant ✨";
-        else if (avgSentiment > 62) vibeText = "positive 🌞";
-        else if (avgSentiment > 54) vibeText = "mildly positive";
-        else if (avgSentiment < 40) vibeText = "heavy 🌧️";
-        
-        const topTopics = Array.from(topicCounts.entries()).sort((a,b) => b[1] - a[1]).slice(0, 3);
-        
-        const airTimePct = {};
-        for (let [s, data] of senderMap) {
-            airTimePct[s] = Math.round((data.count / total) * 100);
-        }
-        
-        const pctValues = Object.values(airTimePct);
-        const idealBalance = 100 / pctValues.length;
-        let balanceScore = 100;
-        for (let pct of pctValues) {
-            balanceScore -= Math.abs(pct - idealBalance) * 0.8;
-        }
-        balanceScore = Math.max(0, Math.min(100, Math.round(balanceScore)));
-        let balanceLabel = "balanced";
-        if (balanceScore < 40) balanceLabel = "one-sided";
-        else if (balanceScore < 70) balanceLabel = "moderately balanced";
-        else balanceLabel = "well balanced";
-        
-        const sorted = [...messages].sort((a,b) => a.timestamp - b.timestamp);
         
         let responseSum = 0, responseCount = 0;
-        let firstResponseSum = 0, firstResponseCount = 0;
-        let fastestTime = Infinity, fastestResponder = "N/A";
-        let firstFastestTime = Infinity, fastestFirstResponder = null;
-        
-        for (let i = 1; i < sorted.length; i++) {
-            if (sorted[i].sender !== sorted[i-1].sender) {
-                const delta = (sorted[i].timestamp - sorted[i-1].timestamp) / 60000;
+        let limit = Math.min(messages.length, 3000);
+        for (let i = 1; i < limit; i++) {
+            if (messages[i].sender !== messages[i-1].sender) {
+                const delta = (messages[i].timestamp - messages[i-1].timestamp) / 60000;
                 if (delta > 0 && delta < 720) {
                     responseSum += delta;
                     responseCount++;
-                    if (delta < 60) {
-                        firstResponseSum += delta;
-                        firstResponseCount++;
-                        if (delta < firstFastestTime) {
-                            firstFastestTime = delta;
-                            fastestFirstResponder = sorted[i].sender;
-                        }
-                    }
-                    if (delta < fastestTime && delta < 60) {
-                        fastestTime = delta;
-                        fastestResponder = sorted[i].sender;
-                    }
                 }
             }
         }
         const avgResponseTime = responseCount > 0 ? Math.round(responseSum / responseCount) : 0;
-        const avgFirstResponse = firstResponseCount > 0 ? Math.round(firstResponseSum / firstResponseCount) : 0;
         
-        const initiations = new Map();
+        let initMap = new Map();
         let lastTime = null;
-        for (let m of sorted) {
-            if (lastTime && (m.timestamp - lastTime) > 21600000) {
-                initiations.set(m.sender, (initiations.get(m.sender) || 0) + 1);
+        for (let i = 0; i < messages.length; i++) {
+            if (lastTime && (messages[i].timestamp - lastTime) > 21600000) {
+                initMap.set(messages[i].sender, (initMap.get(messages[i].sender) || 0) + 1);
             }
-            lastTime = m.timestamp;
+            lastTime = messages[i].timestamp;
         }
-        let initiator = "mixed";
-        let initiatorCount = 0;
-        if (initiations.size > 0) {
-            const topInitiator = Array.from(initiations.entries()).sort((a,b) => b[1] - a[1])[0];
-            initiator = topInitiator[0];
-            initiatorCount = topInitiator[1];
-        }
-        
-        const nightOwls = {};
-        for (let [s, count] of nightMsgsBySender) {
-            const totalS = totalBySender.get(s) || 1;
-            nightOwls[s] = ((count / totalS) * 100).toFixed(1);
-        }
-        const topNightOwl = Object.entries(nightOwls).sort((a,b) => parseFloat(b[1]) - parseFloat(a[1]))[0];
-        
-        const doubleText = new Map();
-        for (let i = 1; i < sorted.length; i++) {
-            if (sorted[i].sender === sorted[i-1].sender) {
-                doubleText.set(sorted[i].sender, (doubleText.get(sorted[i].sender) || 0) + 1);
-            }
-        }
-        const doubleTextRatio = {};
-        for (let [s, count] of doubleText) {
-            const totalS = totalBySender.get(s) || 1;
-            doubleTextRatio[s] = ((count / totalS) * 100).toFixed(1);
+        let topInitiator = "mixed";
+        let initCount = 0;
+        if (initMap.size) {
+            const sorted = Array.from(initMap.entries()).sort((a,b) => b[1] - a[1]);
+            topInitiator = sorted[0][0];
+            initCount = sorted[0][1];
         }
         
-        const days = new Map();
-        for (let m of sorted) {
-            if (!days.has(m.date) || m.timestamp > days.get(m.date).timestamp) {
-                days.set(m.date, m);
+        const participants = Array.from(senderMap.keys());
+        const senderStats = {};
+        const favoriteEmojis = {};
+        
+        for (let [name, data] of senderMap.entries()) {
+            senderStats[name] = {
+                count: data.count,
+                pct: Math.round((data.count/total)*100),
+                sentiment: Math.round(data.sentimentSum/data.count),
+                energy: Math.round(data.energySum/data.count),
+                vocab: data.vocab.size,
+                nightPct: (data.nightMsgs/data.count) * 100,
+                doublePct: (data.doubleTexts/data.count) * 100
+            };
+            if (data.emojiFreq.size > 0) {
+                const sortedEmojis = Array.from(data.emojiFreq.entries()).sort((a,b) => b[1] - a[1]);
+                favoriteEmojis[name] = { emoji: sortedEmojis[0][0], count: sortedEmojis[0][1] };
+            } else {
+                favoriteEmojis[name] = { emoji: '💬', count: 0 };
             }
         }
-        const closers = new Map();
-        for (let m of days.values()) {
-            closers.set(m.sender, (closers.get(m.sender) || 0) + 1);
-        }
         
-        const topKeywords = Array.from(keywords.entries()).sort((a,b) => b[1] - a[1]).slice(0, 15);
+        const nightRank = participants.map(p => ({ name: p, pct: senderStats[p].nightPct })).sort((a,b) => b.pct - a.pct).slice(0,5);
+        const closerCounts = new Map();
+        for (let closer of dailyCloser.values()) closerCounts.set(closer.sender, (closerCounts.get(closer.sender)||0)+1);
+        const topClosers = Array.from(closerCounts.entries()).sort((a,b)=>b[1]-a[1]).slice(0,5);
         
-        // BUILD TIMELINE DATA FOR CHART - THIS IS CRITICAL
-        const monthlySentiment = new Map();
-        for (let m of messages) {
-            if (!m.timestampObj) continue;
-            const key = `${m.timestampObj.getFullYear()}-${String(m.timestampObj.getMonth() + 1).padStart(2, '0')}`;
-            if (!monthlySentiment.has(key)) monthlySentiment.set(key, []);
-            monthlySentiment.get(key).push(m.sentiment);
-        }
-        const timelineData = Array.from(monthlySentiment.entries()).sort().map(([k, v]) => ({ 
-            month: k, 
-            avg: v.reduce((a,b) => a+b,0) / v.length
-        }));
+        const topKeywords = Array.from(keywords.entries()).sort((a,b)=>b[1]-a[1]).slice(0,12);
         
-        const half = Math.floor(timelineData.length / 2);
-        const firstHalfAvg = timelineData.slice(0, half).reduce((a,b) => a + b.avg, 0) / (half || 1);
-        const secondHalfAvg = timelineData.slice(half).reduce((a,b) => a + b.avg, 0) / (timelineData.length - half || 1);
-        const trend = secondHalfAvg - firstHalfAvg;
-        let trendDesc = "stable";
-        if (trend > 6) trendDesc = "improving 📈";
-        else if (trend < -6) trendDesc = "declining 📉";
+        const timelineData = Array.from(timelineMap.entries()).sort().map(([k, v]) => ({ month: k, avg: v.sum / v.count }));
+        const half = Math.floor(timelineData.length/2);
+        const firstHalf = timelineData.slice(0,half).reduce((a,b)=>a+b.avg,0)/(half||1);
+        const secondHalf = timelineData.slice(half).reduce((a,b)=>a+b.avg,0)/(timelineData.length-half||1);
+        const trend = secondHalf - firstHalf;
+        const trendDesc = trend > 6 ? "improving 📈" : (trend < -6 ? "declining 📉" : "stable");
+        
+        const avgSentiment = totalSentiment/total;
+        const avgEnergyTotal = totalEnergy/total;
+        let vibeText = avgSentiment>72 ? "radiant ✨" : (avgSentiment>62 ? "positive 🌞" : (avgSentiment>54 ? "mildly positive" : (avgSentiment<40 ? "heavy 🌧️" : "neutral")));
         
         let mostActiveHour = 0;
-        for (let h = 0; h < 24; h++) if (hourCounts[h] > hourCounts[mostActiveHour]) mostActiveHour = h;
+        for (let h=1;h<24;h++) if(hourCounts[h] > hourCounts[mostActiveHour]) mostActiveHour = h;
         
-        const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}]/gu;
-        const signatureEmojis = {};
-        const perPersonEmojiCounts = {};
-        for (let s of senders) {
-            const emojiFreq = new Map();
-            for (let m of messages) {
-                if (m.sender === s) {
-                    const matches = m.message.match(emojiRegex);
-                    if (matches) {
-                        for (let e of matches) {
-                            emojiFreq.set(e, (emojiFreq.get(e) || 0) + 1);
-                        }
-                    }
-                }
-            }
-            if (emojiFreq.size > 0) {
-                const top = Array.from(emojiFreq.entries()).sort((a,b) => b[1] - a[1])[0];
-                signatureEmojis[s] = top[0];
-                perPersonEmojiCounts[s] = top[1];
-            } else {
-                signatureEmojis[s] = '—';
-                perPersonEmojiCounts[s] = 0;
-            }
-        }
-        
-        const senderStats = {};
-        for (let [s, data] of senderMap) {
-            senderStats[s] = {
-                count: data.count,
-                pct: Math.round((data.count / total) * 100),
-                sentiment: Math.round(data.sentiment / data.count),
-                vocab: vocabMap.get(s)?.size || 0,
-                energy: Math.round(data.energy / data.count)
-            };
-        }
-        
-        let verdict = "";
-        if (avgSentiment > 78) verdict = "This conversation radiates extraordinary warmth and joy — a truly special, uplifting space where people feel deeply heard and valued. Keep nurturing this — it's rare and precious.";
-        else if (avgSentiment > 65) verdict = "Generally positive with genuine moments of connection. A healthy balance of support, laughter, and real talk. There's a solid emotional foundation here.";
-        else if (avgSentiment > 52) verdict = "Balanced and grounded. A mix of good days and tough conversations — feels authentically human. Real relationships have texture.";
-        else if (avgSentiment > 42) verdict = "There's some weight here, but also moments of warmth. The conversation has its share of difficult moments, but that's part of being real with each other.";
-        else verdict = "The data suggests some emotional heaviness, but there are also signals of care beneath the surface. Small gestures of warmth can shift the weather.";
+        let verdict = avgSentiment>75 ? "This space radiates warmth — members feel genuinely seen and valued. Rare emotional chemistry." :
+                     (avgSentiment>62 ? "Positive, supportive atmosphere with real connection. Keep nurturing it." :
+                     (avgSentiment>50 ? "Authentic mix of ups and downs — real relationships have texture." :
+                     "Some emotional weight, but small gestures of care can shift the weather."));
         
         return {
-            total, avgSentiment: Math.round(avgSentiment), hypeScore, energyLevel, vibeText, trendDesc,
-            avgResponseTime, fastestResponder, initiator, initiatorCount, nightOwls, topNightOwl,
-            doubleTextRatio, airTimePct, closers: Object.fromEntries(closers), topKeywords, 
-            timelineData: timelineData,  // MAKE SURE THIS IS INCLUDED
-            signatureEmojis, perPersonEmojiCounts, mostActiveHour, verdict, topTopics,
-            balanceScore, balanceLabel, fastestFirstResponder: fastestFirstResponder ? [fastestFirstResponder, avgFirstResponse] : null,
-            senderStats
+            total, avgSentiment: Math.round(avgSentiment), hypeScore: avgEnergyTotal.toFixed(1), vibeText, trendDesc,
+            avgResponseTime, topInitiator, initCount, nightRank, topClosers, topKeywords, timelineData,
+            participants: participants.slice(0, 25), senderStats, mostActiveHour, favoriteEmojis,
+            verdict, topTopics: Array.from(topicCounts.entries()).sort((a,b)=>b[1]-a[1]).slice(0,3),
+            totalMessages: total
         };
     }
     
-    let currentReport = null;
-    
+    // ========== APP STATE ==========
+    let fullMessages = null, allDates = [], currentFilter = { startIdx: 0, endIdx: null }, currentReport = null;
     const landingPage = document.getElementById('landingPage');
     const dashboardPage = document.getElementById('dashboardPage');
     const startBtn = document.getElementById('startBtn');
-    const calendarModal = document.getElementById('calendarModal');
-    const calendarStart = document.getElementById('calendarStart');
-    const calendarEnd = document.getElementById('calendarEnd');
-    const calendarError = document.getElementById('calendarError');
-    const calendarCancel = document.getElementById('calendarCancel');
-    const calendarApply = document.getElementById('calendarApply');
     
-    startBtn.addEventListener('click', () => {
+    startBtn.onclick = () => {
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = '.txt';
         input.onchange = async (e) => {
             const file = e.target.files[0];
-            if (file && file.name.endsWith('.txt')) {
-                landingPage.classList.add('hide');
-                dashboardPage.classList.add('show');
-                showStatus('📖 excavating artifacts...', 'loading');
+            if (!file) return;
+            landingPage.classList.add('hide');
+            dashboardPage.classList.add('show');
+            document.getElementById('statusContainer').innerHTML = `<div class="status"><span class="spinner"></span> excavating artifacts...</div>`;
+            setTimeout(async () => {
                 const text = await file.text();
-                showStatus('📊 decoding conversation strata...', 'loading');
                 setTimeout(() => {
-                    fullMessages = parseWhatsAppFast(text);
-                    if (fullMessages.length === 0) { showStatus('❌ could not parse messages. check file format.', 'error'); return; }
+                    fullMessages = parseWhatsAppSuperFast(text);
+                    if (!fullMessages.length) {
+                        document.getElementById('statusContainer').innerHTML = `<div class="status" style="border-color:#f5a623;">❌ Could not parse messages. Check WhatsApp export format.</div>`;
+                        return;
+                    }
                     allDates = [...new Set(fullMessages.map(m => m.date))].sort();
-                    currentDateFilter = { startIdx: 0, endIdx: allDates.length - 1 };
-                    updateFilteredReport();
-                    showStatus('✅ excavation complete — lore unearthed', 'success');
-                    setTimeout(() => { document.getElementById('statusContainer').innerHTML = ''; }, 2000);
+                    currentFilter = { startIdx: 0, endIdx: allDates.length-1 };
+                    currentReport = computeGroupStatsOptimized(fullMessages);
+                    renderDashboardOptimized(currentReport);
+                    renderGlobalFilterGroup();
+                    document.getElementById('statusContainer').innerHTML = `<div class="status" style="border-color:#bcfe2f;">✅ ${fullMessages.length} messages — ${currentReport.participants.length} participants</div>`;
+                    setTimeout(() => { document.getElementById('statusContainer').innerHTML = ''; }, 2500);
                 }, 10);
-            } else alert('please select a WhatsApp .txt export');
+            }, 10);
         };
         input.click();
-    });
-    
-    function updateFilteredReport() {
-        const startDate = allDates[currentDateFilter.startIdx];
-        const endDate = allDates[currentDateFilter.endIdx];
-        const filteredMessages = fullMessages.filter(m => m.date >= startDate && m.date <= endDate);
-        currentReport = computeStatsFast(filteredMessages);
-        renderDashboard(currentReport);
-        renderGlobalFilter();
-    }
-    
-    function renderGlobalFilter() {
-        const container = document.getElementById('globalFilterContainer');
-        if (!allDates.length) return;
-        
-        function formatDateShort(dateStr) {
-            const [y,m,d] = dateStr.split('-');
-            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            return `${monthNames[parseInt(m)-1]} ${parseInt(d)}, ${y}`;
-        }
-        
-        const startDate = allDates[currentDateFilter.startIdx];
-        const endDate = allDates[currentDateFilter.endIdx];
-        
-        container.style.display = 'block';
-        container.innerHTML = `
-            <div class="global-filter">
-                <div class="filter-label">
-                    <span class="info-icon" data-tooltip="FILTER ALL INSIGHTS BY DATE RANGE — CONTROLS THE EXCAVATION DEPTH">i</span>
-                    Excavation Depth
-                </div>
-                <div class="slider-wrapper">
-                    <div class="double-slider" id="doubleSlider">
-                        <div class="slider-track-fill" id="sliderFill"></div>
-                        <input type="range" id="startSlider" min="0" max="${allDates.length-1}" value="${currentDateFilter.startIdx}" step="1">
-                        <input type="range" id="endSlider" min="0" max="${allDates.length-1}" value="${currentDateFilter.endIdx}" step="1">
-                    </div>
-                </div>
-                <div class="date-controls">
-                    <div class="date-range-display" id="globalDateRange">${formatDateShort(startDate)} → ${formatDateShort(endDate)}</div>
-                    <button class="date-picker-btn" id="calendarBtn">📅 select</button>
-                </div>
-            </div>
-        `;
-        
-        function updateSliderFill() {
-            const start = parseInt(document.getElementById('startSlider').value);
-            const end = parseInt(document.getElementById('endSlider').value);
-            const total = allDates.length - 1;
-            const leftPercent = (start / total) * 100;
-            const rightPercent = ((total - end) / total) * 100;
-            const fill = document.getElementById('sliderFill');
-            if (fill) fill.style.left = `${leftPercent}%`;
-            if (fill) fill.style.right = `${rightPercent}%`;
-        }
-        
-        const startSlider = document.getElementById('startSlider');
-        const endSlider = document.getElementById('endSlider');
-        const globalDateRange = document.getElementById('globalDateRange');
-        
-        function updateFromSliders() {
-            let start = parseInt(startSlider.value);
-            let end = parseInt(endSlider.value);
-            if (start > end) { start = end; startSlider.value = start; }
-            if (end < start) { end = start; endSlider.value = end; }
-            currentDateFilter.startIdx = start;
-            currentDateFilter.endIdx = end;
-            const sDate = allDates[start];
-            const eDate = allDates[end];
-            globalDateRange.innerHTML = `${formatDateShort(sDate)} → ${formatDateShort(eDate)}`;
-            updateSliderFill();
-            updateFilteredReport();
-        }
-        
-        startSlider.oninput = updateFromSliders;
-        endSlider.oninput = updateFromSliders;
-        updateSliderFill();
-        
-        const calendarBtn = document.getElementById('calendarBtn');
-        const startDateObj = new Date(startDate);
-        const endDateObj = new Date(endDate);
-        calendarStart.value = startDateObj.toISOString().split('T')[0];
-        calendarEnd.value = endDateObj.toISOString().split('T')[0];
-        calendarBtn.onclick = () => { calendarModal.classList.add('show'); };
-    }
-    
-    calendarCancel.onclick = () => { calendarModal.classList.remove('show'); calendarError.style.display = 'none'; };
-    calendarApply.onclick = () => {
-        const startDateStr = calendarStart.value;
-        const endDateStr = calendarEnd.value;
-        if (!startDateStr || !endDateStr) { calendarError.style.display = 'block'; calendarError.innerText = 'PLEASE SELECT BOTH DATES'; return; }
-        if (startDateStr > endDateStr) { calendarError.style.display = 'block'; calendarError.innerText = 'END DATE MUST BE AFTER START DATE'; return; }
-        let startIdx = 0, endIdx = allDates.length - 1;
-        for (let i = 0; i < allDates.length; i++) { if (allDates[i] >= startDateStr) { startIdx = i; break; } }
-        for (let i = allDates.length - 1; i >= 0; i--) { if (allDates[i] <= endDateStr) { endIdx = i; break; } }
-        if (startIdx > endIdx) { calendarError.style.display = 'block'; calendarError.innerText = 'NO MESSAGES IN SELECTED DATE RANGE'; return; }
-        currentDateFilter.startIdx = startIdx;
-        currentDateFilter.endIdx = endIdx;
-        calendarModal.classList.remove('show');
-        calendarError.style.display = 'none';
-        updateFilteredReport();
     };
     
-    function showStatus(msg, type) {
-        const c = document.getElementById('statusContainer');
-        if (type === 'loading') {
-            c.innerHTML = `<div class="status"><span class="spinner"></span> ${msg}</div>`;
-        } else if (type === 'success') {
-            c.innerHTML = `<div class="status" style="border-color:#bcfe2f; color:#bcfe2f;">✅ ${msg}</div>`;
-        } else {
-            c.innerHTML = `<div class="status" style="border-color:#f5a623; color:#f5a623;">❌ ${msg}</div>`;
-        }
+    function renderGlobalFilterGroup() {
+        const container = document.getElementById('globalFilterContainer');
+        if (!allDates.length) return;
+        const fmt = (d) => { let [y,m,day]=d.split('-'); return `${parseInt(m)}/${parseInt(day)}/${y}`; };
+        const startDate = allDates[currentFilter.startIdx], endDate = allDates[currentFilter.endIdx];
+        container.style.display = 'block';
+        container.innerHTML = `<div class="global-filter"><div class="filter-label"><span class="info-icon" data-tooltip="Filter insights by date range. Sliders adjust excavation depth.">i</span> Excavation Depth</div>
+            <div class="slider-wrapper"><div class="double-slider"><div class="slider-track-fill" id="sliderFill"></div><input type="range" id="startSlider" min="0" max="${allDates.length-1}" value="0" step="1"><input type="range" id="endSlider" min="0" max="${allDates.length-1}" value="${allDates.length-1}" step="1"></div></div>
+            <div class="date-controls"><div class="date-range-display" id="globalDateRange">${fmt(startDate)} → ${fmt(endDate)}</div><button class="date-picker-btn" id="calendarBtn">📅 select</button></div></div>`;
+        const startS = document.getElementById('startSlider'), endS = document.getElementById('endSlider'), fill = document.getElementById('sliderFill');
+        const update = () => {
+            let s = parseInt(startS.value), e = parseInt(endS.value);
+            if (s > e) { s = e; startS.value = s; }
+            if (e < s) { e = s; endS.value = e; }
+            currentFilter.startIdx = s; currentFilter.endIdx = e;
+            const filteredMsgs = fullMessages.filter(m => m.date >= allDates[s] && m.date <= allDates[e]);
+            currentReport = computeGroupStatsOptimized(filteredMsgs);
+            renderDashboardOptimized(currentReport);
+            document.getElementById('globalDateRange').innerText = `${fmt(allDates[s])} → ${fmt(allDates[e])}`;
+            const left = (s/(allDates.length-1))*100, right = ((allDates.length-1-e)/(allDates.length-1))*100;
+            if (fill) { fill.style.left = `${left}%`; fill.style.right = `${right}%`; }
+        };
+        startS.oninput = update; endS.oninput = update; update();
+        document.getElementById('calendarBtn').onclick = () => document.getElementById('calendarModal').classList.add('show');
     }
     
-    function renderDashboard(r) {
+    function renderDashboardOptimized(r) {
         if (!r) return;
-        
-        const senders = Object.keys(r.senderStats);
-        const p1 = senders[0] || "Person 1";
-        const p2 = senders[1] || "Person 2";
-        const p1Stats = r.senderStats[p1] || { count: 0, pct: 0, sentiment: 0, vocab: 0, energy: 0 };
-        const p2Stats = r.senderStats[p2] || { count: 0, pct: 0, sentiment: 0, vocab: 0, energy: 0 };
-        
-        const nightOwlEntries = Object.entries(r.nightOwls).sort((a, b) => parseFloat(b[1]) - parseFloat(a[1]));
-        const airTimeEntries = Object.entries(r.airTimePct).sort((a, b) => b[1] - a[1]);
-        const closerEntries = Object.entries(r.closers).sort((a, b) => b[1] - a[1]);
-        
-        let firstResponseText = "N/A";
-        let firstResponseValue = "";
-        if (r.fastestFirstResponder && r.fastestFirstResponder[0] && r.fastestFirstResponder[1] > 0) {
-            firstResponseText = r.fastestFirstResponder[0];
-            firstResponseValue = `${r.fastestFirstResponder[1]} min avg`;
-        } else if (r.fastestResponder && r.fastestResponder !== "N/A") {
-            firstResponseText = r.fastestResponder;
-            firstResponseValue = "fastest overall";
-        }
-        
-        let dominantEmotionLabel = "neutral";
-        let dominantEmotionEmoji = "😐";
-        if (r.avgSentiment < 35) {
-            dominantEmotionLabel = "sadness 😔";
-            dominantEmotionEmoji = "😔";
-        } else if (r.avgSentiment < 42) {
-            dominantEmotionLabel = "anxiety 😰";
-            dominantEmotionEmoji = "😰";
-        } else if (r.avgSentiment > 70) {
-            dominantEmotionLabel = "joy 😊";
-            dominantEmotionEmoji = "😊";
-        } else if (r.avgSentiment > 55) {
-            dominantEmotionLabel = "excitement 🤩";
-            dominantEmotionEmoji = "🤩";
-        } else if (r.avgSentiment > 45) {
-            dominantEmotionLabel = "content 😐";
-            dominantEmotionEmoji = "😐";
-        }
-        
         const container = document.getElementById('dashboardContent');
+        const topAir = r.participants.map(p => ({ name: p, pct: r.senderStats[p].pct })).sort((a,b)=>b.pct-a.pct).slice(0,6);
+        const nightTop = r.nightRank.slice(0,4).map(n => ({ ...n, pct: n.pct.toFixed(1) }));
+        const closerTop = r.topClosers.slice(0,4);
+        
         container.innerHTML = `
-            <div class="pillars-container">
-                <div class="pillars-grid">
-                    <div class="pillar-card"><div class="pillar-icon">📈</div><div class="pillar-title">vibe <span class="info-icon" data-tooltip="OVERALL CONVERSATION SENTIMENT">i</span></div><div class="pillar-value">${r.vibeText}</div><div class="pillar-sub">${r.avgSentiment}%</div></div>
-                    <div class="pillar-card"><div class="pillar-icon">⚡</div><div class="pillar-title">flow <span class="info-icon" data-tooltip="AVERAGE TIME BETWEEN MESSAGES">i</span></div><div class="pillar-value">${r.avgResponseTime} min</div><div class="pillar-sub">avg response</div></div>
-                    <div class="pillar-card"><div class="pillar-icon">🔥</div><div class="pillar-title">hype <span class="info-icon" data-tooltip="ENERGY LEVEL - ALL CAPS, EXCLAMATIONS, LAUGHTER">i</span></div><div class="pillar-value">${r.hypeScore}%</div><div class="pillar-sub">${r.energyLevel}</div></div>
-                    <div class="pillar-card"><div class="pillar-icon">💬</div><div class="pillar-title">slang <span class="info-icon" data-tooltip="UNIQUE NON-DICTIONARY WORDS">i</span></div><div class="pillar-value">${r.topKeywords.length}</div><div class="pillar-sub">unique terms</div></div>
-                </div>
-            </div>
-            
-            <div class="players-row" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px;">
-                <div class="player-card-dark" style="min-width:0"><div class="player-name-dark">${escapeHtml(p1)}</div><div class="player-stats-grid-dark">
-                    <div class="player-stat-dark"><div class="player-stat-label-dark">MESSAGES</div><div class="player-stat-value-dark">${p1Stats.count.toLocaleString()} (${p1Stats.pct}%)</div></div>
-                    <div class="player-stat-dark"><div class="player-stat-label-dark">VOCABULARY</div><div class="player-stat-value-dark">${p1Stats.vocab} words</div></div>
-                    <div class="player-stat-dark"><div class="player-stat-label-dark">SENTIMENT</div><div class="player-stat-value-dark">${p1Stats.sentiment}%</div></div>
-                    <div class="player-stat-dark"><div class="player-stat-label-dark">ENERGY</div><div class="player-stat-value-dark">${p1Stats.energy}%</div></div>
-                </div></div>
-                <div class="player-card-dark" style="min-width:0"><div class="player-name-dark">${escapeHtml(p2)}</div><div class="player-stats-grid-dark">
-                    <div class="player-stat-dark"><div class="player-stat-label-dark">MESSAGES</div><div class="player-stat-value-dark">${p2Stats.count.toLocaleString()} (${p2Stats.pct}%)</div></div>
-                    <div class="player-stat-dark"><div class="player-stat-label-dark">VOCABULARY</div><div class="player-stat-value-dark">${p2Stats.vocab} words</div></div>
-                    <div class="player-stat-dark"><div class="player-stat-label-dark">SENTIMENT</div><div class="player-stat-value-dark">${p2Stats.sentiment}%</div></div>
-                    <div class="player-stat-dark"><div class="player-stat-label-dark">ENERGY</div><div class="player-stat-value-dark">${p2Stats.energy}%</div></div>
-                </div></div>
-            </div>
-            
-            <div class="bento-grid">
-                <div class="bento-card glow-bg"><div class="card-header"><div class="card-icon">🌡️</div><div class="card-title">mood weather <span class="info-icon" data-tooltip="SENTIMENT OVER TIME">i</span></div></div><div class="card-value">${r.vibeText}</div><canvas id="timelineChart" style="height:160px; width:100%"></canvas><div class="card-sub">trend: ${r.trendDesc} · ${r.timelineData.length} months</div></div>
-                
-                <div class="bento-card moss"><div class="card-header"><div class="card-icon">⭐</div><div class="card-title">the initiator <span class="info-icon" data-tooltip="BREAKS SILENCE AFTER 6+ HOURS">i</span></div></div><div class="card-value">${r.initiator}</div><div class="card-sub">${r.initiatorCount} resurrections</div><div class="insight-row"><span class="participant-name">⚡ fastest responder</span><span class="participant-value">${r.fastestResponder}</span></div><div class="progress-bar"><div class="progress-fill" style="width: ${Object.values(r.doubleTextRatio)[0] || 0}%;"></div></div><div class="participant-item"><span class="participant-name">double-text</span><span class="participant-value">${Object.values(r.doubleTextRatio)[0] || 0}%</span></div></div>
-                
-                <div class="bento-card cocoa"><div class="card-header"><div class="card-icon">🌙</div><div class="card-title">night owl <span class="info-icon" data-tooltip="MESSAGES AFTER MIDNIGHT - HIGHEST FIRST">i</span></div></div><div class="card-value">${nightOwlEntries[0] ? nightOwlEntries[0][0] : 'nobody'}</div><div class="card-sub">${nightOwlEntries[0] ? nightOwlEntries[0][1] : 0}% after midnight</div>${nightOwlEntries.slice(0, 3).map(([n, v]) => `<div class="progress-bar"><div class="progress-fill" style="width: ${v}%;"></div></div><div class="participant-item"><span>${n}</span><span>${v}%</span></div>`).join('')}</div>
-                
-                <div class="bento-card"><div class="card-header"><div class="card-icon">🎙️</div><div class="card-title">air time <span class="info-icon" data-tooltip="CONVERSATION VOLUME - HIGHEST FIRST">i</span></div></div>${airTimeEntries.map(([n, v]) => `<div class="participant-item"><span>${n}</span><span>${v}%</span></div><div class="progress-bar"><div class="progress-fill" style="width: ${v}%;"></div></div>`).join('')}</div>
-                
-                <div class="bento-card"><div class="card-header"><div class="card-icon">🏆</div><div class="card-title">closer award <span class="info-icon" data-tooltip="LAST MESSAGE OF EACH DAY - HIGHEST FIRST">i</span></div></div>${closerEntries.slice(0, 3).map(([n, c]) => `<div class="participant-item"><span>${n}</span><span>${c} days</span></div>`).join('')}<div class="insight-row"><span>⏰ most active hour</span><span>${r.mostActiveHour}:00</span></div></div>
-                
-                <div class="bento-card tan"><div class="card-header"><div class="card-icon">📜</div><div class="card-title">the verdict <span class="info-icon" data-tooltip="EMOTIONAL SUMMARY">i</span></div></div><div class="verdict-text">${r.verdict}</div><div class="keyword-cloud">${r.topKeywords.slice(0, 8).map(([w, c]) => `<span class="keyword">${w} (${c})</span>`).join('')}</div></div>
-            </div>
-            
-            <div class="pillars-container"><div class="pillars-grid" style="grid-template-columns: repeat(4, 1fr);">
-                <div class="pillar-card"><div class="pillar-icon">💡</div><div class="pillar-title">top topics</div><div class="pillar-value" style="font-size: 1rem;">${r.topTopics.map(t => t[0].charAt(0).toUpperCase() + t[0].slice(1)).join(', ') || 'various'}</div><div class="pillar-sub">main themes</div></div>
-                <div class="pillar-card"><div class="pillar-icon">⚡</div><div class="pillar-title">first response</div><div class="pillar-value" style="font-size: 1.2rem;">${firstResponseText}</div><div class="pillar-sub">${firstResponseValue}</div></div>
-                <div class="pillar-card"><div class="pillar-icon">⚖️</div><div class="pillar-title">balance score</div><div class="pillar-value">${r.balanceScore}%</div><div class="pillar-sub">${r.balanceLabel}</div></div>
-                <div class="pillar-card"><div class="pillar-icon">🎭</div><div class="pillar-title">dominant emotion</div><div class="pillar-value" style="font-size: 1rem;">${dominantEmotionLabel}</div><div class="pillar-sub">${dominantEmotionEmoji} overall</div></div>
+            <div class="pillars-container"><div class="pillars-grid">
+                <div class="pillar-card"><div class="pillar-icon">🌡️</div><div class="pillar-title">vibe <span class="info-icon" data-tooltip="Overall sentiment based on positive/negative words, exclamations, and emojis. 0-100 scale.">i</span></div><div class="pillar-value">${r.vibeText}</div><div class="pillar-sub">${r.avgSentiment}%</div></div>
+                <div class="pillar-card"><div class="pillar-icon">⚡</div><div class="pillar-title">flow <span class="info-icon" data-tooltip="Average time between messages from different senders (minutes). Lower = faster paced.">i</span></div><div class="pillar-value">${r.avgResponseTime} min</div><div class="pillar-sub">avg response</div></div>
+                <div class="pillar-card"><div class="pillar-icon">🔥</div><div class="pillar-title">hype <span class="info-icon" data-tooltip="Energy based on ALL CAPS, exclamation marks, laughter (lol/haha), excited emojis.">i</span></div><div class="pillar-value">${r.hypeScore}%</div><div class="pillar-sub">energy</div></div>
+                <div class="pillar-card"><div class="pillar-icon">👥</div><div class="pillar-title">members <span class="info-icon" data-tooltip="Unique participants who sent at least one message.">i</span></div><div class="pillar-value">${r.participants.length}</div><div class="pillar-sub">active</div></div>
             </div></div>
             
-            <div class="pillars-container"><div class="emoji-grid">${Object.entries(r.signatureEmojis).map(([name, emoji]) => `<div class="emoji-item"><div class="emoji-char">${emoji}</div><div class="emoji-name">${name}</div><div class="emoji-count">${r.perPersonEmojiCounts[name] || 0}</div></div>`).join('')}</div><div class="stats-footer"><div class="stat-footer-item"><div class="stat-footer-label">📬 total</div><div class="stat-footer-value">${r.total.toLocaleString()}</div></div><div class="stat-footer-item"><div class="stat-footer-label">👥 people</div><div class="stat-footer-value">${Object.keys(r.senderStats).length}</div></div><div class="stat-footer-item"><div class="stat-footer-label">🏷️ top</div><div class="stat-footer-value">"${r.topKeywords[0]?.[0] || '—'}"</div></div></div></div>
+            <div class="players-scroll">${r.participants.slice(0,12).map(p => {
+                const fav = r.favoriteEmojis[p] || { emoji: '💬', count: 0 };
+                return `<div class="player-card-small"><div class="player-name-dark">${escapeHtml(p)} <span class="fav-emoji-badge">${fav.emoji} ${fav.count}</span></div>
+                <div class="player-stats-grid-dark">
+                    <div><span class="info-icon" data-tooltip="Total messages sent">i</span> 📨 ${r.senderStats[p].count}</div>
+                    <div><span class="info-icon" data-tooltip="Share of total conversation">i</span> 📊 ${r.senderStats[p].pct}%</div>
+                    <div><span class="info-icon" data-tooltip="Average sentiment (0-100)">i</span> ❤️ ${r.senderStats[p].sentiment}%</div>
+                    <div><span class="info-icon" data-tooltip="Average energy level">i</span> ⚡ ${r.senderStats[p].energy}%</div>
+                    <div><span class="info-icon" data-tooltip="Messages sent after midnight (0-5am)">i</span> 🌙 ${r.senderStats[p].nightPct.toFixed(1)}%</div>
+                    <div><span class="info-icon" data-tooltip="Two+ messages in a row (double-texting)">i</span> 🔁 ${r.senderStats[p].doublePct.toFixed(1)}%</div>
+                </div></div>`;
+            }).join('')}</div>
+            
+            <div class="bento-grid">
+                <div class="bento-card glow-bg"><div class="card-header"><div class="card-icon">📈</div><div class="card-title">mood weather <span class="info-icon" data-tooltip="Sentiment trend over months. Each point shows average monthly sentiment (0-100).">i</span></div></div><canvas id="timelineChart" style="height:160px"></canvas><div class="card-sub">trend: ${r.trendDesc}</div></div>
+                
+                <div class="bento-card moss"><div class="card-header"><div class="card-icon">👑</div><div class="card-title">initiator <span class="info-icon" data-tooltip="Person who most often restarts conversation after 6+ hours of silence.">i</span></div></div><div class="card-value">${escapeHtml(r.topInitiator)}</div><div class="card-sub">${r.initCount} resurrections</div>
+                <div class="extra-metrics"><div class="extra-metric"><div class="extra-metric-label">🚀 avg response</div><div class="extra-metric-value">${r.avgResponseTime} min</div></div><div class="extra-metric"><div class="extra-metric-label">📬 total messages</div><div class="extra-metric-value">${r.totalMessages.toLocaleString()}</div></div></div></div>
+                
+                <div class="bento-card cocoa"><div class="card-header"><div class="card-icon">🌙</div><div class="card-title">night owls <span class="info-icon" data-tooltip="Percentage of messages sent after midnight. Higher = more nocturnal.">i</span></div></div>${nightTop.map(n=>`<div class="participant-item"><span>${escapeHtml(n.name)}</span><span>${n.pct}% 🌙</span></div><div class="progress-bar"><div class="progress-fill" style="width: ${Math.min(100, parseFloat(n.pct))}%;"></div></div>`).join('')}</div>
+                
+                <div class="bento-card"><div class="card-header"><div class="card-icon">🎙️</div><div class="card-title">air time <span class="info-icon" data-tooltip="Percentage of total messages sent by each person.">i</span></div></div>${topAir.map(a=>`<div class="progress-bar"><div class="progress-fill" style="width:${a.pct}%"></div></div><div class="participant-item"><span>${escapeHtml(a.name)}</span><span>${a.pct}%</span></div>`).join('')}</div>
+                
+                <div class="bento-card"><div class="card-header"><div class="card-icon">🏆</div><div class="card-title">closers <span class="info-icon" data-tooltip="Person who sends the last message of each day (most frequent closer).">i</span></div></div>${closerTop.map(c=>`<div class="participant-item"><span>${escapeHtml(c[0])}</span><span>${c[1]} days</span></div>`).join('')}<div class="insight-row"><span>⏰ peak hour <span class="info-icon" data-tooltip="Hour with most messages sent (24h format).">i</span></span><span>${r.mostActiveHour}:00</span></div></div>
+                
+                <div class="bento-card tan"><div class="card-header"><div class="card-icon">📜</div><div class="card-title">verdict <span class="info-icon" data-tooltip="AI-style emotional summary based on sentiment analysis.">i</span></div></div><div class="verdict-text">${r.verdict}</div><div class="keyword-cloud">${r.topKeywords.slice(0,8).map(([w,c])=>`<span class="keyword">${w} (${c})</span>`).join('')}</div></div>
+            </div>
+            
+            <div class="pillars-container"><div class="pillars-grid" style="grid-template-columns:repeat(4,1fr)"><div class="pillar-card"><div class="pillar-icon">💡</div><div class="pillar-title">topics <span class="info-icon" data-tooltip="Main themes detected from message content (work, personal, humor, venting, planning).">i</span></div><div class="pillar-value" style="font-size:1rem">${r.topTopics.map(t=>t[0]).join(', ')||'various'}</div></div><div class="pillar-card"><div class="pillar-icon">🎭</div><div class="pillar-title">emotion <span class="info-icon" data-tooltip="Dominant emotional tone based on sentiment score.">i</span></div><div class="pillar-value" style="font-size:1rem">${r.avgSentiment>70?'joy 😊':(r.avgSentiment>55?'excitement 🤩':'neutral 😐')}</div></div><div class="pillar-card"><div class="pillar-icon">🔄</div><div class="pillar-title">turnover <span class="info-icon" data-tooltip="Average time between different speakers (minutes).">i</span></div><div class="pillar-value">${r.avgResponseTime}m</div></div><div class="pillar-card"><div class="pillar-icon">🏷️</div><div class="pillar-title">top word <span class="info-icon" data-tooltip="Most frequently used unique word (excluding common stopwords and URLs).">i</span></div><div class="pillar-value" style="font-size:1rem">"${r.topKeywords[0]?.[0]||'—'}"</div></div></div></div>
+            
+            <div class="stats-footer"><div class="stat-footer-item"><div class="stat-footer-label">📬 messages</div><div class="stat-footer-value">${r.total.toLocaleString()}</div></div><div class="stat-footer-item"><div class="stat-footer-label">👥 active</div><div class="stat-footer-value">${r.participants.length}</div></div><div class="stat-footer-item"><div class="stat-footer-label">🔥 hype</div><div class="stat-footer-value">${r.hypeScore}%</div></div></div>
         `;
         
-        // CREATE CHART AFTER DOM IS READY
         setTimeout(() => {
             const canvas = document.getElementById('timelineChart');
-            
-            if (canvas && r.timelineData && r.timelineData.length > 0) {
-                // Destroy any existing chart on this canvas to avoid "Canvas already in use" errors
-                const existingChart = Chart.getChart(canvas);
-                if (existingChart) existingChart.destroy();
-                
-                const ctx = canvas.getContext('2d');
-                const labels = r.timelineData.map(d => formatMonthLabel(d.month));
-                const data = r.timelineData.map(d => d.avg);
-                
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'sentiment',
-                            data: data,
-                            borderColor: '#bcfe2f',
-                            backgroundColor: 'rgba(188,254,47,0.1)',
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.3,
-                            pointRadius: 4,
-                            pointBackgroundColor: '#bcfe2f',
-                            pointBorderColor: '#1a1a1a',
-                            pointBorderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return `Sentiment: ${Math.round(context.raw)}%`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                min: 0,
-                                max: 100,
-                                grid: { color: '#2a2a2a' },
-                                ticks: { color: '#8a8a8a', callback: function(val) { return val + '%'; } }
-                            },
-                            x: {
-                                ticks: { color: '#8a8a8a', font: { size: 9 } }
-                            }
-                        }
-                    }
-                });
-            } else {
-                // No timeline data available — chart section stays empty
+            if (canvas && r.timelineData.length) {
+                const old = Chart.getChart(canvas); if (old) old.destroy();
+                new Chart(canvas, { type: 'line', data: { labels: r.timelineData.map(d=>{let [y,m]=d.month.split('-'); return `${m}/${y.slice(-2)}`;}), datasets: [{ label: 'sentiment', data: r.timelineData.map(d=>d.avg), borderColor: '#bcfe2f', backgroundColor: 'rgba(188,254,47,0.1)', fill: true, tension: 0.3, pointRadius: 3 }] }, options: { responsive: true, maintainAspectRatio: true, scales: { y: { min: 0, max: 100, grid: { color: '#2a2a2a' }, ticks: { callback: v => v+'%' } } }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `Sentiment: ${Math.round(ctx.raw)}%` } } } } });
             }
-        }, 200);
+        }, 50);
     }
+    
+    function escapeHtml(str) { const div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
+    
+    const modal = document.getElementById('calendarModal'), cancelBtn = document.getElementById('calendarCancel'), applyBtn = document.getElementById('calendarApply');
+    cancelBtn.onclick = () => modal.classList.remove('show');
+    applyBtn.onclick = () => {
+        const startStr = document.getElementById('calendarStart').value, endStr = document.getElementById('calendarEnd').value;
+        if (!startStr || !endStr) { document.getElementById('calendarError').style.display='block'; document.getElementById('calendarError').innerText='Select both dates'; return; }
+        let si = 0, ei = allDates.length-1;
+        for (let i=0;i<allDates.length;i++) if (allDates[i] >= startStr) { si = i; break; }
+        for (let i=allDates.length-1;i>=0;i--) if (allDates[i] <= endStr) { ei = i; break; }
+        if (si > ei) { document.getElementById('calendarError').style.display='block'; document.getElementById('calendarError').innerText='No messages in range'; return; }
+        currentFilter.startIdx = si; currentFilter.endIdx = ei;
+        modal.classList.remove('show');
+        const filtered = fullMessages.filter(m => m.date >= allDates[si] && m.date <= allDates[ei]);
+        currentReport = computeGroupStatsOptimized(filtered);
+        renderDashboardOptimized(currentReport);
+        const startS = document.getElementById('startSlider'), endS = document.getElementById('endSlider');
+        if (startS && endS) { startS.value = si; endS.value = ei; startS.dispatchEvent(new Event('input')); }
+    };
 </script>
 </body>
 </html>
