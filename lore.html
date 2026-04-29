@@ -62,7 +62,7 @@
         .verdict-text { font-size: 0.9rem; line-height: 1.5; color: #e8e8e8; margin-top: 12px; }
         canvas { max-height: 160px; width: 100% !important; }
         
-        /* Fixed tooltip system - positioned relative to cursor */
+        /* Fixed tooltip system */
         .info-icon {
             display: inline-flex;
             align-items: center;
@@ -85,7 +85,6 @@
             color: #050505;
         }
         
-        /* Tooltip that follows mouse position */
         .info-tooltip {
             position: fixed;
             background: #1a1a1a;
@@ -137,6 +136,35 @@
         .extra-metric-label { font-size: 0.6rem; color: #8a8a8a; text-transform: uppercase; letter-spacing: 0.5px; }
         .extra-metric-value { font-size: 1rem; font-weight: 700; color: #bcfe2f; margin-top: 4px; }
         .fav-emoji-badge { background: rgba(188,254,47,0.15); border-radius: 20px; padding: 4px 10px; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; }
+        
+        /* Responsive 4-column row - wraps on mobile */
+        .insight-pillars-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            .insight-pillars-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+        .insight-pillar {
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 16px 12px;
+            transition: all 0.2s ease;
+        }
+        .insight-pillar:hover {
+            background: rgba(188,254,47,0.05);
+            transform: translateY(-2px);
+        }
+        .insight-pillar-icon { font-size: 1.8rem; margin-bottom: 8px; }
+        .insight-pillar-title { font-size: 0.7rem; font-weight: 600; color: #bcfe2f; letter-spacing: 0.5px; margin-bottom: 8px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 4px; }
+        .insight-pillar-value { font-size: 1.2rem; font-weight: 800; color: #fff; }
+        .insight-pillar-sub { font-size: 0.6rem; color: #8a8a8a; margin-top: 4px; }
     </style>
 </head>
 <body>
@@ -180,7 +208,6 @@
 </div>
 
 <script>
-    // ========== GLOBAL TOOLTIP HANDLER ==========
     let activeTooltip = null;
     
     function showTooltip(element, text, event) {
@@ -192,60 +219,35 @@
         
         let x = event.clientX + 15;
         let y = event.clientY + 15;
-        
         const rect = tooltip.getBoundingClientRect();
-        if (x + rect.width > window.innerWidth - 10) {
-            x = event.clientX - rect.width - 10;
-        }
-        if (y + rect.height > window.innerHeight - 10) {
-            y = event.clientY - rect.height - 10;
-        }
+        if (x + rect.width > window.innerWidth - 10) x = event.clientX - rect.width - 10;
+        if (y + rect.height > window.innerHeight - 10) y = event.clientY - rect.height - 10;
         if (x < 10) x = 10;
         if (y < 10) y = 10;
-        
         tooltip.style.left = x + 'px';
         tooltip.style.top = y + 'px';
         activeTooltip = tooltip;
     }
     
-    function hideTooltip() {
-        if (activeTooltip) {
-            activeTooltip.remove();
-            activeTooltip = null;
-        }
-    }
+    function hideTooltip() { if (activeTooltip) { activeTooltip.remove(); activeTooltip = null; } }
     
     document.addEventListener('mouseover', function(e) {
         const icon = e.target.closest('.info-icon');
-        if (icon && icon.dataset.tooltip) {
-            showTooltip(icon, icon.dataset.tooltip, e);
-        }
+        if (icon && icon.dataset.tooltip) showTooltip(icon, icon.dataset.tooltip, e);
     });
-    document.addEventListener('mouseout', function(e) {
-        const icon = e.target.closest('.info-icon');
-        if (icon) {
-            hideTooltip();
-        }
-    });
+    document.addEventListener('mouseout', function(e) { if (e.target.closest('.info-icon')) hideTooltip(); });
     document.addEventListener('mousemove', function(e) {
         if (activeTooltip && e.target.closest('.info-icon')) {
-            let x = e.clientX + 15;
-            let y = e.clientY + 15;
+            let x = e.clientX + 15, y = e.clientY + 15;
             const rect = activeTooltip.getBoundingClientRect();
-            if (x + rect.width > window.innerWidth - 10) {
-                x = e.clientX - rect.width - 10;
-            }
-            if (y + rect.height > window.innerHeight - 10) {
-                y = e.clientY - rect.height - 10;
-            }
-            if (x < 10) x = 10;
-            if (y < 10) y = 10;
+            if (x + rect.width > window.innerWidth - 10) x = e.clientX - rect.width - 10;
+            if (y + rect.height > window.innerHeight - 10) y = e.clientY - rect.height - 10;
+            if (x < 10) x = 10; if (y < 10) y = 10;
             activeTooltip.style.left = x + 'px';
             activeTooltip.style.top = y + 'px';
         }
     });
     
-    // ========== ULTRA-FAST PARSER ==========
     function cleanText(t) { return t.replace(/[\u200e\u200f\u202a-\u202e]/g, '').trim(); }
     
     function parseWhatsAppSuperFast(text) {
@@ -254,12 +256,10 @@
         const bracketPattern = /\[(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2}:\d{2})\s?([AP]M)?\]\s([^:]+):\s(.*)/i;
         const dashPattern = /^(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2})(?::\d{2})?\s?([AP]M)?\s[-–]\s([^:]+):\s(.*)/i;
         let current = null;
-        
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
             if (!line.trim()) continue;
             if (line.includes("end-to-end encrypted") || line.includes("Messages and calls") || line.includes("deleted this message")) continue;
-            
             let match = bracketPattern.exec(line) || dashPattern.exec(line);
             if (match) {
                 if (current) messages.push(current);
@@ -275,58 +275,28 @@
                     if (ampm && ampm.toUpperCase() === 'AM' && hour === 12) hour = 0;
                     timestamp = new Date(Date.UTC(2000 + parseInt(y,10), parseInt(m,10)-1, parseInt(d,10), hour, parseInt(min,10), sec ? parseInt(sec,10) : 0));
                 } catch(e) { }
-                current = { 
-                    sender, 
-                    message: message.substring(0, 500),
-                    timestamp, 
-                    date: timestamp.toISOString().split('T')[0],
-                    hour: timestamp.getUTCHours()
-                };
-            } else if (current) {
-                if (current.message.length < 800) current.message += ' ' + cleanText(line);
-            }
+                current = { sender, message: message.substring(0, 500), timestamp, date: timestamp.toISOString().split('T')[0], hour: timestamp.getUTCHours() };
+            } else if (current && current.message.length < 800) current.message += ' ' + cleanText(line);
         }
         if (current) messages.push(current);
         return messages;
     }
     
-    // ========== UTILITY: FILTER URLS AND PROTOCOLS FROM WORDS ==========
     function isValidWord(word) {
         if (!word || word.length < 3) return false;
-        // Exclude URLs, protocols, domains
         if (word.startsWith('http') || word.startsWith('www') || word.includes('.com') || word.includes('.org') || word.includes('.net')) return false;
         if (word.includes('://') || word.includes('https') || word.includes('http')) return false;
-        // Exclude common media references
         if (word === 'image' || word === 'video' || word === 'gif' || word === 'sticker' || word === 'media' || word === 'omitted') return false;
-        // Exclude if it looks like a file path or has too many slashes
         if (word.includes('/') && word.length > 20) return false;
         return true;
     }
     
-    // ========== OPTIMIZED ANALYZER ==========
     const posWords = /(good|great|awesome|amazing|fantastic|wonderful|perfect|beautiful|love|thanks|happy|glad|joy|proud|congrats|fun|cool|yes|vibes|epic|legendary)/i;
     const negWords = /(bad|terrible|horrible|awful|hate|angry|annoying|frustrated|sad|disappointed|stressed|cringe|trash|ugh)/i;
     const energyWords = /(lol|lmao|haha|omg|wow|lets go)/i;
     
-    function fastSentiment(text) {
-        let score = 58;
-        const lower = text.toLowerCase();
-        if (posWords.test(lower)) score += 20;
-        if (negWords.test(lower)) score -= 8;
-        if (lower.includes('love you')) score += 18;
-        const exc = (text.match(/!/g) || []).length;
-        score += Math.min(exc * 3, 10);
-        if (/[😊😍🔥👍🥳❤️✨]/.test(text)) score += 12;
-        return Math.min(98, Math.max(20, score));
-    }
-    
-    function fastEnergy(text) {
-        let e = 50;
-        if (text === text.toUpperCase() && text.length > 4) e += 18;
-        e += Math.min((text.match(/!/g) || []).length * 6, 20);
-        if (energyWords.test(text.toLowerCase())) e += 12;
-        return Math.min(98, Math.max(32, e));
-    }
+    function fastSentiment(text) { let s=58; const l=text.toLowerCase(); if(posWords.test(l)) s+=20; if(negWords.test(l)) s-=8; if(l.includes('love you')) s+=18; s+=Math.min((text.match(/!/g)||[]).length*3,10); if(/[😊😍🔥👍🥳❤️✨]/.test(text)) s+=12; return Math.min(98,Math.max(20,s)); }
+    function fastEnergy(text) { let e=50; if(text===text.toUpperCase() && text.length>4) e+=18; e+=Math.min((text.match(/!/g)||[]).length*6,20); if(energyWords.test(text.toLowerCase())) e+=12; return Math.min(98,Math.max(32,e)); }
     
     function computeGroupStatsOptimized(messages) {
         if (!messages.length) return null;
@@ -338,26 +308,20 @@
         const dailyCloser = new Map();
         const topicCounts = new Map();
         const stopSet = new Set(['the','and','for','that','this','with','from','have','are','was','were','but','not','you','like','just','what','when','where','get','can','will']);
-        
-        let prevSender = null;
-        let totalSentiment = 0, totalEnergy = 0;
+        let prevSender = null, totalSentiment = 0, totalEnergy = 0;
         
         for (let i = 0; i < messages.length; i++) {
             const m = messages[i];
             const sentiment = fastSentiment(m.message);
             const energy = fastEnergy(m.message);
-            totalSentiment += sentiment;
-            totalEnergy += energy;
+            totalSentiment += sentiment; totalEnergy += energy;
             m.sentiment = sentiment;
-            
             hourCounts[m.hour]++;
-            
             const monthKey = `${m.timestamp.getUTCFullYear()}-${String(m.timestamp.getUTCMonth()+1).padStart(2,'0')}`;
             let tl = timelineMap.get(monthKey);
             if (!tl) timelineMap.set(monthKey, { sum: 0, count: 0 });
             tl = timelineMap.get(monthKey);
-            tl.sum += sentiment;
-            tl.count++;
+            tl.sum += sentiment; tl.count++;
             
             const lowerMsg = m.message.toLowerCase();
             if (/(work|office|meeting|deadline|project|job)/i.test(lowerMsg)) topicCounts.set('work', (topicCounts.get('work')||0)+1);
@@ -366,158 +330,88 @@
             else if (/(ugh|annoying|stressed|tired|hate|frustrated)/i.test(lowerMsg)) topicCounts.set('venting', (topicCounts.get('venting')||0)+1);
             else if (/(meet|schedule|plan|tomorrow|later|today)/i.test(lowerMsg)) topicCounts.set('planning', (topicCounts.get('planning')||0)+1);
             
-            // Extract words - filter out URLs and invalid words
             const words = m.message.toLowerCase().match(/\b[a-z]{3,}\b/g);
-            if (words) {
-                for (let w of words) {
-                    if (!stopSet.has(w) && w.length > 3 && isValidWord(w)) {
-                        keywords.set(w, (keywords.get(w) || 0) + 1);
-                    }
-                }
-            }
+            if (words) for (let w of words) if (!stopSet.has(w) && w.length > 3 && isValidWord(w)) keywords.set(w, (keywords.get(w)||0)+1);
             
             let sd = senderMap.get(m.sender);
-            if (!sd) {
-                sd = { count: 0, sentimentSum: 0, energySum: 0, nightMsgs: 0, doubleTexts: 0, vocab: new Set(), emojiFreq: new Map() };
-                senderMap.set(m.sender, sd);
-            }
-            sd.count++;
-            sd.sentimentSum += sentiment;
-            sd.energySum += energy;
+            if (!sd) sd = { count:0, sentimentSum:0, energySum:0, nightMsgs:0, doubleTexts:0, vocab:new Set(), emojiFreq:new Map() };
+            sd.count++; sd.sentimentSum += sentiment; sd.energySum += energy;
             if (m.hour >= 0 && m.hour < 5) sd.nightMsgs++;
             if (prevSender === m.sender) sd.doubleTexts++;
-            if (words) {
-                for (let w of words) {
-                    if (!stopSet.has(w) && w.length > 3 && isValidWord(w)) sd.vocab.add(w);
-                }
-            }
+            if (words) for (let w of words) if (!stopSet.has(w) && w.length > 3 && isValidWord(w)) sd.vocab.add(w);
             
             const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}]/gu;
             const emojis = m.message.match(emojiRegex);
-            if (emojis) {
-                for (let em of emojis) {
-                    sd.emojiFreq.set(em, (sd.emojiFreq.get(em) || 0) + 1);
-                }
-            }
+            if (emojis) for (let em of emojis) sd.emojiFreq.set(em, (sd.emojiFreq.get(em)||0)+1);
             
             const existing = dailyCloser.get(m.date);
-            if (!existing || m.timestamp > existing.timestamp) {
-                dailyCloser.set(m.date, { sender: m.sender, timestamp: m.timestamp });
-            }
-            
+            if (!existing || m.timestamp > existing.timestamp) dailyCloser.set(m.date, { sender: m.sender, timestamp: m.timestamp });
             prevSender = m.sender;
+            senderMap.set(m.sender, sd);
         }
         
-        let responseSum = 0, responseCount = 0;
-        let limit = Math.min(messages.length, 3000);
-        for (let i = 1; i < limit; i++) {
-            if (messages[i].sender !== messages[i-1].sender) {
-                const delta = (messages[i].timestamp - messages[i-1].timestamp) / 60000;
-                if (delta > 0 && delta < 720) {
-                    responseSum += delta;
-                    responseCount++;
-                }
-            }
+        let responseSum = 0, responseCount = 0, limit = Math.min(messages.length, 3000);
+        for (let i = 1; i < limit; i++) if (messages[i].sender !== messages[i-1].sender) {
+            const delta = (messages[i].timestamp - messages[i-1].timestamp) / 60000;
+            if (delta > 0 && delta < 720) { responseSum += delta; responseCount++; }
         }
         const avgResponseTime = responseCount > 0 ? Math.round(responseSum / responseCount) : 0;
         
-        let initMap = new Map();
-        let lastTime = null;
+        let initMap = new Map(), lastTime = null;
         for (let i = 0; i < messages.length; i++) {
-            if (lastTime && (messages[i].timestamp - lastTime) > 21600000) {
-                initMap.set(messages[i].sender, (initMap.get(messages[i].sender) || 0) + 1);
-            }
+            if (lastTime && (messages[i].timestamp - lastTime) > 21600000) initMap.set(messages[i].sender, (initMap.get(messages[i].sender)||0)+1);
             lastTime = messages[i].timestamp;
         }
-        let topInitiator = "mixed";
-        let initCount = 0;
-        if (initMap.size) {
-            const sorted = Array.from(initMap.entries()).sort((a,b) => b[1] - a[1]);
-            topInitiator = sorted[0][0];
-            initCount = sorted[0][1];
-        }
+        let topInitiator = "mixed", initCount = 0;
+        if (initMap.size) { const sorted = Array.from(initMap.entries()).sort((a,b) => b[1] - a[1]); topInitiator = sorted[0][0]; initCount = sorted[0][1]; }
         
         const participants = Array.from(senderMap.keys());
-        const senderStats = {};
-        const favoriteEmojis = {};
-        
+        const senderStats = {}, favoriteEmojis = {};
         for (let [name, data] of senderMap.entries()) {
             senderStats[name] = {
-                count: data.count,
-                pct: Math.round((data.count/total)*100),
-                sentiment: Math.round(data.sentimentSum/data.count),
-                energy: Math.round(data.energySum/data.count),
-                vocab: data.vocab.size,
-                nightPct: (data.nightMsgs/data.count) * 100,
-                doublePct: (data.doubleTexts/data.count) * 100
+                count: data.count, pct: Math.round((data.count/total)*100),
+                sentiment: Math.round(data.sentimentSum/data.count), energy: Math.round(data.energySum/data.count),
+                vocab: data.vocab.size, nightPct: (data.nightMsgs/data.count)*100, doublePct: (data.doubleTexts/data.count)*100
             };
-            if (data.emojiFreq.size > 0) {
-                const sortedEmojis = Array.from(data.emojiFreq.entries()).sort((a,b) => b[1] - a[1]);
+            if (data.emojiFreq.size) {
+                const sortedEmojis = Array.from(data.emojiFreq.entries()).sort((a,b)=>b[1]-a[1]);
                 favoriteEmojis[name] = { emoji: sortedEmojis[0][0], count: sortedEmojis[0][1] };
-            } else {
-                favoriteEmojis[name] = { emoji: '💬', count: 0 };
-            }
+            } else favoriteEmojis[name] = { emoji: '💬', count: 0 };
         }
         
-        const nightRank = participants.map(p => ({ name: p, pct: senderStats[p].nightPct })).sort((a,b) => b.pct - a.pct).slice(0,5);
+        const nightRank = participants.map(p => ({ name: p, pct: senderStats[p].nightPct })).sort((a,b)=>b.pct-a.pct).slice(0,5);
         const closerCounts = new Map();
         for (let closer of dailyCloser.values()) closerCounts.set(closer.sender, (closerCounts.get(closer.sender)||0)+1);
         const topClosers = Array.from(closerCounts.entries()).sort((a,b)=>b[1]-a[1]).slice(0,5);
-        
         const topKeywords = Array.from(keywords.entries()).sort((a,b)=>b[1]-a[1]).slice(0,12);
-        
         const timelineData = Array.from(timelineMap.entries()).sort().map(([k, v]) => ({ month: k, avg: v.sum / v.count }));
         const half = Math.floor(timelineData.length/2);
         const firstHalf = timelineData.slice(0,half).reduce((a,b)=>a+b.avg,0)/(half||1);
         const secondHalf = timelineData.slice(half).reduce((a,b)=>a+b.avg,0)/(timelineData.length-half||1);
         const trend = secondHalf - firstHalf;
         const trendDesc = trend > 6 ? "improving 📈" : (trend < -6 ? "declining 📉" : "stable");
-        
         const avgSentiment = totalSentiment/total;
         const avgEnergyTotal = totalEnergy/total;
         let vibeText = avgSentiment>72 ? "radiant ✨" : (avgSentiment>62 ? "positive 🌞" : (avgSentiment>54 ? "mildly positive" : (avgSentiment<40 ? "heavy 🌧️" : "neutral")));
+        let mostActiveHour = 0; for (let h=1;h<24;h++) if(hourCounts[h] > hourCounts[mostActiveHour]) mostActiveHour = h;
+        let verdict = avgSentiment>75 ? "This space radiates warmth — members feel genuinely seen and valued." : (avgSentiment>62 ? "Positive, supportive atmosphere with real connection. Keep nurturing it." : (avgSentiment>50 ? "Authentic mix of ups and downs — real relationships have texture." : "Some emotional weight, but small gestures of care can shift the weather."));
         
-        let mostActiveHour = 0;
-        for (let h=1;h<24;h++) if(hourCounts[h] > hourCounts[mostActiveHour]) mostActiveHour = h;
-        
-        let verdict = avgSentiment>75 ? "This space radiates warmth — members feel genuinely seen and valued. Rare emotional chemistry." :
-                     (avgSentiment>62 ? "Positive, supportive atmosphere with real connection. Keep nurturing it." :
-                     (avgSentiment>50 ? "Authentic mix of ups and downs — real relationships have texture." :
-                     "Some emotional weight, but small gestures of care can shift the weather."));
-        
-        return {
-            total, avgSentiment: Math.round(avgSentiment), hypeScore: avgEnergyTotal.toFixed(1), vibeText, trendDesc,
-            avgResponseTime, topInitiator, initCount, nightRank, topClosers, topKeywords, timelineData,
-            participants: participants.slice(0, 25), senderStats, mostActiveHour, favoriteEmojis,
-            verdict, topTopics: Array.from(topicCounts.entries()).sort((a,b)=>b[1]-a[1]).slice(0,3),
-            totalMessages: total
-        };
+        return { total, avgSentiment: Math.round(avgSentiment), hypeScore: avgEnergyTotal.toFixed(1), vibeText, trendDesc, avgResponseTime, topInitiator, initCount, nightRank, topClosers, topKeywords, timelineData, participants: participants.slice(0,25), senderStats, mostActiveHour, favoriteEmojis, verdict, topTopics: Array.from(topicCounts.entries()).sort((a,b)=>b[1]-a[1]).slice(0,3), totalMessages: total };
     }
     
-    // ========== APP STATE ==========
     let fullMessages = null, allDates = [], currentFilter = { startIdx: 0, endIdx: null }, currentReport = null;
-    const landingPage = document.getElementById('landingPage');
-    const dashboardPage = document.getElementById('dashboardPage');
-    const startBtn = document.getElementById('startBtn');
-    
+    const landingPage = document.getElementById('landingPage'), dashboardPage = document.getElementById('dashboardPage'), startBtn = document.getElementById('startBtn');
     startBtn.onclick = () => {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.txt';
+        const input = document.createElement('input'); input.type = 'file'; input.accept = '.txt';
         input.onchange = async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            landingPage.classList.add('hide');
-            dashboardPage.classList.add('show');
+            const file = e.target.files[0]; if (!file) return;
+            landingPage.classList.add('hide'); dashboardPage.classList.add('show');
             document.getElementById('statusContainer').innerHTML = `<div class="status"><span class="spinner"></span> excavating artifacts...</div>`;
             setTimeout(async () => {
                 const text = await file.text();
                 setTimeout(() => {
                     fullMessages = parseWhatsAppSuperFast(text);
-                    if (!fullMessages.length) {
-                        document.getElementById('statusContainer').innerHTML = `<div class="status" style="border-color:#f5a623;">❌ Could not parse messages. Check WhatsApp export format.</div>`;
-                        return;
-                    }
+                    if (!fullMessages.length) { document.getElementById('statusContainer').innerHTML = `<div class="status" style="border-color:#f5a623;">❌ Could not parse messages. Check WhatsApp export format.</div>`; return; }
                     allDates = [...new Set(fullMessages.map(m => m.date))].sort();
                     currentFilter = { startIdx: 0, endIdx: allDates.length-1 };
                     currentReport = computeGroupStatsOptimized(fullMessages);
@@ -543,8 +437,7 @@
         const startS = document.getElementById('startSlider'), endS = document.getElementById('endSlider'), fill = document.getElementById('sliderFill');
         const update = () => {
             let s = parseInt(startS.value), e = parseInt(endS.value);
-            if (s > e) { s = e; startS.value = s; }
-            if (e < s) { e = s; endS.value = e; }
+            if (s > e) { s = e; startS.value = s; } if (e < s) { e = s; endS.value = e; }
             currentFilter.startIdx = s; currentFilter.endIdx = e;
             const filteredMsgs = fullMessages.filter(m => m.date >= allDates[s] && m.date <= allDates[e]);
             currentReport = computeGroupStatsOptimized(filteredMsgs);
@@ -567,40 +460,29 @@
         container.innerHTML = `
             <div class="pillars-container"><div class="pillars-grid">
                 <div class="pillar-card"><div class="pillar-icon">🌡️</div><div class="pillar-title">vibe <span class="info-icon" data-tooltip="Overall sentiment based on positive/negative words, exclamations, and emojis. 0-100 scale.">i</span></div><div class="pillar-value">${r.vibeText}</div><div class="pillar-sub">${r.avgSentiment}%</div></div>
-                <div class="pillar-card"><div class="pillar-icon">⚡</div><div class="pillar-title">flow <span class="info-icon" data-tooltip="Average time between messages from different senders (minutes). Lower = faster paced.">i</span></div><div class="pillar-value">${r.avgResponseTime} min</div><div class="pillar-sub">avg response</div></div>
-                <div class="pillar-card"><div class="pillar-icon">🔥</div><div class="pillar-title">hype <span class="info-icon" data-tooltip="Energy based on ALL CAPS, exclamation marks, laughter (lol/haha), excited emojis.">i</span></div><div class="pillar-value">${r.hypeScore}%</div><div class="pillar-sub">energy</div></div>
+                <div class="pillar-card"><div class="pillar-icon">⚡</div><div class="pillar-title">flow <span class="info-icon" data-tooltip="Average time between messages from different senders (minutes).">i</span></div><div class="pillar-value">${r.avgResponseTime} min</div><div class="pillar-sub">avg response</div></div>
+                <div class="pillar-card"><div class="pillar-icon">🔥</div><div class="pillar-title">hype <span class="info-icon" data-tooltip="Energy based on ALL CAPS, exclamation marks, laughter, excited emojis.">i</span></div><div class="pillar-value">${r.hypeScore}%</div><div class="pillar-sub">energy</div></div>
                 <div class="pillar-card"><div class="pillar-icon">👥</div><div class="pillar-title">members <span class="info-icon" data-tooltip="Unique participants who sent at least one message.">i</span></div><div class="pillar-value">${r.participants.length}</div><div class="pillar-sub">active</div></div>
             </div></div>
             
-            <div class="players-scroll">${r.participants.slice(0,12).map(p => {
-                const fav = r.favoriteEmojis[p] || { emoji: '💬', count: 0 };
-                return `<div class="player-card-small"><div class="player-name-dark">${escapeHtml(p)} <span class="fav-emoji-badge">${fav.emoji} ${fav.count}</span></div>
-                <div class="player-stats-grid-dark">
-                    <div><span class="info-icon" data-tooltip="Total messages sent">i</span> 📨 ${r.senderStats[p].count}</div>
-                    <div><span class="info-icon" data-tooltip="Share of total conversation">i</span> 📊 ${r.senderStats[p].pct}%</div>
-                    <div><span class="info-icon" data-tooltip="Average sentiment (0-100)">i</span> ❤️ ${r.senderStats[p].sentiment}%</div>
-                    <div><span class="info-icon" data-tooltip="Average energy level">i</span> ⚡ ${r.senderStats[p].energy}%</div>
-                    <div><span class="info-icon" data-tooltip="Messages sent after midnight (0-5am)">i</span> 🌙 ${r.senderStats[p].nightPct.toFixed(1)}%</div>
-                    <div><span class="info-icon" data-tooltip="Two+ messages in a row (double-texting)">i</span> 🔁 ${r.senderStats[p].doublePct.toFixed(1)}%</div>
-                </div></div>`;
-            }).join('')}</div>
+            <div class="players-scroll">${r.participants.slice(0,12).map(p => { const fav = r.favoriteEmojis[p] || { emoji: '💬', count: 0 }; return `<div class="player-card-small"><div class="player-name-dark">${escapeHtml(p)} <span class="fav-emoji-badge">${fav.emoji} ${fav.count}</span></div><div class="player-stats-grid-dark"><div><span class="info-icon" data-tooltip="Total messages sent">i</span> 📨 ${r.senderStats[p].count}</div><div><span class="info-icon" data-tooltip="Share of total conversation">i</span> 📊 ${r.senderStats[p].pct}%</div><div><span class="info-icon" data-tooltip="Average sentiment (0-100)">i</span> ❤️ ${r.senderStats[p].sentiment}%</div><div><span class="info-icon" data-tooltip="Average energy level">i</span> ⚡ ${r.senderStats[p].energy}%</div><div><span class="info-icon" data-tooltip="Messages sent after midnight (0-5am)">i</span> 🌙 ${r.senderStats[p].nightPct.toFixed(1)}%</div><div><span class="info-icon" data-tooltip="Two+ messages in a row">i</span> 🔁 ${r.senderStats[p].doublePct.toFixed(1)}%</div></div></div>`; }).join('')}</div>
             
             <div class="bento-grid">
                 <div class="bento-card glow-bg"><div class="card-header"><div class="card-icon">📈</div><div class="card-title">mood weather <span class="info-icon" data-tooltip="Sentiment trend over months. Each point shows average monthly sentiment (0-100).">i</span></div></div><canvas id="timelineChart" style="height:160px"></canvas><div class="card-sub">trend: ${r.trendDesc}</div></div>
-                
                 <div class="bento-card moss"><div class="card-header"><div class="card-icon">👑</div><div class="card-title">initiator <span class="info-icon" data-tooltip="Person who most often restarts conversation after 6+ hours of silence.">i</span></div></div><div class="card-value">${escapeHtml(r.topInitiator)}</div><div class="card-sub">${r.initCount} resurrections</div>
                 <div class="extra-metrics"><div class="extra-metric"><div class="extra-metric-label">🚀 avg response</div><div class="extra-metric-value">${r.avgResponseTime} min</div></div><div class="extra-metric"><div class="extra-metric-label">📬 total messages</div><div class="extra-metric-value">${r.totalMessages.toLocaleString()}</div></div></div></div>
-                
                 <div class="bento-card cocoa"><div class="card-header"><div class="card-icon">🌙</div><div class="card-title">night owls <span class="info-icon" data-tooltip="Percentage of messages sent after midnight. Higher = more nocturnal.">i</span></div></div>${nightTop.map(n=>`<div class="participant-item"><span>${escapeHtml(n.name)}</span><span>${n.pct}% 🌙</span></div><div class="progress-bar"><div class="progress-fill" style="width: ${Math.min(100, parseFloat(n.pct))}%;"></div></div>`).join('')}</div>
-                
                 <div class="bento-card"><div class="card-header"><div class="card-icon">🎙️</div><div class="card-title">air time <span class="info-icon" data-tooltip="Percentage of total messages sent by each person.">i</span></div></div>${topAir.map(a=>`<div class="progress-bar"><div class="progress-fill" style="width:${a.pct}%"></div></div><div class="participant-item"><span>${escapeHtml(a.name)}</span><span>${a.pct}%</span></div>`).join('')}</div>
-                
                 <div class="bento-card"><div class="card-header"><div class="card-icon">🏆</div><div class="card-title">closers <span class="info-icon" data-tooltip="Person who sends the last message of each day (most frequent closer).">i</span></div></div>${closerTop.map(c=>`<div class="participant-item"><span>${escapeHtml(c[0])}</span><span>${c[1]} days</span></div>`).join('')}<div class="insight-row"><span>⏰ peak hour <span class="info-icon" data-tooltip="Hour with most messages sent (24h format).">i</span></span><span>${r.mostActiveHour}:00</span></div></div>
-                
                 <div class="bento-card tan"><div class="card-header"><div class="card-icon">📜</div><div class="card-title">verdict <span class="info-icon" data-tooltip="AI-style emotional summary based on sentiment analysis.">i</span></div></div><div class="verdict-text">${r.verdict}</div><div class="keyword-cloud">${r.topKeywords.slice(0,8).map(([w,c])=>`<span class="keyword">${w} (${c})</span>`).join('')}</div></div>
             </div>
             
-            <div class="pillars-container"><div class="pillars-grid" style="grid-template-columns:repeat(4,1fr)"><div class="pillar-card"><div class="pillar-icon">💡</div><div class="pillar-title">topics <span class="info-icon" data-tooltip="Main themes detected from message content (work, personal, humor, venting, planning).">i</span></div><div class="pillar-value" style="font-size:1rem">${r.topTopics.map(t=>t[0]).join(', ')||'various'}</div></div><div class="pillar-card"><div class="pillar-icon">🎭</div><div class="pillar-title">emotion <span class="info-icon" data-tooltip="Dominant emotional tone based on sentiment score.">i</span></div><div class="pillar-value" style="font-size:1rem">${r.avgSentiment>70?'joy 😊':(r.avgSentiment>55?'excitement 🤩':'neutral 😐')}</div></div><div class="pillar-card"><div class="pillar-icon">🔄</div><div class="pillar-title">turnover <span class="info-icon" data-tooltip="Average time between different speakers (minutes).">i</span></div><div class="pillar-value">${r.avgResponseTime}m</div></div><div class="pillar-card"><div class="pillar-icon">🏷️</div><div class="pillar-title">top word <span class="info-icon" data-tooltip="Most frequently used unique word (excluding common stopwords and URLs).">i</span></div><div class="pillar-value" style="font-size:1rem">"${r.topKeywords[0]?.[0]||'—'}"</div></div></div></div>
+            <div class="pillars-container"><div class="insight-pillars-row">
+                <div class="insight-pillar"><div class="insight-pillar-icon">💡</div><div class="insight-pillar-title">topics <span class="info-icon" data-tooltip="Main themes detected from message content (work, personal, humor, venting, planning).">i</span></div><div class="insight-pillar-value" style="font-size:0.9rem">${r.topTopics.map(t=>t[0]).join(', ')||'various'}</div><div class="insight-pillar-sub">main themes</div></div>
+                <div class="insight-pillar"><div class="insight-pillar-icon">🎭</div><div class="insight-pillar-title">emotion <span class="info-icon" data-tooltip="Dominant emotional tone based on sentiment score.">i</span></div><div class="insight-pillar-value" style="font-size:1rem">${r.avgSentiment>70?'joy 😊':(r.avgSentiment>55?'excitement 🤩':'neutral 😐')}</div><div class="insight-pillar-sub">overall</div></div>
+                <div class="insight-pillar"><div class="insight-pillar-icon">🔄</div><div class="insight-pillar-title">turnover <span class="info-icon" data-tooltip="Average time between different speakers (minutes).">i</span></div><div class="insight-pillar-value">${r.avgResponseTime}m</div><div class="insight-pillar-sub">avg switch</div></div>
+                <div class="insight-pillar"><div class="insight-pillar-icon">🏷️</div><div class="insight-pillar-title">top word <span class="info-icon" data-tooltip="Most frequently used unique word (excluding stopwords and URLs).">i</span></div><div class="insight-pillar-value" style="font-size:1rem">"${r.topKeywords[0]?.[0]||'—'}"</div><div class="insight-pillar-sub">most used</div></div>
+            </div></div>
             
             <div class="stats-footer"><div class="stat-footer-item"><div class="stat-footer-label">📬 messages</div><div class="stat-footer-value">${r.total.toLocaleString()}</div></div><div class="stat-footer-item"><div class="stat-footer-label">👥 active</div><div class="stat-footer-value">${r.participants.length}</div></div><div class="stat-footer-item"><div class="stat-footer-label">🔥 hype</div><div class="stat-footer-value">${r.hypeScore}%</div></div></div>
         `;
