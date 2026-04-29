@@ -2,650 +2,140 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>LORE — Digital Archaeology</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-            background: #f5f0e8;
-            color: #2c2c2a;
-            overflow-x: hidden;
-        }
-        
-        /* ========== FOREST GREEN CURVED HERO ========== */
-        .hero-curve {
-            background: #1a2f23;
-            position: relative;
-            overflow: hidden;
-            padding-bottom: 80px;
-        }
-        
-        .hero-curve::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background: #f5f0e8;
-            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-            z-index: 1;
-        }
-        
-        .hero-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 60px 48px 80px;
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-        
-        @media (max-width: 768px) {
-            .hero-container {
-                grid-template-columns: 1fr;
-                padding: 40px 24px 60px;
-                text-align: center;
-            }
-        }
-        
-        .brand h1 {
-            font-size: 5rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            color: #e8d5b5;
-            margin-bottom: 16px;
-        }
-        
-        .brand p {
-            font-size: 1rem;
-            color: #b8c9b5;
-            line-height: 1.6;
-            margin-bottom: 32px;
-            max-width: 400px;
-        }
-        
-        @media (max-width: 768px) {
-            .brand p { margin: 0 auto 32px; }
-        }
-        
-        /* Peach Gradient CTA */
-        .cta-peach {
-            background: linear-gradient(135deg, #f3e5d8, #e8c3a7);
-            color: #1a2f23;
-            border: none;
-            padding: 16px 40px;
-            font-size: 1rem;
-            font-weight: 700;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px -8px rgba(0,0,0,0.2);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        
-        .cta-peach:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.3);
-        }
-        
-        /* Double Exposure Silhouette */
-        .double-exposure {
-            position: relative;
-            width: 100%;
-            height: 320px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .silhouette {
-            width: 260px;
-            height: 260px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="80" r="35" fill="%23e8d5b5" opacity="0.3"/><path d="M100 120 Q140 140 160 190 Q140 195 100 195 Q60 195 40 190 Q60 140 100 120Z" fill="%23e8d5b5" opacity="0.3"/></svg>') no-repeat center;
-            background-size: contain;
-            position: relative;
-        }
-        
-        .cloud-bubbles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .cloud-bubbles::before,
-        .cloud-bubbles::after {
-            content: '💬';
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0.4;
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .cloud-bubbles::before { top: 10%; left: 15%; animation-delay: 0s; }
-        .cloud-bubbles::after { bottom: 20%; right: 10%; animation-delay: 2s; }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        
-        /* Main Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 48px;
-            position: relative;
-            z-index: 5;
-        }
-        
-        @media (max-width: 768px) { .container { padding: 24px 20px; } }
-        
-        /* Bento Glassmorphism */
-        .bento-card {
-            background: rgba(255, 248, 240, 0.85);
-            backdrop-filter: blur(25px);
-            border-radius: 35px;
-            border: 1px solid rgba(232, 195, 167, 0.3);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .bento-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-        }
-        
-        /* Sunlight Glow for primary chart card */
-        .sunlight-glow {
-            position: relative;
-            background: linear-gradient(135deg, #fff8f0, #fef5e8);
-        }
-        
-        .sunlight-glow::before {
-            content: '';
-            position: absolute;
-            top: -20%;
-            left: -20%;
-            width: 140%;
-            height: 140%;
-            background: radial-gradient(circle, rgba(232, 195, 167, 0.15), transparent 70%);
-            pointer-events: none;
-            border-radius: 35px;
-        }
-        
-        /* Product Row - Players Side by Side */
-        .players-row {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-        
-        .player-card {
-            background: #fff8f0;
-            border-radius: 35px;
-            padding: 28px 32px;
-            border: 1px solid #e8d5b5;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-        }
-        
-        /* UNIFIED HEADING STYLE */
-        .section-heading {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #1a2f23;
-            margin-bottom: 20px;
-            letter-spacing: -0.02em;
-            border-left: 4px solid #e8c3a7;
-            padding-left: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .player-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-        
-        .player-stat {
-            text-align: left;
-        }
-        
-        .player-stat-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #a0826a;
-            margin-bottom: 6px;
-        }
-        
-        .player-stat-value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #2c2c2a;
-        }
-        
-        /* Bento Grid - 3 column */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-        
-        @media (max-width: 968px) {
-            .bento-grid { grid-template-columns: 1fr; }
-        }
-        
-        .insight-card {
-            padding: 28px;
-        }
-        
-        /* Cocoa Brown Card */
-        .cocoa-card {
-            background: #3d2a1f;
-            color: #e8d5b5;
-        }
-        
-        .cocoa-card .section-heading {
-            color: #f0e6d2;
-            border-left-color: #e8c3a7;
-        }
-        
-        .cocoa-card .stat-value,
-        .cocoa-card .participant-name {
-            color: #f0e6d2;
-        }
-        
-        .cocoa-card .participant-value,
-        .cocoa-card .progress-fill {
-            color: #e8c3a7;
-        }
-        
-        .cocoa-card .progress-bar {
-            background: #5a3d2a;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #1a2f23;
-            margin-bottom: 8px;
-        }
-        
-        .stat-sub {
-            font-size: 0.7rem;
-            color: #8a7a6a;
-        }
-        
-        canvas {
-            max-height: 180px;
-            width: 100% !important;
-            margin: 16px 0;
-        }
-        
-        /* Verdict Text */
-        .verdict-text {
-            font-size: 0.85rem;
-            line-height: 1.5;
-            color: #2c2c2a;
-            margin-bottom: 20px;
-        }
-        
-        /* Conversation Engine Box */
-        .engine-box {
-            background: #f0e8dc;
-            border-radius: 20px;
-            padding: 16px 20px;
-            margin: 16px 0;
-            text-align: center;
-            border: 1px solid #e8d5b5;
-        }
-        
-        .engine-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #a0826a;
-            margin-bottom: 8px;
-        }
-        
-        .engine-value {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #1a2f23;
-        }
-        
-        .engine-sub {
-            font-size: 0.7rem;
-            color: #8a7a6a;
-            margin-top: 4px;
-        }
-        
-        /* First Message Box */
-        .first-message-box {
-            background: #f0e8dc;
-            border-radius: 20px;
-            padding: 14px 18px;
-            margin-top: 16px;
-            text-align: center;
-            border: 1px solid #e8d5b5;
-        }
-        
-        .first-message-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #a0826a;
-            margin-bottom: 6px;
-        }
-        
-        .first-message-value {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #1a2f23;
-        }
-        
-        /* Keyword Cloud */
-        .keyword-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 16px;
-        }
-        
-        .keyword {
-            background: #e8d5b5;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            color: #1a2f23;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-        }
-        
-        .keyword:hover {
-            background: #1a2f23;
-            color: #e8d5b5;
-        }
-        
-        /* Participant Items */
-        .participant-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-        }
-        
-        .participant-name { font-weight: 500; font-size: 0.85rem; }
-        .participant-value { font-family: monospace; font-weight: 600; color: #1a2f23; }
-        
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background: #e0d5c8;
-            border-radius: 2px;
-            margin-top: 8px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: #e8c3a7;
-            border-radius: 2px;
-        }
-        
-        /* INFO BUTTON - Light circle, smaller, subtle */
-        .info-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 18px;
-            height: 18px;
-            background: #e8d5b5;
-            color: #a0826a;
-            border-radius: 50%;
-            font-size: 0.6rem;
-            font-weight: 600;
-            cursor: help;
-            margin-left: 8px;
-            transition: all 0.2s ease;
-            vertical-align: middle;
-        }
-        
-        .info-icon:hover {
-            background: #d4c4a8;
-            color: #6b5a4a;
-        }
-        
-        /* Global Filter */
-        .global-filter {
-            background: #fff8f0;
-            border: 1px solid #e8d5b5;
-            border-radius: 60px;
-            padding: 12px 24px;
-            margin-bottom: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-        
-        .filter-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #a0826a;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .slider-wrapper {
-            flex: 1;
-            min-width: 280px;
-        }
-        
-        .double-slider {
-            position: relative;
-            height: 3px;
-            background: #e0d5c8;
-            border-radius: 2px;
-            margin: 16px 0;
-        }
-        
-        .slider-track-fill {
-            position: absolute;
-            height: 3px;
-            background: #e8c3a7;
-            border-radius: 2px;
-            pointer-events: none;
-        }
-        
-        input[type="range"] {
-            position: absolute;
-            width: 100%;
-            height: 3px;
-            -webkit-appearance: none;
-            background: transparent;
-            pointer-events: none;
-        }
-        
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 14px;
-            height: 14px;
-            background: #1a2f23;
-            border-radius: 50%;
-            cursor: pointer;
-            pointer-events: auto;
-            border: none;
-        }
-        
-        .date-controls {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .date-range-display {
-            font-size: 0.7rem;
-            font-family: monospace;
-            color: #1a2f23;
-            background: #e8d5b5;
-            padding: 6px 14px;
-            border-radius: 30px;
-            cursor: pointer;
-        }
-        
-        .date-picker-btn {
-            background: #e8d5b5;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            color: #1a2f23;
-        }
-        
-        /* Modal */
-        .calendar-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f0e8; color: #2c2c2a; overflow-x: hidden; }
+        .hero-curve { background: #1a2f23; position: relative; overflow: hidden; padding-bottom: 60px; }
+        .hero-curve::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 50px; background: #f5f0e8; border-radius: 50% 50% 0 0 / 100% 100% 0 0; z-index: 1; }
+        .hero-container { max-width: 1400px; margin: 0 auto; padding: 40px 24px 60px; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        @media (min-width: 768px) { .hero-container { flex-direction: row; text-align: left; justify-content: space-between; padding: 60px 48px 80px; } }
+        .brand { flex: 1; }
+        .brand h1 { font-size: 3rem; font-weight: 800; letter-spacing: -0.03em; color: #e8d5b5; margin-bottom: 12px; }
+        @media (min-width: 768px) { .brand h1 { font-size: 5rem; } }
+        .brand p { font-size: 0.9rem; color: #b8c9b5; line-height: 1.5; margin-bottom: 24px; max-width: 400px; }
+        @media (min-width: 768px) { .brand p { font-size: 1rem; margin: 0 0 32px; } }
+        .cta-peach { background: linear-gradient(135deg, #f3e5d8, #e8c3a7); color: #1a2f23; border: none; padding: 14px 32px; font-size: 0.9rem; font-weight: 700; border-radius: 60px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 30px -8px rgba(0,0,0,0.2); font-family: 'Plus Jakarta Sans', sans-serif; }
+        @media (min-width: 768px) { .cta-peach { padding: 16px 40px; font-size: 1rem; } }
+        .cta-peach:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -12px rgba(0,0,0,0.3); }
+        .double-exposure { display: none; }
+        @media (min-width: 768px) { .double-exposure { display: flex; position: relative; width: 280px; height: 280px; justify-content: center; align-items: center; } }
+        .silhouette { width: 220px; height: 220px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="80" r="35" fill="%23e8d5b5" opacity="0.3"/><path d="M100 120 Q140 140 160 190 Q140 195 100 195 Q60 195 40 190 Q60 140 100 120Z" fill="%23e8d5b5" opacity="0.3"/></svg>') no-repeat center; background-size: contain; position: relative; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px 16px; position: relative; z-index: 5; }
+        @media (min-width: 768px) { .container { padding: 40px 48px; } }
+        .bento-card { background: rgba(255,248,240,0.85); backdrop-filter: blur(25px); border-radius: 24px; border: 1px solid rgba(232,195,167,0.3); box-shadow: 0 8px 32px rgba(0,0,0,0.05); transition: all 0.3s ease; overflow: hidden; position: relative; }
+        @media (min-width: 768px) { .bento-card { border-radius: 35px; } }
+        .bento-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        .sunlight-glow { position: relative; background: linear-gradient(135deg, #fff8f0, #fef5e8); }
+        .sunlight-glow::before { content: ''; position: absolute; top: -20%; left: -20%; width: 140%; height: 140%; background: radial-gradient(circle, rgba(232,195,167,0.15), transparent 70%); pointer-events: none; border-radius: 35px; }
+        .players-row { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 24px; }
+        @media (min-width: 768px) { .players-row { grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 40px; } }
+        .player-card { background: #fff8f0; border-radius: 24px; padding: 20px; border: 1px solid #e8d5b5; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+        @media (min-width: 768px) { .player-card { padding: 28px 32px; border-radius: 35px; } }
+        .section-heading { font-size: 1rem; font-weight: 700; color: #1a2f23; margin-bottom: 16px; letter-spacing: -0.02em; border-left: 3px solid #e8c3a7; padding-left: 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        @media (min-width: 768px) { .section-heading { font-size: 1.2rem; margin-bottom: 20px; padding-left: 16px; gap: 10px; } }
+        .player-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        @media (min-width: 768px) { .player-stats-grid { gap: 20px; } }
+        .player-stat { text-align: left; }
+        .player-stat-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.5px; color: #a0826a; margin-bottom: 4px; }
+        @media (min-width: 768px) { .player-stat-label { font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 6px; } }
+        .player-stat-value { font-size: 1.1rem; font-weight: 700; color: #2c2c2a; }
+        @media (min-width: 768px) { .player-stat-value { font-size: 1.4rem; } }
+        .bento-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 24px; }
+        @media (min-width: 968px) { .bento-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; } }
+        .insight-card { padding: 20px; }
+        @media (min-width: 768px) { .insight-card { padding: 28px; } }
+        .cocoa-card { background: #3d2a1f; color: #e8d5b5; }
+        .cocoa-card .section-heading { color: #f0e6d2; border-left-color: #e8c3a7; }
+        .cocoa-card .stat-value, .cocoa-card .participant-name { color: #f0e6d2; }
+        .cocoa-card .participant-value, .cocoa-card .progress-fill { color: #e8c3a7; }
+        .cocoa-card .progress-bar { background: #5a3d2a; }
+        .stat-value { font-size: 1.5rem; font-weight: 800; color: #1a2f23; margin-bottom: 6px; }
+        @media (min-width: 768px) { .stat-value { font-size: 2rem; margin-bottom: 8px; } }
+        .stat-sub { font-size: 0.6rem; color: #8a7a6a; }
+        @media (min-width: 768px) { .stat-sub { font-size: 0.7rem; } }
+        canvas { max-height: 160px; width: 100% !important; margin: 12px 0; }
+        @media (min-width: 768px) { canvas { max-height: 180px; margin: 16px 0; } }
+        .verdict-text { font-size: 0.75rem; line-height: 1.4; color: #2c2c2a; margin-bottom: 16px; }
+        @media (min-width: 768px) { .verdict-text { font-size: 0.85rem; line-height: 1.5; margin-bottom: 20px; } }
+        .engine-box { background: #f0e8dc; border-radius: 16px; padding: 12px 16px; margin: 12px 0; text-align: center; border: 1px solid #e8d5b5; }
+        @media (min-width: 768px) { .engine-box { padding: 16px 20px; margin: 16px 0; border-radius: 20px; } }
+        .engine-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: #a0826a; margin-bottom: 6px; }
+        @media (min-width: 768px) { .engine-label { font-size: 0.7rem; letter-spacing: 1.5px; margin-bottom: 8px; } }
+        .engine-value { font-size: 0.9rem; font-weight: 700; color: #1a2f23; }
+        @media (min-width: 768px) { .engine-value { font-size: 1.1rem; } }
+        .engine-sub { font-size: 0.6rem; color: #8a7a6a; margin-top: 4px; }
+        .first-message-box { background: #f0e8dc; border-radius: 16px; padding: 10px 14px; margin-top: 12px; text-align: center; border: 1px solid #e8d5b5; }
+        @media (min-width: 768px) { .first-message-box { padding: 14px 18px; margin-top: 16px; border-radius: 20px; } }
+        .first-message-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.5px; color: #a0826a; margin-bottom: 4px; }
+        @media (min-width: 768px) { .first-message-label { font-size: 0.65rem; letter-spacing: 1px; margin-bottom: 6px; } }
+        .first-message-value { font-size: 0.7rem; font-weight: 600; color: #1a2f23; }
+        @media (min-width: 768px) { .first-message-value { font-size: 0.85rem; } }
+        .keyword-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+        @media (min-width: 768px) { .keyword-cloud { gap: 8px; margin-top: 16px; } }
+        .keyword { background: #e8d5b5; padding: 4px 10px; border-radius: 20px; font-size: 0.6rem; color: #1a2f23; cursor: pointer; transition: all 0.2s; border: none; }
+        @media (min-width: 768px) { .keyword { padding: 6px 14px; font-size: 0.7rem; border-radius: 30px; } }
+        .keyword:hover { background: #1a2f23; color: #e8d5b5; }
+        .participant-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
+        @media (min-width: 768px) { .participant-item { padding: 10px 0; } }
+        .participant-name { font-weight: 500; font-size: 0.75rem; }
+        .participant-value { font-family: monospace; font-weight: 600; color: #1a2f23; font-size: 0.7rem; }
+        @media (min-width: 768px) { .participant-name { font-size: 0.85rem; } .participant-value { font-size: 0.7rem; } }
+        .progress-bar { width: 100%; height: 3px; background: #e0d5c8; border-radius: 2px; margin-top: 6px; overflow: hidden; }
+        @media (min-width: 768px) { .progress-bar { height: 4px; margin-top: 8px; } }
+        .progress-fill { height: 100%; background: #e8c3a7; border-radius: 2px; }
+        .info-icon { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; min-height: 22px; width: 22px; height: 22px; background: #e8d5b5; color: #a0826a; border-radius: 50%; font-size: 0.7rem; font-weight: 700; cursor: pointer; margin-left: 8px; transition: all 0.2s ease; vertical-align: middle; }
+        @media (min-width: 768px) { .info-icon { width: 18px; height: 18px; font-size: 0.6rem; } }
+        .global-filter { background: #fff8f0; border: 1px solid #e8d5b5; border-radius: 30px; padding: 12px 16px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 12px; }
+        @media (min-width: 768px) { .global-filter { flex-direction: row; align-items: center; justify-content: space-between; border-radius: 60px; padding: 12px 24px; gap: 16px; margin-bottom: 32px; } }
+        .filter-label { font-size: 0.65rem; font-weight: 600; color: #a0826a; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+        .slider-wrapper { flex: 1; min-width: auto; padding: 0 5px; }
+        .double-slider { position: relative; height: 3px; background: #e0d5c8; border-radius: 2px; margin: 20px 0; }
+        .slider-track-fill { position: absolute; height: 3px; background: #e8c3a7; border-radius: 2px; pointer-events: none; }
+        input[type="range"] { position: absolute; width: 100%; height: 3px; -webkit-appearance: none; background: transparent; pointer-events: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: #1a2f23; border-radius: 50%; cursor: pointer; pointer-events: auto; border: none; }
+        .date-controls { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        .date-range-display { font-size: 0.65rem; font-family: monospace; color: #1a2f23; background: #e8d5b5; padding: 6px 12px; border-radius: 30px; cursor: pointer; }
+        .date-picker-btn { background: #e8d5b5; border: none; padding: 6px 12px; border-radius: 30px; font-size: 0.65rem; cursor: pointer; color: #1a2f23; }
+        .calendar-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
         .calendar-modal.show { display: flex; }
-        
-        .calendar-card {
-            background: #fff8f0;
-            border-radius: 35px;
-            padding: 28px;
-            width: 360px;
-            border: 1px solid #e8d5b5;
-        }
-        
-        .calendar-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1a2f23;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .calendar-input-group { margin-bottom: 20px; }
-        .calendar-input-group label { font-size: 0.7rem; color: #a0826a; display: block; margin-bottom: 6px; }
-        .calendar-input-group input {
-            width: 100%;
-            background: #f5f0e8;
-            border: 1px solid #e8d5b5;
-            border-radius: 20px;
-            padding: 12px;
-            font-family: monospace;
-        }
-        
-        .calendar-error { color: #c87a5a; font-size: 0.7rem; margin-top: 8px; display: none; }
+        .calendar-card { background: #fff8f0; border-radius: 24px; padding: 20px; width: 90%; max-width: 360px; border: 1px solid #e8d5b5; }
+        @media (min-width: 768px) { .calendar-card { border-radius: 35px; padding: 28px; } }
+        .calendar-title { font-size: 0.9rem; font-weight: 600; color: #1a2f23; margin-bottom: 16px; text-align: center; }
+        .calendar-input-group { margin-bottom: 16px; }
+        .calendar-input-group label { font-size: 0.65rem; color: #a0826a; display: block; margin-bottom: 4px; }
+        .calendar-input-group input { width: 100%; background: #f5f0e8; border: 1px solid #e8d5b5; border-radius: 16px; padding: 10px; font-family: monospace; font-size: 0.8rem; }
+        .calendar-error { color: #c87a5a; font-size: 0.65rem; margin-top: 8px; display: none; text-align: center; }
         .calendar-buttons { display: flex; gap: 12px; margin-top: 20px; }
-        .calendar-btn {
-            flex: 1;
-            background: #e8d5b5;
-            border: none;
-            padding: 10px;
-            border-radius: 30px;
-            cursor: pointer;
-        }
+        .calendar-btn { flex: 1; background: #e8d5b5; border: none; padding: 10px; border-radius: 30px; cursor: pointer; font-size: 0.8rem; }
         .calendar-btn.primary { background: #1a2f23; color: #e8d5b5; font-weight: 600; }
-        
-        /* Landing Page */
         .landing { min-height: 100vh; background: #1a2f23; }
         .landing.hide { display: none; }
         .dashboard { display: none; }
         .dashboard.show { display: block; }
-        
-        .status {
-            background: #fff8f0;
-            border: 1px solid #e8d5b5;
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-        
-        .spinner {
-            width: 18px;
-            height: 18px;
-            border: 2px solid #e0d5c8;
-            border-top-color: #1a2f23;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            display: inline-block;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-        
+        .status { background: #fff8f0; border: 1px solid #e8d5b5; border-radius: 20px; padding: 14px; margin-bottom: 20px; text-align: center; font-size: 0.8rem; }
+        .spinner { width: 18px; height: 18px; border: 2px solid #e0d5c8; border-top-color: #1a2f23; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; margin-right: 8px; vertical-align: middle; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        
-        .emoji-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 16px;
-            margin: 20px 0;
-        }
-        
-        .emoji-item {
-            text-align: center;
-            padding: 12px;
-            background: rgba(0,0,0,0.03);
-            border-radius: 20px;
-        }
-        
-        .emoji-char { font-size: 2rem; }
-        .emoji-name { font-size: 0.7rem; color: #a0826a; margin-top: 6px; }
-        .emoji-count { font-size: 0.6rem; color: #8a7a6a; margin-top: 4px; }
-        
-        .stats-footer {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid #e8d5b5;
-            text-align: center;
-        }
-        
-        .stats-footer .stat-footer-label { font-size: 0.65rem; color: #a0826a; letter-spacing: 0.5px; text-transform: uppercase; }
-        .stats-footer .stat-footer-value { font-size: 1.3rem; font-weight: 700; margin-top: 6px; color: #1a2f23; }
+        .emoji-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 12px; margin: 16px 0; }
+        @media (min-width: 768px) { .emoji-grid { gap: 16px; margin: 20px 0; } }
+        .emoji-item { text-align: center; padding: 10px; background: rgba(0,0,0,0.03); border-radius: 16px; }
+        .emoji-char { font-size: 1.6rem; }
+        .emoji-name { font-size: 0.6rem; color: #a0826a; margin-top: 4px; }
+        .emoji-count { font-size: 0.55rem; color: #8a7a6a; margin-top: 3px; }
+        @media (min-width: 768px) { .emoji-char { font-size: 2rem; } .emoji-name { font-size: 0.7rem; margin-top: 6px; } .emoji-count { font-size: 0.6rem; margin-top: 4px; } }
+        .stats-footer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #e8d5b5; text-align: center; }
+        @media (min-width: 768px) { .stats-footer { gap: 16px; margin-top: 24px; padding-top: 20px; } }
+        .stats-footer .stat-footer-label { font-size: 0.55rem; color: #a0826a; letter-spacing: 0.5px; text-transform: uppercase; }
+        .stats-footer .stat-footer-value { font-size: 1rem; font-weight: 700; margin-top: 4px; color: #1a2f23; }
+        @media (min-width: 768px) { .stats-footer .stat-footer-label { font-size: 0.65rem; } .stats-footer .stat-footer-value { font-size: 1.3rem; margin-top: 6px; } }
     </style>
 </head>
 <body>
-<!-- LANDING PAGE - Forest Green Curved Hero -->
 <div class="landing" id="landingPage">
     <div class="hero-curve">
         <div class="hero-container">
@@ -662,7 +152,6 @@
     </div>
 </div>
 
-<!-- DASHBOARD -->
 <div class="dashboard" id="dashboardPage">
     <div class="container">
         <div id="statusContainer"></div>
@@ -671,7 +160,6 @@
     </div>
 </div>
 
-<!-- Calendar Modal -->
 <div class="calendar-modal" id="calendarModal">
     <div class="calendar-card">
         <div class="calendar-title">SELECT DATE RANGE</div>
@@ -692,132 +180,187 @@
 </div>
 
 <script>
-    // ========== TOOLTIP SYSTEM - Positioned ABOVE the button ==========
+    // ========== EXTREMELY POSITIVE-SKEWED SENTIMENT ANALYSIS ==========
+    
+    // Positive words - MASSIVE impact (+18 to +25 each)
+    const positiveSet = new Set([
+        'good', 'great', 'awesome', 'amazing', 'fantastic', 'wonderful', 'brilliant', 'excellent', 'perfect', 'beautiful',
+        'lovely', 'sweet', 'nice', 'happy', 'glad', 'joy', 'delighted', 'pleased', 'thrilled', 'ecstatic', 'radiant',
+        'blessed', 'grateful', 'thankful', 'appreciate', 'cherish', 'admire', 'respect', 'trust', 'hope', 'exciting',
+        'excited', 'thrilling', 'incredible', 'unbelievable', 'stunning', 'spectacular', 'magnificent', 'phenomenal',
+        'extraordinary', 'remarkable', 'outstanding', 'superb', 'love', 'loved', 'loving', 'beloved', 'adorable',
+        'precious', 'heartwarming', 'touching', 'proud', 'congrats', 'congratulations', 'fun', 'cool', 'yes', 'yeah',
+        'yay', 'woohoo', 'finally', 'thanks', 'thank', 'worth', 'vibes', 'bless', 'wholesome', 'epic', 'legendary',
+        'accha', 'bahut accha', 'kya baat hai', 'sundar', 'pyaar', 'pyaara', 'achha', 'badhiya', 'mast', 'jabardast',
+        'shaandaar', 'laajawab', 'wah', 'sahi', 'sahi hai', 'khush', 'khushi', 'shukar hai', 'acha laga', 'kamaal',
+        'dhamakedar', 'jhakaas', 'dhansu', 'fadu', 'solid', 'class', 'best', 'perfect', 'wonderful',
+        'laugh', 'smile', 'warm', 'kind', 'gentle', 'caring', 'supportive', 'understanding', 'patient', 'thoughtful',
+        'brilliant', 'magnificent', 'splendid', 'marvelous', 'terrific', 'fabulous', 'super', 'ultimate', 'supreme',
+        // Additional very positive words
+        'win', 'winning', 'victory', 'success', 'happy', 'enjoy', 'enjoying', 'pleasure', 'delight', 'cheer', 'celebration',
+        'party', 'celebrate', 'gift', 'present', 'surprise', 'welcome', 'special', 'unique', 'extraordinary'
+    ]);
+    
+    // Negative words - MINIMAL impact (-1 each)
+    const negativeSet = new Set([
+        'bad', 'hate', 'angry', 'mad', 'sad', 'sorry', 'stressed', 'annoying', 'frustrated', 'tired', 'exhausted',
+        'cringe', 'lame', 'trash', 'garbage', 'ugh', 'meh', 'bekaar', 'bakwas', 'kharab', 'bura', 'dukh', 'pareshan',
+        'dislike', 'disappointed', 'upset', 'unhappy'
+    ]);
+    
+    // Positive emojis - strong boost
+    const positiveEmojiSet = new Set(['😊', '😃', '😄', '😁', '😆', '😂', '🤣', '🥹', '☺️', '😌', '😇', '🥰', '😍', '🤩', '😘', '🫶', '❤️', '🧡', '💛', '💚', '💙', '💜', '💖', '💗', '💓', '💕', '🎉', '🎊', '✨', '🌟', '⭐', '🔥', '💯', '👍', '👏', '🙌', '🥳', '🏆', '👑', '💪', '🙏', '🤗']);
+    
+    // Negative emojis - very weak penalty
+    const negativeEmojiSet = new Set(['😠', '😡', '🤬', '👿', '💀', '😤', '😞', '😔', '😟', '😕', '🙁', '☹️', '😣', '😖', '😫', '😩', '😢', '😭', '💔', '👎']);
+    
+    // Comprehensive stopwords - includes problematic words to filter from slang
+    const stopwords = new Set([
+        'i', 'you', 'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'my', 'your', 'his', 'her', 'its', 'our', 'their',
+        'the', 'a', 'an', 'and', 'or', 'but', 'so', 'for', 'nor', 'yet', 'of', 'to', 'in', 'for', 'on', 'with', 'without', 'by', 'about',
+        'is', 'am', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing',
+        'this', 'that', 'these', 'those', 'there', 'here', 'where', 'when', 'why', 'how', 'what', 'which', 'who', 'whom',
+        'very', 'just', 'but', 'not', 'so', 'up', 'down', 'out', 'in', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once',
+        'only', 'own', 'same', 'should', 'now', 'then', 'than', 'into', 'through', 'during', 'before', 'after', 'above', 'below',
+        'ok', 'okay', 'yeah', 'yea', 'yep', 'nope', 'nah', 'ya', 'ah', 'oh', 'um', 'er', 'uh', 'ha', 'heh', 'hmm', 'huh', 'hey', 'hi',
+        'hello', 'bye', 'see', 'got', 'get', 'put', 'set', 'let', 'go', 'come', 'look', 'make', 'take', 'give', 'find', 'think',
+        'know', 'want', 'need', 'also', 'too', 'well', 'even', 'ever', 'never', 'always', 'often', 'sometimes', 'usually',
+        // Problematic words to filter out from linguistic DNA
+        'omitted', 'omitted.', 'omitted,', 'omitted!', 'omitted?', 'image', 'images', 'video', 'videos', 'photo', 'photos', 
+        'gif', 'gifs', 'sticker', 'stickers', 'media', 'edited', 'edit', 'editing', 'picture', 'pictures', 'img', 'jpg', 
+        'png', 'jpeg', 'mp4', 'attachment', 'attachments', 'sent an image', 'sent a video', 'sent a photo', 'sent a gif',
+        'this message was deleted', 'message deleted', 'deleted message'
+    ]);
+    
     let activeTooltip = null;
+    let tooltipTimeout = null;
     
     function showTooltip(event, text) {
-        if (activeTooltip) {
-            activeTooltip.remove();
-            activeTooltip = null;
-        }
-        
+        if (tooltipTimeout) clearTimeout(tooltipTimeout);
+        if (activeTooltip) { activeTooltip.remove(); activeTooltip = null; }
         const tooltip = document.createElement('div');
         tooltip.textContent = text;
-        tooltip.style.cssText = `
-            position: fixed;
-            background: #1a2f23;
-            color: #e8d5b5;
-            font-size: 0.65rem;
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-family: monospace;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 10000;
-            max-width: 280px;
-            white-space: normal;
-            word-wrap: break-word;
-            text-align: center;
-            line-height: 1.4;
-            pointer-events: none;
-        `;
-        
+        tooltip.style.cssText = `position:fixed; background:#1a2f23; color:#e8d5b5; font-size:0.65rem; padding:10px 16px; border-radius:12px; font-family:monospace; text-transform:uppercase; letter-spacing:0.5px; box-shadow:0 4px 15px rgba(0,0,0,0.2); z-index:10001; max-width:260px; white-space:normal; word-wrap:break-word; text-align:center; line-height:1.4; pointer-events:none;`;
         document.body.appendChild(tooltip);
         activeTooltip = tooltip;
-        
         const rect = event.target.getBoundingClientRect();
         let left = rect.left + rect.width / 2;
         let top = rect.top - tooltip.offsetHeight - 8;
-        
         tooltip.style.left = `${left}px`;
         tooltip.style.top = `${top}px`;
         tooltip.style.transform = 'translateX(-50%)';
-        
-        // Adjust if tooltip goes off screen top
-        if (top < 10) {
-            tooltip.style.top = `${rect.bottom + 8}px`;
-        }
-        
-        // Adjust if tooltip goes off screen horizontally
         const tooltipRect = tooltip.getBoundingClientRect();
-        if (tooltipRect.left < 10) {
-            tooltip.style.left = '10px';
-            tooltip.style.transform = 'none';
-        }
-        if (tooltipRect.right > window.innerWidth - 10) {
-            tooltip.style.left = `${window.innerWidth - 10}px`;
-            tooltip.style.transform = 'translateX(-100%)';
-        }
+        if (tooltipRect.top < 10) tooltip.style.top = `${rect.bottom + 8}px`;
+        if (tooltipRect.left < 10) { tooltip.style.left = '10px'; tooltip.style.transform = 'none'; }
+        if (tooltipRect.right > window.innerWidth - 10) { tooltip.style.left = `${window.innerWidth - 10}px`; tooltip.style.transform = 'translateX(-100%)'; }
     }
     
-    function hideTooltip() {
-        if (activeTooltip) {
-            activeTooltip.remove();
-            activeTooltip = null;
-        }
-    }
-    
-    // ========== ANALYSIS FUNCTIONS ==========
+    function hideTooltip() { tooltipTimeout = setTimeout(() => { if (activeTooltip) { activeTooltip.remove(); activeTooltip = null; } }, 100); }
     function cleanText(t) { return t.replace(/[\u200e\u200f\u202a\u202b\u202c\u202d\u202e]/g, '').trim(); }
     
+    // ========== EXTREMELY POSITIVE-BIASED SENTIMENT ANALYSIS ==========
     function analyzeSentiment(text) {
-        const intensePositive = ['amazing', 'incredible', 'perfect', 'love', 'beautiful', 'fantastic', 'wonderful', 'brilliant', 'obsessed', 'stunning'];
-        const moderatePositive = ['good', 'great', 'nice', 'happy', 'thanks', 'awesome', 'cool', 'glad', 'enjoy', 'wow', 'yay', 'lovely', 'sweet', 'cute', 'fun'];
-        const intenseNegative = ['hate', 'terrible', 'horrible', 'awful', 'disaster', 'angry', 'furious', 'worst', 'pathetic'];
-        const moderateNegative = ['bad', 'sorry', 'wrong', 'issue', 'problem', 'annoying', 'frustrated', 'sad', 'upset', 'disappointed', 'tired'];
-        
-        let score = 0;
+        let score = 65; // Start at 65% (strong positive baseline)
         const lower = text.toLowerCase();
         
-        intensePositive.forEach(w => { if(lower.includes(w)) score += 0.3; });
-        moderatePositive.forEach(w => { if(lower.includes(w)) score += 0.12; });
-        intenseNegative.forEach(w => { if(lower.includes(w)) score -= 0.3; });
-        moderateNegative.forEach(w => { if(lower.includes(w)) score -= 0.12; });
+        // Check for positive words - VERY HIGH boost (+18 to +25)
+        for (let w of lower.split(/\s+/)) {
+            if (positiveSet.has(w)) {
+                score += 22;  // +22% per positive word
+                if (score >= 98) break;
+            }
+            if (negativeSet.has(w)) {
+                score -= 1;   // Only -1% per negative word (barely any penalty)
+                if (score <= 35) break;
+            }
+        }
+        
+        // Multi-word positive phrases - huge boost
+        if (lower.includes('love you')) score += 20;
+        if (lower.includes('i love')) score += 18;
+        if (lower.includes('thank you')) score += 15;
+        if (lower.includes('so good')) score += 12;
+        if (lower.includes('very good')) score += 14;
+        if (lower.includes('bahut accha')) score += 18;
+        if (lower.includes('kya baat hai')) score += 20;
+        if (lower.includes('acha laga')) score += 15;
+        if (lower.includes('shukar hai')) score += 12;
+        if (lower.includes('i am happy')) score += 18;
+        if (lower.includes('feeling good')) score += 15;
+        if (lower.includes('so happy')) score += 18;
+        if (lower.includes('very happy')) score += 20;
+        if (lower.includes('made my day')) score += 25;
+        if (lower.includes('you are the best')) score += 22;
+        
+        // Exclamation marks - excitement boost
+        const exclaimCount = (text.match(/!/g) || []).length;
+        score += Math.min(exclaimCount * 6, 18);
+        
+        // Emojis - strong positive boost, negligible negative
+        for (let char of text) {
+            if (positiveEmojiSet.has(char)) {
+                score += 12;
+                break;
+            }
+            if (negativeEmojiSet.has(char)) {
+                score -= 1;
+                break;
+            }
+        }
+        
+        // Capitalization - emphasis boost
+        const capsCount = (text.match(/[A-Z]{3,}/g) || []).length;
+        score += Math.min(capsCount * 5, 15);
+        
+        // Laughter - positive boost
+        if (/lol|lmao|rofl|haha|hehe/i.test(lower)) score += 12;
+        
+        // Positive words like "ok", "fine" get small boost
+        if (lower.includes('ok') || lower.includes('okay')) score += 3;
+        if (lower.includes('fine')) score += 4;
+        
+        // Clamp between 35% and 99%
+        return Math.max(35, Math.min(99, score));
+    }
+    
+    function detectEmotions(text) {
+        const emotions = { joy: 0, sadness: 0, excitement: 0, anger: 0, anxiety: 0, surprise: 0 };
+        const lower = text.toLowerCase();
+        
+        if (/(happy|glad|joy|love|great|awesome|amazing|wonderful|good|nice|khush|wonderful|beautiful)/i.test(lower)) emotions.joy += 0.45;
+        if (/(sad|sorry|miss|unfortunately|disappointed|dukh)/i.test(lower)) emotions.sadness += 0.1;
+        if (/(excited|wow|omg|amazing|let's go|lets go|kya baat|mast)/i.test(lower)) emotions.excitement += 0.45;
+        if (/(angry|hate|annoying|frustrated|gussa)/i.test(lower)) emotions.anger += 0.1;
+        if (/(worried|nervous|anxious|stressed|pareshan)/i.test(lower)) emotions.anxiety += 0.08;
+        if (/(what|wait|really|no way|shocked|surprised)/i.test(lower)) emotions.surprise += 0.2;
         
         const exclaimCount = (text.match(/!/g) || []).length;
-        score += Math.min(exclaimCount * 0.06, 0.15);
+        emotions.excitement += Math.min(exclaimCount * 0.1, 0.35);
         
-        const positiveEmojis = ['😊', '😃', '😄', '🎉', '❤️', '🔥', '🥳', '😍', '👍', '✨'];
-        const negativeEmojis = ['😠', '😡', '💔', '😢', '😭', '💀', '👎', '😤'];
-        positiveEmojis.forEach(e => { if(text.includes(e)) score += 0.08; });
-        negativeEmojis.forEach(e => { if(text.includes(e)) score -= 0.1; });
-        
-        const words = text.split(/\s+/);
-        const capsCount = words.filter(w => w === w.toUpperCase() && w.length > 2).length;
-        score += Math.min(capsCount * 0.04, 0.12);
-        
-        let normalized = Math.max(-0.8, Math.min(0.8, score));
-        let percentage = ((normalized + 0.8) / 1.6) * 100;
-        return Math.max(0, Math.min(100, percentage));
+        for (let e in emotions) emotions[e] = Math.min(1, emotions[e]);
+        return emotions;
     }
     
     function calcEnergy(text) {
-        let energy = 0;
-        if(text === text.toUpperCase() && text.length > 4) energy += 0.4;
-        energy += Math.min((text.match(/!/g) || []).length * 0.1, 0.3);
-        if(/lol|lmao|rofl|haha|hehe|lmfao/i.test(text)) energy += 0.25;
-        if(/(?:^|\s)OMG|WOW|YES|YAS|LET'S GO/i.test(text)) energy += 0.2;
-        return Math.min(energy, 1);
+        let energy = 55; // Baseline 55% (skewed positive)
+        if (text === text.toUpperCase() && text.length > 4) energy += 18;
+        energy += Math.min((text.match(/!/g) || []).length * 10, 30);
+        if (/lol|lmao|rofl|haha|hehe/i.test(text)) energy += 18;
+        if (/(OMG|WOW|YES|YAS|LET'S GO)/i.test(text)) energy += 15;
+        if (/(Wah|Kya baat|Jabardast|Mast)/i.test(text)) energy += 15;
+        return Math.min(99, Math.max(35, energy));
     }
     
     function detectTopics(text) {
-        const topics = {
-            work: ['work', 'office', 'meeting', 'deadline', 'project', 'boss', 'colleague', 'job', 'career', 'task'],
-            personal: ['family', 'friend', 'home', 'weekend', 'vacation', 'travel', 'movie', 'show', 'book', 'music'],
-            humor: ['lol', 'haha', 'lmao', 'hilarious', 'funny', 'joke', 'meme', 'fun', 'laughing', 'rofl'],
-            venting: ['ugh', 'annoying', 'frustrated', 'stressed', 'overwhelmed', 'tired', 'exhausted', 'hate', 'terrible'],
-            planning: ['meet', 'call', 'schedule', 'plan', 'tomorrow', 'later', 'today', 'coming', 'going', 'drive'],
-            support: ['thanks', 'appreciate', 'help', 'support', 'proud', 'happy for', 'congrats', 'good luck', 'hope']
-        };
-        const detected = [];
         const lower = text.toLowerCase();
-        for(let [topic, keywords] of Object.entries(topics)) {
-            for(let kw of keywords) {
-                if(lower.includes(kw)) { detected.push(topic); break; }
-            }
-        }
-        return detected;
+        const topics = [];
+        if (/\b(work|office|meeting|deadline|project|job|career|task|boss)\b/i.test(lower)) topics.push('work');
+        if (/\b(family|friend|home|weekend|vacation|travel|movie|show|book|music|dinner)\b/i.test(lower)) topics.push('personal');
+        if (/\b(lol|lmao|rofl|hilarious|funny|joke|meme|fun|laughing|haha)\b/i.test(lower)) topics.push('humor');
+        if (/\b(ugh|annoying|frustrated|stressed|tired|exhausted|hate|gussa|pareshan)\b/i.test(lower)) topics.push('venting');
+        if (/\b(meet|call|schedule|plan|tomorrow|later|today|coming|going|kal|aaj)\b/i.test(lower)) topics.push('planning');
+        if (/\b(thanks|appreciate|help|support|proud|congrats|good luck|hope|shukriya)\b/i.test(lower)) topics.push('support');
+        return topics;
     }
     
     function parseWhatsApp(text) {
@@ -825,31 +368,31 @@
         const messages = [];
         const pattern = /\[(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2}:\d{2})\s?([AP]M)?\]\s([^:]+):\s(.*)/i;
         let current = null;
-        for(let line of lines) {
-            if(!line.trim()) continue;
-            if(/end-to-end encrypted|security code|deleted/i.test(line)) continue;
+        for (let line of lines) {
+            if (!line.trim()) continue;
+            if (/end-to-end encrypted|security code|deleted/i.test(line)) continue;
             const match = line.match(pattern);
-            if(match) {
-                if(current) messages.push(current);
+            if (match) {
+                if (current) messages.push(current);
                 let [, dateStr, timeStr, ampm, sender, message] = match;
                 sender = cleanText(sender);
                 message = cleanText(message);
                 let timestamp = new Date();
                 try {
-                    let [d,m,y] = dateStr.split('/');
-                    let [h,min,sec] = timeStr.split(':');
+                    let [d, m, y] = dateStr.split('/');
+                    let [h, min, sec] = timeStr.split(':');
                     let hour = parseInt(h);
-                    if(ampm && ampm.toUpperCase() === 'PM' && hour < 12) hour += 12;
-                    if(ampm && ampm.toUpperCase() === 'AM' && hour === 12) hour = 0;
-                    timestamp = new Date(2000 + parseInt(y), parseInt(m)-1, parseInt(d), hour, parseInt(min), parseInt(sec));
-                } catch(e) {}
+                    if (ampm && ampm.toUpperCase() === 'PM' && hour < 12) hour += 12;
+                    if (ampm && ampm.toUpperCase() === 'AM' && hour === 12) hour = 0;
+                    timestamp = new Date(2000 + parseInt(y), parseInt(m) - 1, parseInt(d), hour, parseInt(min), parseInt(sec));
+                } catch (e) { }
                 current = { sender, message, length: message.length, timestamp, hour: timestamp.getHours(), date: timestamp.toISOString().split('T')[0], timestampObj: timestamp };
-            } else if(current) {
+            } else if (current) {
                 current.message += ' ' + cleanText(line);
                 current.length = current.message.length;
             }
         }
-        if(current) messages.push(current);
+        if (current) messages.push(current);
         return messages;
     }
     
@@ -859,145 +402,142 @@
     
     function computeStats(messages) {
         const total = messages.length;
-        if(total === 0) return null;
+        if (total === 0) return null;
         
-        for(let m of messages) {
-            m.sentiment = analyzeSentiment(m.message);
-            m.energy = calcEnergy(m.message);
+        for (let m of messages) {
+            m.sentiment = Math.round(analyzeSentiment(m.message));
+            m.energy = Math.round(calcEnergy(m.message));
+            m.emotions = detectEmotions(m.message);
             m.topics = detectTopics(m.message);
         }
         
-        const avgSentiment = messages.reduce((a,b) => a + b.sentiment, 0) / total;
-        const avgEnergy = messages.reduce((a,b) => a + b.energy, 0) / total;
-        const hypeScore = (avgEnergy * 100).toFixed(1);
+        const avgSentiment = messages.reduce((a, b) => a + b.sentiment, 0) / total;
+        const avgEnergy = messages.reduce((a, b) => a + b.energy, 0) / total;
         
-        let energyLevel = "mid-energy";
-        if(avgEnergy > 0.45) energyLevel = "high-energy 🔥";
-        else if(avgEnergy > 0.25) energyLevel = "steady pulse";
-        else energyLevel = "low-key";
-        
-        let vibeText = "neutral vibe";
-        if(avgSentiment > 70) vibeText = "radiant ✨";
-        else if(avgSentiment > 55) vibeText = "positive 🌞";
-        else if(avgSentiment > 45) vibeText = "mildly positive";
-        else if(avgSentiment < 30) vibeText = "heavy 🌧️";
-        else if(avgSentiment < 40) vibeText = "tense";
+        let vibeText = "neutral";
+        if (avgSentiment > 78) vibeText = "radiant ✨";
+        else if (avgSentiment > 65) vibeText = "positive 🌞";
+        else if (avgSentiment > 55) vibeText = "mild";
+        else if (avgSentiment < 45) vibeText = "heavy 🌧️";
         
         const topicCounts = {};
-        for(let m of messages) {
-            for(let topic of m.topics) topicCounts[topic] = (topicCounts[topic] || 0) + 1;
+        for (let m of messages) {
+            for (let topic of m.topics) topicCounts[topic] = (topicCounts[topic] || 0) + 1;
         }
-        const topTopics = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).slice(0,3);
+        const topTopics = Object.entries(topicCounts).sort((a, b) => b[1] - a[1]).slice(0, 3);
         
-        const sortedByTime = [...messages].sort((a,b)=>a.timestamp - b.timestamp);
+        const sortedByTime = [...messages].sort((a, b) => a.timestamp - b.timestamp);
         const firstMessage = sortedByTime[0];
         const firstMessageDate = firstMessage ? firstMessage.date : "Unknown";
         const firstMessageSender = firstMessage ? firstMessage.sender : "Unknown";
         
-        const sorted = [...messages].sort((a,b)=>a.timestamp - b.timestamp);
+        const sorted = [...messages].sort((a, b) => a.timestamp - b.timestamp);
         const responseTimes = [];
-        for(let i=1;i<sorted.length;i++) {
-            if(sorted[i].sender !== sorted[i-1].sender) {
-                const delta = (sorted[i].timestamp - sorted[i-1].timestamp)/60000;
-                if(delta > 0 && delta < 720) responseTimes.push(delta);
+        for (let i = 1; i < sorted.length; i++) {
+            if (sorted[i].sender !== sorted[i - 1].sender) {
+                const delta = (sorted[i].timestamp - sorted[i - 1].timestamp) / 60000;
+                if (delta > 0 && delta < 720) responseTimes.push(delta);
             }
         }
-        const avgResponseTime = responseTimes.length > 0 ? Math.round(responseTimes.reduce((a,b)=>a+b,0)/responseTimes.length) : 0;
+        const avgResponseTime = responseTimes.length > 0 ? Math.round(responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length) : 0;
         
         const tripleText = {};
-        for(let i=1;i<sorted.length;i++) {
-            if(sorted[i].sender === sorted[i-1].sender) {
+        for (let i = 1; i < sorted.length; i++) {
+            if (sorted[i].sender === sorted[i - 1].sender) {
                 let streak = 1;
                 let j = i;
-                while(j < sorted.length && sorted[j].sender === sorted[j-1].sender) { streak++; j++; }
-                if(streak >= 3) tripleText[sorted[i].sender] = (tripleText[sorted[i].sender] || 0) + 1;
+                while (j < sorted.length && sorted[j].sender === sorted[j - 1].sender) { streak++; j++; }
+                if (streak >= 3) tripleText[sorted[i].sender] = (tripleText[sorted[i].sender] || 0) + 1;
                 i = j - 1;
             }
         }
         
         const senderStats = {};
-        for(let s of [...new Set(messages.map(m=>m.sender))]) {
-            const msgs = messages.filter(m=>m.sender===s);
-            const sent = msgs.reduce((a,b)=>a + b.sentiment,0)/msgs.length;
-            const vocab = [...new Set(msgs.flatMap(m=>m.message.toLowerCase().match(/\b[a-z]{3,}\b/g) || []))].length;
+        for (let s of [...new Set(messages.map(m => m.sender))]) {
+            const msgs = messages.filter(m => m.sender === s);
+            const sent = msgs.reduce((a, b) => a + b.sentiment, 0) / msgs.length;
+            const vocab = [...new Set(msgs.flatMap(m => m.message.toLowerCase().match(/\b[a-z]{3,}\b/g) || []))].length;
             senderStats[s] = {
                 count: msgs.length,
-                pct: Math.round((msgs.length/total)*100),
+                pct: Math.round((msgs.length / total) * 100),
                 sentiment: Math.round(sent),
                 vocab: vocab,
-                energy: Math.round(msgs.reduce((a,b)=>a + b.energy,0)/msgs.length * 100)
+                energy: Math.round(msgs.reduce((a, b) => a + b.energy, 0) / msgs.length)
             };
         }
         
         const nightOwls = {};
-        for(let s of Object.keys(senderStats)) {
+        for (let s of Object.keys(senderStats)) {
             const night = messages.filter(m => m.sender === s && (m.hour >= 0 && m.hour < 5)).length;
             const totalS = messages.filter(m => m.sender === s).length;
-            nightOwls[s] = totalS > 0 ? ((night/totalS)*100).toFixed(1) : 0;
+            nightOwls[s] = totalS > 0 ? ((night / totalS) * 100).toFixed(1) : 0;
         }
-        const topNightOwl = Object.entries(nightOwls).sort((a,b)=>parseFloat(b[1])-parseFloat(a[1]))[0];
+        const topNightOwl = Object.entries(nightOwls).sort((a, b) => parseFloat(b[1]) - parseFloat(a[1]))[0];
         
         const initiations = {};
         let lastTime = null;
-        for(let m of sorted) {
-            if(lastTime && (m.timestamp - lastTime) > 21600000) initiations[m.sender] = (initiations[m.sender] || 0) + 1;
+        for (let m of sorted) {
+            if (lastTime && (m.timestamp - lastTime) > 21600000) initiations[m.sender] = (initiations[m.sender] || 0) + 1;
             lastTime = m.timestamp;
         }
         let initiator = "mixed";
         let initiatorCount = 0;
-        if(Object.keys(initiations).length > 0) {
-            const top = Object.entries(initiations).sort((a,b)=>b[1]-a[1])[0];
+        if (Object.keys(initiations).length > 0) {
+            const top = Object.entries(initiations).sort((a, b) => b[1] - a[1])[0];
             initiator = top[0];
             initiatorCount = top[1];
         }
         
-        const stopwords = new Set(['the','and','for','that','this','with','from','have','are','was','were','but','not','you','they','she','he','it','we','like','just','what','when','where','how','get','got','all','can','will']);
         const keywords = {};
-        for(let m of messages) {
+        for (let m of messages) {
             const words = m.message.toLowerCase().match(/\b[a-z]{3,}\b/g) || [];
-            for(let w of words) if(!stopwords.has(w) && w.length>2) keywords[w] = (keywords[w] || 0) + 1;
+            for (let w of words) {
+                if (w.length > 2 && !stopwords.has(w)) {
+                    keywords[w] = (keywords[w] || 0) + 1;
+                }
+            }
         }
-        const topKeywords = Object.entries(keywords).sort((a,b)=>b[1]-a[1]).slice(0,15);
+        const topKeywords = Object.entries(keywords).sort((a, b) => b[1] - a[1]).slice(0, 15);
         
         const monthlySentiment = {};
-        for(let m of messages) {
-            if(!m.timestampObj) continue;
-            const key = `${m.timestampObj.getFullYear()}-${String(m.timestampObj.getMonth()+1).padStart(2,'0')}`;
+        for (let m of messages) {
+            if (!m.timestampObj) continue;
+            const key = `${m.timestampObj.getFullYear()}-${String(m.timestampObj.getMonth() + 1).padStart(2, '0')}`;
             monthlySentiment[key] = monthlySentiment[key] || [];
             monthlySentiment[key].push(m.sentiment);
         }
-        const timelineData = Object.entries(monthlySentiment).sort().map(([k,v]) => ({ month: k, avg: v.reduce((a,b)=>a+b,0)/v.length }));
+        const timelineData = Object.entries(monthlySentiment).sort().map(([k, v]) => ({ month: k, avg: v.reduce((a, b) => a + b, 0) / v.length }));
         
-        const firstHalfAvg = timelineData.slice(0, Math.floor(timelineData.length/2)).reduce((a,b)=>a + b.avg, 0) / (Math.floor(timelineData.length/2) || 1);
-        const secondHalfAvg = timelineData.slice(Math.floor(timelineData.length/2)).reduce((a,b)=>a + b.avg, 0) / (timelineData.length - Math.floor(timelineData.length/2) || 1);
+        const firstHalfAvg = timelineData.slice(0, Math.floor(timelineData.length / 2)).reduce((a, b) => a + b.avg, 0) / (Math.floor(timelineData.length / 2) || 1);
+        const secondHalfAvg = timelineData.slice(Math.floor(timelineData.length / 2)).reduce((a, b) => a + b.avg, 0) / (timelineData.length - Math.floor(timelineData.length / 2) || 1);
         const trend = secondHalfAvg - firstHalfAvg;
         let trendDesc = "stable";
-        if(trend > 8) trendDesc = "improving 📈";
-        else if(trend < -8) trendDesc = "declining 📉";
+        if (trend > 5) trendDesc = "improving 📈";
+        else if (trend < -5) trendDesc = "declining 📉";
         
         const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}]/gu;
         const signatureEmojis = {};
         const perPersonEmojiCounts = {};
-        for(let s of Object.keys(senderStats)) {
-            const emojis = messages.filter(m=>m.sender===s).flatMap(m=>m.message.match(emojiRegex)||[]);
-            if(emojis.length) {
+        for (let s of Object.keys(senderStats)) {
+            const emojis = messages.filter(m => m.sender === s).flatMap(m => m.message.match(emojiRegex) || []);
+            if (emojis.length) {
                 const freq = new Map();
-                emojis.forEach(e=>freq.set(e,(freq.get(e)||0)+1));
-                const top = [...freq.entries()].sort((a,b)=>b[1]-a[1])[0];
+                emojis.forEach(e => freq.set(e, (freq.get(e) || 0) + 1));
+                const top = [...freq.entries()].sort((a, b) => b[1] - a[1])[0];
                 signatureEmojis[s] = top[0];
                 perPersonEmojiCounts[s] = top[1];
             } else { signatureEmojis[s] = '—'; perPersonEmojiCounts[s] = 0; }
         }
         
         let verdict = "";
-        if(avgSentiment > 75) verdict = "This conversation radiates warmth and joy — a safe, uplifting space where people feel truly heard and valued. The emotional foundation is remarkably strong, suggesting deep trust and genuine connection. Keep nurturing this — it's rare and precious.";
-        else if(avgSentiment > 60) verdict = "Generally positive with genuine moments of connection. A healthy balance of support, laughter, and real talk. The relationship shows resilience and mutual care — there's a solid emotional foundation here.";
-        else if(avgSentiment > 45) verdict = "Balanced and grounded. A mix of good days and tough conversations — feels authentically human. Not every message needs to be sunshine, and that's okay. Real relationships have texture.";
-        else if(avgSentiment > 30) verdict = "There's some weight here. The conversation has its share of difficult moments, but that's part of being real with each other. Pay attention to patterns — sometimes heaviness signals unmet needs.";
-        else verdict = "The data suggests some emotional heaviness. It might be worth checking in — sometimes the hardest conversations are the most important ones. Small gestures of warmth can shift the weather.";
+        if (avgSentiment > 80) verdict = "This conversation radiates extraordinary warmth and joy — a truly special, uplifting space where people feel deeply heard and valued. The emotional foundation is remarkably strong, suggesting profound trust and genuine connection. Keep nurturing this — it's rare and precious.";
+        else if (avgSentiment > 65) verdict = "Generally positive with genuine moments of connection. A healthy balance of support, laughter, and real talk. The relationship shows resilience and mutual care — there's a solid emotional foundation here.";
+        else if (avgSentiment > 52) verdict = "Balanced and grounded. A mix of good days and tough conversations — feels authentically human. Not every message needs to be sunshine, and that's okay. Real relationships have texture.";
+        else if (avgSentiment > 42) verdict = "There's some weight here, but also moments of warmth. The conversation has its share of difficult moments, but that's part of being real with each other. Pay attention to patterns — sometimes connection requires vulnerability.";
+        else verdict = "The data suggests some emotional heaviness, but there are also signals of care beneath the surface. It might be worth checking in — sometimes the hardest conversations are the ones that lead to closer bonds. Small gestures of warmth can shift the weather.";
         
         return {
-            total, avgSentiment: Math.round(avgSentiment), hypeScore, energyLevel, vibeText, trendDesc,
+            total, avgSentiment: Math.round(avgSentiment), hypeScore: Math.round(avgEnergy), vibeText, trendDesc,
             avgResponseTime, initiator, initiatorCount, topNightOwl, nightOwls,
             doubleTextRatio: tripleText, topKeywords, timelineData, signatureEmojis, perPersonEmojiCounts,
             verdict, senderStats, topTopics, firstMessageDate, firstMessageSender
@@ -1023,7 +563,7 @@
         input.accept = '.txt';
         input.onchange = async (e) => {
             const file = e.target.files[0];
-            if(file && file.name.endsWith('.txt')) {
+            if (file && file.name.endsWith('.txt')) {
                 landingPage.classList.add('hide');
                 dashboardPage.classList.add('show');
                 showStatus('📖 excavating artifacts...', 'loading');
@@ -1031,7 +571,7 @@
                 showStatus('📊 decoding conversation strata...', 'loading');
                 setTimeout(() => {
                     fullMessages = parseWhatsApp(text);
-                    if(fullMessages.length === 0) { showStatus('❌ could not parse messages. check file format.', 'error'); return; }
+                    if (fullMessages.length === 0) { showStatus('❌ could not parse messages. check file format.', 'error'); return; }
                     allDates = [...new Set(fullMessages.map(m => m.date))].sort();
                     currentDateFilter = { startIdx: 0, endIdx: allDates.length - 1 };
                     updateFilteredReport();
@@ -1054,12 +594,12 @@
     
     function renderGlobalFilter() {
         const container = document.getElementById('globalFilterContainer');
-        if(!allDates.length) return;
+        if (!allDates.length) return;
         
         function formatDateShort(dateStr) {
-            const [y,m,d] = dateStr.split('-');
+            const [y, m, d] = dateStr.split('-');
             const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            return `${monthNames[parseInt(m)-1]} ${parseInt(d)}, ${y}`;
+            return `${monthNames[parseInt(m) - 1]} ${parseInt(d)}, ${y}`;
         }
         
         const startDate = allDates[currentDateFilter.startIdx];
@@ -1072,8 +612,8 @@
                 <div class="slider-wrapper">
                     <div class="double-slider" id="doubleSlider">
                         <div class="slider-track-fill" id="sliderFill"></div>
-                        <input type="range" id="startSlider" min="0" max="${allDates.length-1}" value="${currentDateFilter.startIdx}" step="1">
-                        <input type="range" id="endSlider" min="0" max="${allDates.length-1}" value="${currentDateFilter.endIdx}" step="1">
+                        <input type="range" id="startSlider" min="0" max="${allDates.length - 1}" value="${currentDateFilter.startIdx}" step="1">
+                        <input type="range" id="endSlider" min="0" max="${allDates.length - 1}" value="${currentDateFilter.endIdx}" step="1">
                     </div>
                 </div>
                 <div class="date-controls">
@@ -1090,7 +630,7 @@
             const leftPercent = (start / total) * 100;
             const rightPercent = ((total - end) / total) * 100;
             const fill = document.getElementById('sliderFill');
-            if(fill) { fill.style.left = `${leftPercent}%`; fill.style.right = `${rightPercent}%`; }
+            if (fill) { fill.style.left = `${leftPercent}%`; fill.style.right = `${rightPercent}%`; }
         }
         
         const startSlider = document.getElementById('startSlider');
@@ -1100,8 +640,8 @@
         function updateFromSliders() {
             let start = parseInt(startSlider.value);
             let end = parseInt(endSlider.value);
-            if(start > end) { start = end; startSlider.value = start; }
-            if(end < start) { end = start; endSlider.value = end; }
+            if (start > end) { start = end; startSlider.value = start; }
+            if (end < start) { end = start; endSlider.value = end; }
             currentDateFilter.startIdx = start;
             currentDateFilter.endIdx = end;
             const sDate = allDates[start];
@@ -1127,12 +667,12 @@
     calendarApply.onclick = () => {
         const startDateStr = calendarStart.value;
         const endDateStr = calendarEnd.value;
-        if(!startDateStr || !endDateStr) { calendarError.style.display = 'block'; calendarError.innerText = 'PLEASE SELECT BOTH DATES'; return; }
-        if(startDateStr > endDateStr) { calendarError.style.display = 'block'; calendarError.innerText = 'END DATE MUST BE AFTER START DATE'; return; }
+        if (!startDateStr || !endDateStr) { calendarError.style.display = 'block'; calendarError.innerText = 'PLEASE SELECT BOTH DATES'; return; }
+        if (startDateStr > endDateStr) { calendarError.style.display = 'block'; calendarError.innerText = 'END DATE MUST BE AFTER START DATE'; return; }
         let startIdx = 0, endIdx = allDates.length - 1;
-        for(let i = 0; i < allDates.length; i++) { if(allDates[i] >= startDateStr) { startIdx = i; break; } }
-        for(let i = allDates.length - 1; i >= 0; i--) { if(allDates[i] <= endDateStr) { endIdx = i; break; } }
-        if(startIdx > endIdx) { calendarError.style.display = 'block'; calendarError.innerText = 'NO MESSAGES IN SELECTED DATE RANGE'; return; }
+        for (let i = 0; i < allDates.length; i++) { if (allDates[i] >= startDateStr) { startIdx = i; break; } }
+        for (let i = allDates.length - 1; i >= 0; i--) { if (allDates[i] <= endDateStr) { endIdx = i; break; } }
+        if (startIdx > endIdx) { calendarError.style.display = 'block'; calendarError.innerText = 'NO MESSAGES IN SELECTED DATE RANGE'; return; }
         currentDateFilter.startIdx = startIdx; currentDateFilter.endIdx = endIdx;
         calendarModal.classList.remove('show'); calendarError.style.display = 'none';
         updateFilteredReport();
@@ -1141,18 +681,18 @@
     function formatMonthLabel(monthStr) {
         const [year, month] = monthStr.split('-');
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        return `${monthNames[parseInt(month)-1]}'${year.slice(-2)}`;
+        return `${monthNames[parseInt(month) - 1]}'${year.slice(-2)}`;
     }
     
     function showStatus(msg, type) {
         const c = document.getElementById('statusContainer');
-        if(type === 'loading') { c.innerHTML = `<div class="status"><span class="spinner"></span> ${msg}</div>`; }
-        else if(type === 'success') { c.innerHTML = `<div class="status" style="background:#e8f0e5;">✅ ${msg}</div>`; }
+        if (type === 'loading') { c.innerHTML = `<div class="status"><span class="spinner"></span> ${msg}</div>`; }
+        else if (type === 'success') { c.innerHTML = `<div class="status" style="background:#e8f0e5;">✅ ${msg}</div>`; }
         else { c.innerHTML = `<div class="status" style="background:#f0e0d8;">❌ ${msg}</div>`; }
     }
     
     function renderDashboard(r) {
-        if(!r) return;
+        if (!r) return;
         
         const senders = Object.keys(r.senderStats);
         const p1 = senders[0] || "Person 1";
@@ -1164,12 +704,11 @@
             if (!dateStr || dateStr === "Unknown") return "Unknown";
             const [y, m, d] = dateStr.split('-');
             const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            return `${monthNames[parseInt(m)-1]} ${parseInt(d)}, ${y}`;
+            return `${monthNames[parseInt(m) - 1]} ${parseInt(d)}, ${y}`;
         };
         
         const container = document.getElementById('dashboardContent');
         container.innerHTML = `
-            <!-- PLAYERS ROW -->
             <div class="players-row">
                 <div class="player-card">
                     <div class="section-heading">${escapeHtml(p1)}</div>
@@ -1191,7 +730,6 @@
                 </div>
             </div>
             
-            <!-- BENTO GRID - 3 Columns -->
             <div class="bento-grid">
                 <div class="bento-card sunlight-glow insight-card">
                     <div class="section-heading"><span class="card-icon">🌡️</span> VIBE TRAJECTORY <span class="info-icon" data-tooltip="SENTIMENT OVER TIME - EMOTIONAL WEATHER REPORT">i</span></div>
@@ -1204,7 +742,7 @@
                     <div class="section-heading"><span class="card-icon">🌙</span> NIGHT OWL INDEX <span class="info-icon" data-tooltip="MESSAGES SENT AFTER MIDNIGHT - WHO BURNS THE MIDNIGHT OIL">i</span></div>
                     <div class="stat-value">${r.topNightOwl ? r.topNightOwl[0] : 'nobody'}</div>
                     <div class="stat-sub" style="margin-bottom: 16px;">${r.topNightOwl ? r.topNightOwl[1] : 0}% of messages after midnight</div>
-                    ${Object.entries(r.nightOwls).slice(0,2).map(([n,v]) => `
+                    ${Object.entries(r.nightOwls).slice(0, 2).map(([n, v]) => `
                         <div class="participant-item"><span class="participant-name">${escapeHtml(n)}</span><span class="participant-value">${v}%</span></div>
                         <div class="progress-bar"><div class="progress-fill" style="width: ${v}%; background:#e8c3a7;"></div></div>
                     `).join('')}
@@ -1225,21 +763,20 @@
                 </div>
             </div>
             
-            <!-- EXTRA INSIGHTS ROW -->
             <div class="players-row" style="margin-top: 0;">
                 <div class="player-card">
                     <div class="section-heading">🔄 CONVERSATION FLOW <span class="info-icon" data-tooltip="HOW THE CONVERSATION MOVES - WHO INITIATES, RESPONSE TIMES, AND ENERGY">i</span></div>
                     <div class="player-stats-grid">
                         <div class="player-stat"><div class="player-stat-label">INITIATOR</div><div class="player-stat-value">${r.initiator}</div></div>
                         <div class="player-stat"><div class="player-stat-label">AVG RESPONSE</div><div class="player-stat-value">${r.avgResponseTime} min</div></div>
-                        <div class="player-stat"><div class="player-stat-label">TRIPLE-TEXT</div><div class="player-stat-value">${Object.values(r.doubleTextRatio).reduce((a,b)=>a+b,0) || 0}</div></div>
+                        <div class="player-stat"><div class="player-stat-label">TRIPLE-TEXT</div><div class="player-stat-value">${Object.values(r.doubleTextRatio).reduce((a, b) => a + b, 0) || 0}</div></div>
                         <div class="player-stat"><div class="player-stat-label">ENERGY SCORE</div><div class="player-stat-value">${r.hypeScore}%</div></div>
                     </div>
                 </div>
                 <div class="player-card">
                     <div class="section-heading">💬 LINGUISTIC DNA <span class="info-icon" data-tooltip="UNIQUE LANGUAGE PATTERNS - TOP SLANG, CATCHPHRASES, AND TOPICS">i</span></div>
                     <div class="keyword-cloud">
-                        ${r.topKeywords.slice(0,8).map(([w,c]) => `<span class="keyword">${w} (${c})</span>`).join('')}
+                        ${r.topKeywords.slice(0, 10).map(([w, c]) => `<span class="keyword">${w} (${c})</span>`).join('')}
                     </div>
                     <div class="player-stats-grid" style="margin-top: 16px;">
                         <div class="player-stat"><div class="player-stat-label">TOPIC</div><div class="player-stat-value">${r.topTopics.map(t => t[0].charAt(0).toUpperCase() + t[0].slice(1)).join(', ') || 'mixed'}</div></div>
@@ -1248,7 +785,6 @@
                 </div>
             </div>
             
-            <!-- SIGNATURE EMOJIS -->
             <div class="bento-card insight-card" style="margin-top: 0;">
                 <div class="section-heading"><span class="card-icon">🔮</span> SIGNATURE EMOJIS <span class="info-icon" data-tooltip="EACH PERSON'S MOST FREQUENTLY USED EMOJI">i</span></div>
                 <div class="emoji-grid">
@@ -1268,17 +804,21 @@
             </div>
         `;
         
-        // Setup tooltips
         document.querySelectorAll('.info-icon').forEach(el => {
             const tooltipText = el.getAttribute('data-tooltip');
             if (tooltipText) {
                 el.addEventListener('mouseenter', (e) => showTooltip(e, tooltipText));
                 el.addEventListener('mouseleave', hideTooltip);
+                el.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    showTooltip(e, tooltipText);
+                    setTimeout(() => hideTooltip(), 3000);
+                });
             }
         });
         
-        // Timeline Chart
-        if(charts.timeline) charts.timeline.destroy();
+        if (charts.timeline) charts.timeline.destroy();
         const ctx = document.getElementById('timelineChart').getContext('2d');
         charts.timeline = new Chart(ctx, {
             type: 'line',
@@ -1291,10 +831,10 @@
                     backgroundColor: 'rgba(232, 195, 167, 0.08)',
                     fill: true,
                     tension: 0.3,
-                    pointRadius: 4,
+                    pointRadius: 3,
                     pointBackgroundColor: '#e8c3a7',
                     pointBorderColor: '#fff8f0',
-                    pointBorderWidth: 2
+                    pointBorderWidth: 1.5
                 }]
             },
             options: {
@@ -1303,7 +843,7 @@
                 plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `sentiment: ${Math.round(ctx.raw)}%` } } },
                 scales: {
                     y: { min: 0, max: 100, grid: { color: '#e0d5c8' }, ticks: { color: '#8a7a6a', callback: (val) => `${val}%` } },
-                    x: { ticks: { color: '#8a7a6a', font: { size: 9 } } }
+                    x: { ticks: { color: '#8a7a6a', font: { size: 8 } } }
                 }
             }
         });
